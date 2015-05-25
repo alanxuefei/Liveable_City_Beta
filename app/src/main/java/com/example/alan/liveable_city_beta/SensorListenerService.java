@@ -18,7 +18,7 @@ import com.google.android.gms.location.ActivityRecognition;
 
 
 /**
- * Created by Alan on 19/5/2015.
+ * Created by Xue Fei on 19/5/2015.
  */
 public class SensorListenerService extends Service implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
 
@@ -66,8 +66,6 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
         mGoogleApiClient.connect();
-
-
         return mStartMode;
     }
     @Override
@@ -88,8 +86,8 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
     @Override
     public void onDestroy() {
         Toast.makeText(this, "sensor service stop", Toast.LENGTH_SHORT).show();
-        mGoogleApiClient.disconnect();
         removeActivityUpdates();
+        mGoogleApiClient.disconnect();
         // The service is no longer used and is being destroyed
     }
 
@@ -115,7 +113,6 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
-
     }
 
     @Override
