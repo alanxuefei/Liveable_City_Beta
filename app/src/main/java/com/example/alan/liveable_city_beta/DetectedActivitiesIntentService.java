@@ -18,6 +18,7 @@ package com.example.alan.liveable_city_beta;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.location.ActivityRecognitionResult;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
  */
 public class DetectedActivitiesIntentService extends IntentService {
 
-    protected static final String TAG = "activity-detection-intent-service";
+    protected static final String TAG = "GoogleApi";
 
     /**
      * This constructor is required, and calls the super IntentService(String)
@@ -47,7 +48,6 @@ public class DetectedActivitiesIntentService extends IntentService {
     public void onCreate() {
 
         super.onCreate();
-        Log.i(TAG, "service created");
 
     }
 
@@ -59,7 +59,7 @@ public class DetectedActivitiesIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
-       // Intent localIntent = new Intent(Constants.BROADCAST_ACTION);
+       Intent localIntent = new Intent(Constants.BROADCAST_ACTION);
 
         // Get the list of the probable activities associated with the current state of the
         // device. Each activity is associated with a confidence level, which is an int between
@@ -76,7 +76,7 @@ public class DetectedActivitiesIntentService extends IntentService {
 
 
         // Broadcast the list of detected activities.
-       /* localIntent.putExtra(Constants.ACTIVITY_EXTRA, detectedActivities);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);*/
+        localIntent.putExtra(Constants.ACTIVITY_EXTRA, detectedActivities);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
     }
 }
