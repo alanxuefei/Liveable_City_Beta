@@ -2,10 +2,20 @@ package com.example.alan.liveable_city_beta;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.media.MediaRecorder;
+import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,18 +26,30 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.ActivityRecognition;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 
 /**
  * Created by Xue Fei on 19/5/2015.
  */
-public class SensorListenerService extends Service implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
+public class SensorListenerService extends Service implements SensorEventListener, LocationListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
 
     int mStartMode;       // indicates how to behave if the service is killed
     IBinder mBinder;      // interface for clients that bind
     boolean mAllowRebind; // indicates whether onRebind should be used
 
+    /*sensor*/
     private SensorManager sensorManager = null;
-    private Sensor sensor = null;
+
+
+    /*audio*/
+    private MediaRecorder mRecorder = null;
+
+    /*battery*/
+    IntentFilter ifilter;
+    Intent batteryStatus;
 
 
     /**
@@ -38,23 +60,20 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
      * Provides the entry point to Google Play services.
      */
     //protected GoogleApiClient mGoogleApiClient;
-    protected static final String TAG = "location-updates-sample";
+    protected static final String GoogleApi_TAG = "GoogleApi";
+    protected static final String Location_TAG = "Location";
+    protected static final String Sensor_TAG = "Sensor";
+    protected static final String Audio_TAG = "AudioLevel";
 
 
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
 
-    /**
-     * Builds a GoogleApiClient. Uses the {@code #addApi} method to request the
-     * ActivityRecognition API.
-     */
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(ActivityRecognition.API)
-                .build();
-    }
+
+
+    private SoundLevelMonitor soundlevel= new SoundLevelMonitor();
+
+
 
 
     @Override
@@ -64,8 +83,67 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+
+
         Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
+
+        /*googleApi*/
         mGoogleApiClient.connect();
+
+        /*sensor - read all sensors*/
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        for (Sensor sensor : sensors)
+        {
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_UI);
+        }
+
+        /*location */
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        // Register the listener with the Location Manager to receive location updates
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+        /*sound_level*/
+
+        soundlevel.Soundlevel_start();
+
+       final Handler Soundlevel_handler = new Handler();
+
+        final Runnable r0 = new Runnable() {
+            public void run() {
+                double i= soundlevel.Soundlevel_getAmplitude();
+                Log.i(Audio_TAG, " mic "+String.valueOf(i));
+                SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String format = s.format(new Date());
+                DataLogger.writeTolog(format + " S " + String.valueOf(i) + "\n");
+                Soundlevel_handler.postDelayed(this, 50);
+            }
+        };
+
+        Soundlevel_handler.postDelayed(r0, 1000);
+
+
+        ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        batteryStatus = this.registerReceiver(null, ifilter);
+
+        final Handler handler = new Handler();
+
+        final Runnable r = new Runnable() {
+            public void run() {
+                ReadBatteryLevel();
+                handler.postDelayed(this, 1000*60);
+            }
+        };
+
+        handler.postDelayed(r, 1000);
+
+
+
         return mStartMode;
     }
     @Override
@@ -86,9 +164,107 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
     @Override
     public void onDestroy() {
         Toast.makeText(this, "sensor service stop", Toast.LENGTH_SHORT).show();
+        soundlevel.Soundlevel_stop();
         removeActivityUpdates();
         mGoogleApiClient.disconnect();
         // The service is no longer used and is being destroyed
+    }
+
+
+
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+        Sensor mySensor = event.sensor;
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String format = s.format(new Date());
+
+        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            DataLogger.writeTolog(format + " A " + x + " " + y + " " + z + "\n");
+            Log.i(Sensor_TAG, format + "ACC " + x + " " + y + " " + z);
+        }
+        else if (mySensor.getType() == Sensor.TYPE_PROXIMITY) {
+            float x = event.values[0];
+            DataLogger.writeTolog(format+ " P " + x + "\n");
+            Log.i(Sensor_TAG, format+ "PROXIMITY x=" + x);
+        }
+        else if (mySensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            DataLogger.writeTolog(format+ " M " + x + " "+ y +" "+ z+ "\n");
+            Log.i(Sensor_TAG, format+ "MAGNETIC_FIELD x = " + x+"y = "+y+"z = "+z);
+        }
+
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+     /*location*/
+
+    @Override
+    public void onLocationChanged(Location location) {
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String format = s.format(new Date());
+
+        double longitude = location.getLongitude();
+        double latitude =  location.getLatitude();
+        Log.i(Location_TAG, format + " L " + longitude + " " + latitude);
+        DataLogger.writeTolog(format + " L " + longitude + " " + latitude + "\n");
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+
+
+
+    /*battery*/
+    private float ReadBatteryLevel() {
+
+
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        float batteryPct = level / (float) scale;
+
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String format = s.format(new Date());
+        Log.i("MyActivity", format+" "+"battery level " + batteryPct);
+        DataLogger.writeTolog(format + " " + " B " + batteryPct + "\n");
+        return batteryPct;
+    }
+
+    /**GoogleApiClient**/
+    /**
+     * Builds a GoogleApiClient. Uses the {@code #addApi} method to request the
+     * ActivityRecognition API.
+     */
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(ActivityRecognition.API)
+                .build();
     }
 
 
@@ -98,21 +274,21 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.i(TAG, "Connected to GoogleApiClient");
+        Log.i(Sensor_TAG, "Connected to GoogleApiClient");
         requestActivityUpdates();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
 
-        Log.i(TAG, "Connection suspended");
+        Log.i(GoogleApi_TAG, "Connection suspended");
         mGoogleApiClient.connect();
 
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+        Log.i(GoogleApi_TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
     @Override
@@ -120,31 +296,12 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
 
         if (status.isSuccess()) {
 
-            Log.e(TAG, "status is successful: " + status.getStatusMessage());
+            Log.e(GoogleApi_TAG, "status is successful: " + status.getStatusMessage());
         } else {
-            Log.e(TAG, "Error adding or removing activity detection: " + status.getStatusMessage());
+            Log.e(GoogleApi_TAG, "Error adding or removing activity detection: " + status.getStatusMessage());
         }
 
     }
-
-    /**
-     * Receiver for intents sent by DetectedActivitiesIntentService via a sendBroadcast().
-     * Receives a list of one or more DetectedActivity objects associated with the current state of
-     * the device.
-
-    public class ActivityDetectionBroadcastReceiver extends BroadcastReceiver {
-        protected static final String TAG = "activity-detection-response-receiver";
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            ArrayList<DetectedActivity> updatedActivities =
-                    intent.getParcelableArrayListExtra(Constants.ACTIVITY_EXTRA);
-
-           Log.i(TAG, "work");
-            //updateDetectedActivitiesList(updatedActivities);
-        }
-    }*/
-
 
     /**
      * Registers for activity recognition updates using
@@ -157,7 +314,7 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
      */
     public void requestActivityUpdates() {
         if (!mGoogleApiClient.isConnected()) {
-            Log.i(TAG, "Unable to Connected to GoogleApiClient");
+            Log.i(GoogleApi_TAG, "Unable to Connected to GoogleApiClient");
             return;
         }
         ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(
@@ -165,7 +322,7 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
                 Constants.DETECTION_INTERVAL_IN_MILLISECONDS,
                 getActivityDetectionPendingIntent()
         ).setResultCallback(this);
-        Log.i(TAG, "Connected to GoogleApiClient");
+        Log.i(GoogleApi_TAG, "Connected to GoogleApiClient");
     }
 
     /**
@@ -206,6 +363,8 @@ public class SensorListenerService extends Service implements  GoogleApiClient.C
         // requestActivityUpdates() and removeActivityUpdates().
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
+
+
 
 
 }
