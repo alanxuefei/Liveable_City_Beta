@@ -12,7 +12,6 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.MediaRecorder;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,8 +25,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.ActivityRecognition;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 
@@ -43,9 +40,6 @@ public class SensorListenerService extends Service implements SensorEventListene
     /*sensor*/
     private SensorManager sensorManager = null;
 
-
-    /*audio*/
-    private MediaRecorder mRecorder = null;
 
     /*battery*/
     IntentFilter ifilter;
@@ -64,7 +58,6 @@ public class SensorListenerService extends Service implements SensorEventListene
     protected static final String Location_TAG = "Location";
     protected static final String Sensor_TAG = "Sensor";
     protected static final String Audio_TAG = "AudioLevel";
-
 
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
@@ -98,7 +91,7 @@ public class SensorListenerService extends Service implements SensorEventListene
         List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
         for (Sensor sensor : sensors)
         {
-            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_UI);
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
         }
 
         /*location */
@@ -118,10 +111,9 @@ public class SensorListenerService extends Service implements SensorEventListene
             public void run() {
                 double i= soundlevel.Soundlevel_getAmplitude();
                 Log.i(Audio_TAG, " mic "+String.valueOf(i));
-                SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                String format = s.format(new Date());
-                DataLogger.writeTolog(format + " S " + String.valueOf(i) + "\n");
-                Soundlevel_handler.postDelayed(this, 50);
+
+                DataLogger.writeTolog( " S " + String.valueOf(i) + "\n");
+                Soundlevel_handler.postDelayed(this, 1000);
             }
         };
 
@@ -136,7 +128,7 @@ public class SensorListenerService extends Service implements SensorEventListene
         final Runnable r = new Runnable() {
             public void run() {
                 ReadBatteryLevel();
-                handler.postDelayed(this, 1000*60);
+                handler.postDelayed(this, 1000*60*15);
             }
         };
 
@@ -177,27 +169,26 @@ public class SensorListenerService extends Service implements SensorEventListene
     public void onSensorChanged(SensorEvent event) {
 
         Sensor mySensor = event.sensor;
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        String format = s.format(new Date());
+
 
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            DataLogger.writeTolog(format + " A " + x + " " + y + " " + z + "\n");
-            Log.i(Sensor_TAG, format + "ACC " + x + " " + y + " " + z);
+            DataLogger.writeTolog(Long.toString(event.timestamp)+" "+" A " + x + " " + y + " " + z + "\n");
+            Log.i(Sensor_TAG, Long.toString(event.timestamp)+" " + "Accelerometer x=" + x + " y=" + y + " z=" + z);
         }
         else if (mySensor.getType() == Sensor.TYPE_PROXIMITY) {
             float x = event.values[0];
-            DataLogger.writeTolog(format+ " P " + x + "\n");
-            Log.i(Sensor_TAG, format+ "PROXIMITY x=" + x);
+            DataLogger.writeTolog(Long.toString(event.timestamp) + " "+" P " + x + "\n");
+            Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "Proximity x=" + x);
         }
         else if (mySensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            DataLogger.writeTolog(format+ " M " + x + " "+ y +" "+ z+ "\n");
-            Log.i(Sensor_TAG, format+ "MAGNETIC_FIELD x = " + x+"y = "+y+"z = "+z);
+            DataLogger.writeTolog(Long.toString(event.timestamp)+" "+ " M " + x + " " + y + " " + z + "\n");
+            Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "Magnetic_feild x=" + x+" y="+y+" z="+z);
         }
 
     }
@@ -210,13 +201,12 @@ public class SensorListenerService extends Service implements SensorEventListene
 
     @Override
     public void onLocationChanged(Location location) {
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        String format = s.format(new Date());
+
 
         double longitude = location.getLongitude();
         double latitude =  location.getLatitude();
-        Log.i(Location_TAG, format + " L " + longitude + " " + latitude);
-        DataLogger.writeTolog(format + " L " + longitude + " " + latitude + "\n");
+        Log.i(Location_TAG,  " L " + longitude + " " + latitude);
+        DataLogger.writeTolog( " L " + longitude + " " + latitude + "\n");
 
     }
 
@@ -235,9 +225,6 @@ public class SensorListenerService extends Service implements SensorEventListene
 
     }
 
-
-
-
     /*battery*/
     private float ReadBatteryLevel() {
 
@@ -247,10 +234,9 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         float batteryPct = level / (float) scale;
 
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        String format = s.format(new Date());
-        Log.i("MyActivity", format+" "+"battery level " + batteryPct);
-        DataLogger.writeTolog(format + " " + " B " + batteryPct + "\n");
+
+        Log.i("MyActivity",  " "+"battery level " + batteryPct);
+        DataLogger.writeTolog( " " + " B " + batteryPct + "\n");
         return batteryPct;
     }
 
@@ -322,7 +308,7 @@ public class SensorListenerService extends Service implements SensorEventListene
                 Constants.DETECTION_INTERVAL_IN_MILLISECONDS,
                 getActivityDetectionPendingIntent()
         ).setResultCallback(this);
-        Log.i(GoogleApi_TAG, "Connected to GoogleApiClient");
+        Log.i(GoogleApi_TAG, "request Activity Recognition Service");
     }
 
     /**

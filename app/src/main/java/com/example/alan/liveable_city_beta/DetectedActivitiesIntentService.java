@@ -18,7 +18,6 @@ package com.example.alan.liveable_city_beta;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.location.ActivityRecognitionResult;
@@ -66,17 +65,22 @@ public class DetectedActivitiesIntentService extends IntentService {
         // 0 and 100.
         ArrayList<DetectedActivity> detectedActivities = (ArrayList) result.getProbableActivities();
 
+
+
         // Log each activity.
         for (DetectedActivity da: detectedActivities) {
-            Log.i(TAG, Constants.getActivityString(
-                            getApplicationContext(),
-                            da.getType()) + " " + da.getConfidence() + "%"
-            );
+            String Activity_value=Constants.getActivityString(
+                    getApplicationContext(),
+                    da.getType()) + " " + da.getConfidence() + "%";
+            DataLogger.writeTolog( Activity_value+"\n");
+            Log.i(TAG, Activity_value);
         }
 
 
+        //Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "MAGNETIC_FIELD x=" + x+" y="+y+" z="+z);
+
         // Broadcast the list of detected activities.
-        localIntent.putExtra(Constants.ACTIVITY_EXTRA, detectedActivities);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
+       // localIntent.putExtra(Constants.ACTIVITY_EXTRA, detectedActivities);
+        //LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
     }
 }
