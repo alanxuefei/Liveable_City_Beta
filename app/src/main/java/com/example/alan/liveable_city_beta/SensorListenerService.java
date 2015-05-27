@@ -16,6 +16,7 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,8 +25,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.ActivityRecognition;
-
-import java.util.List;
 
 
 /**
@@ -39,6 +38,7 @@ public class SensorListenerService extends Service implements SensorEventListene
 
     /*sensor*/
     private SensorManager sensorManager = null;
+    PowerManager.WakeLock wakeLock;
 
 
     /*battery*/
@@ -58,6 +58,8 @@ public class SensorListenerService extends Service implements SensorEventListene
     protected static final String Location_TAG = "Location";
     protected static final String Sensor_TAG = "Sensor";
     protected static final String Audio_TAG = "AudioLevel";
+    protected static final String WakelockTag = "Wakelock";
+
 
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
@@ -73,12 +75,17 @@ public class SensorListenerService extends Service implements SensorEventListene
     public void onCreate() {
         buildGoogleApiClient();
         // The service is being created
+
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                WakelockTag);
+
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
 
-
+        wakeLock.acquire();
         Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
 
         /*googleApi*/
@@ -88,11 +95,17 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        /*List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
         for (Sensor sensor : sensors)
         {
+            if sensor.
             sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
-        }
+        }*/
+
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), 1000*10);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
+
 
         /*location */
         // Acquire a reference to the system Location Manager
@@ -112,7 +125,7 @@ public class SensorListenerService extends Service implements SensorEventListene
                 double i= soundlevel.Soundlevel_getAmplitude();
                 Log.i(Audio_TAG, " mic "+String.valueOf(i));
 
-                DataLogger.writeTolog( " S " + String.valueOf(i) + "\n");
+                DataLogger.writeTolog( "S " + String.valueOf(i) + "\n");
                 Soundlevel_handler.postDelayed(this, 1000);
             }
         };
@@ -159,6 +172,7 @@ public class SensorListenerService extends Service implements SensorEventListene
         soundlevel.Soundlevel_stop();
         removeActivityUpdates();
         mGoogleApiClient.disconnect();
+        wakeLock.release();
         // The service is no longer used and is being destroyed
     }
 
@@ -205,7 +219,8 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         double longitude = location.getLongitude();
         double latitude =  location.getLatitude();
-        Log.i(Location_TAG,  " L " + longitude + " " + latitude);
+        String provider=location.getProvider();
+        Log.i(Location_TAG,  " "+provider+" L " + longitude + " " + latitude);
         DataLogger.writeTolog( " L " + longitude + " " + latitude + "\n");
 
     }
@@ -236,7 +251,7 @@ public class SensorListenerService extends Service implements SensorEventListene
 
 
         Log.i("MyActivity",  " "+"battery level " + batteryPct);
-        DataLogger.writeTolog( " " + " B " + batteryPct + "\n");
+        DataLogger.writeTolog( " " + "B " + batteryPct + "\n");
         return batteryPct;
     }
 

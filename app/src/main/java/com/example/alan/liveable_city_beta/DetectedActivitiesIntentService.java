@@ -45,7 +45,6 @@ public class DetectedActivitiesIntentService extends IntentService {
 
     @Override
     public void onCreate() {
-
         super.onCreate();
 
     }
@@ -72,7 +71,8 @@ public class DetectedActivitiesIntentService extends IntentService {
             String Activity_value=Constants.getActivityString(
                     getApplicationContext(),
                     da.getType()) + " " + da.getConfidence() + "%";
-            DataLogger.writeTolog( Activity_value+"\n");
+            DataLogger.writeTolog( "G "+Activity_value+"\n");
+
             Log.i(TAG, Activity_value);
         }
 

@@ -24,6 +24,7 @@
             android:layout_column="0"
             android:src="@drawable/rate_this_place" />
 
+    w
 
     </GridLayout>
 </RelativeLayout>

@@ -38,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
     public void onPause() {
         super.onPause();
         Intent intent = new Intent(this, SensorListenerService.class);
-        stopService(intent);
+       // stopService(intent);
 
     }
 
@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onStop() {
         super.onStop();
         Intent intent = new Intent(this, SensorListenerService.class);
-        stopService(intent);
+       // stopService(intent);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
         super.onDestroy();
 
         Intent intent = new Intent(this, SensorListenerService.class);
-        stopService(intent);
+       // stopService(intent);
     }
 
     @Override

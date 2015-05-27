@@ -1,7 +1,6 @@
 package com.example.alan.liveable_city_beta;
 
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,12 +25,12 @@ public class DataLogger {
         content = timestamp+" "+content;
 
         try {
-            file = new File(Environment.getExternalStorageDirectory(),  "123.txt");
+            file = new File(Environment.getExternalStorageDirectory(),  "almost.txt");
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());
             outputStream.close();
-            Log.i("MyActivity", file.toString() + content + "  file done");
+            //Log.i("MyActivity", file.toString() + content + "  file done");
         } catch (IOException e) {
             e.printStackTrace();
         }
