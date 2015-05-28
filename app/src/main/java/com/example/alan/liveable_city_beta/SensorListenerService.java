@@ -125,7 +125,7 @@ public class SensorListenerService extends Service implements SensorEventListene
                 double i= soundlevel.Soundlevel_getAmplitude();
                 Log.i(Audio_TAG, " mic "+String.valueOf(i));
 
-                DataLogger.writeTolog( "S " + String.valueOf(i) + "\n");
+                DataLogger.writeTolog( " S " + String.valueOf(i) + "\n");
                 Soundlevel_handler.postDelayed(this, 1000);
             }
         };
