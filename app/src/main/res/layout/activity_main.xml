@@ -24,6 +24,8 @@
             android:id="@+id/imageView_rate_this_place"
             android:layout_row="0"
             android:layout_column="0"
+            android:clickable="true"
+            android:onClick="clickImage"
             android:src="@drawable/rate_this_place" />
 
         <ImageView
@@ -33,6 +35,14 @@
             android:layout_row="0"
             android:layout_column="1"
             android:src="@drawable/sensordashboard" />
+
+        <ImageView
+            android:layout_width="102dp"
+            android:layout_height="102dp"
+            android:id="@+id/activity_log"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:src="@drawable/activity_log" />
 
     </GridLayout>
 </RelativeLayout>
