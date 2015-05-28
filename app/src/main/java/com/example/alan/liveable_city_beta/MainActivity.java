@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 /**
  * Created by Xue Fei on 19/5/2015.
@@ -77,5 +79,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void clickImage(View view) {
+        Toast.makeText(this, "start a new test now", Toast.LENGTH_SHORT).show();
+        DataLogger.writeTolog("_________________________________start_a_new_test____________________________"+"\n");
+
+
     }
 }
