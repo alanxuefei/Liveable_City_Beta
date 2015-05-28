@@ -189,20 +189,20 @@ public class SensorListenerService extends Service implements SensorEventListene
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            DataLogger.writeTolog(Long.toString(event.timestamp)+" "+" A " + x + " " + y + " " + z + "\n");
+            DataLogger.writeTolog( " A " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+"\n");
             Log.i(Sensor_TAG, Long.toString(event.timestamp)+" " + "Accelerometer x=" + x + " y=" + y + " z=" + z);
         }
         else if (mySensor.getType() == Sensor.TYPE_PROXIMITY) {
             float x = event.values[0];
-            DataLogger.writeTolog(Long.toString(event.timestamp) + " "+" P " + x + "\n");
+            DataLogger.writeTolog(" P " + x + " "+Long.toString(event.timestamp)+"\n");
             Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "Proximity x=" + x);
         }
         else if (mySensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            DataLogger.writeTolog(Long.toString(event.timestamp)+" "+ " M " + x + " " + y + " " + z + "\n");
-            Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "Magnetic_feild x=" + x+" y="+y+" z="+z);
+            DataLogger.writeTolog( " M " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+ "\n");
+            Log.i(Sensor_TAG, Long.toString(event.timestamp) + " " + "Magnetic_feild x=" + x + " y=" + y + " z=" + z);
         }
 
     }
@@ -219,9 +219,12 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         double longitude = location.getLongitude();
         double latitude =  location.getLatitude();
-        String provider=location.getProvider();
-        Log.i(Location_TAG,  " "+provider+" L " + longitude + " " + latitude);
-        DataLogger.writeTolog( " L " + longitude + " " + latitude + "\n");
+        String Location_information= " L " + longitude + " " + latitude+" "+location.getProvider();
+
+        Log.i(Location_TAG,  Location_information);
+        DataLogger.writeTolog(Location_information + "\n");
+
+        Toast.makeText(this, Location_information, Toast.LENGTH_SHORT).show();
 
     }
 

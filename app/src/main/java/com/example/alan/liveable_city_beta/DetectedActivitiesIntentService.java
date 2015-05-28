@@ -19,6 +19,7 @@ package com.example.alan.liveable_city_beta;
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
@@ -72,8 +73,9 @@ public class DetectedActivitiesIntentService extends IntentService {
                     getApplicationContext(),
                     da.getType()) + " " + da.getConfidence() + "%";
             DataLogger.writeTolog( "G "+Activity_value+"\n");
-
             Log.i(TAG, Activity_value);
+
+            Toast.makeText(this,  Activity_value, Toast.LENGTH_SHORT).show();
         }
 
 
