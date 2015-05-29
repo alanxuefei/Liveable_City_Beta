@@ -29,7 +29,7 @@ public class DataLogger {
 
 
         try {
-            file = new File(Environment.getExternalStorageDirectory(),  "2015-05-29-clickable.txt");
+            file = new File(Environment.getExternalStorageDirectory(),  "2015-05-29-fileversion.txt");
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());
