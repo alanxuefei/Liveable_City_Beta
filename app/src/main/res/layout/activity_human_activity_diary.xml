@@ -7,11 +7,9 @@
     tools:context="com.example.alan.liveable_city_beta.HumanActivityDiaryActivity">
 
 
-    <ExpandableListView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/expandableListView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/listView_HumanActivity"
+        />
 </RelativeLayout>

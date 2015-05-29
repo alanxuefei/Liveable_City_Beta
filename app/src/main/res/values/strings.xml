@@ -18,4 +18,5 @@
 
     <string name="not_connected">GoogleApiClient not yet connected. Try again.</string>
     <string name="title_activity_human_activity_diary">HumanActivityDiaryActivity</string>
+
 </resources>
