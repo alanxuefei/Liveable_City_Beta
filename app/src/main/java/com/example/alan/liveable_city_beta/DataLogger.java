@@ -31,7 +31,7 @@ public class DataLogger {
 
 
         try {
-            file = new File(Environment.getExternalStorageDirectory(),  "Google-walking-Shirt pocket.txt");
+            file = new File(Environment.getExternalStorageDirectory(),  "81271676_2015_02_06.txt");
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());

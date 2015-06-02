@@ -125,7 +125,7 @@ public class SensorListenerService extends Service implements SensorEventListene
                 double i= soundlevel.Soundlevel_getAmplitude();
                 Log.i(Audio_TAG, " mic "+String.valueOf(i));
 
-                DataLogger.writeTolog( " S " + String.valueOf(i) + "\n");
+                DataLogger.writeTolog( "S " + String.valueOf(i) + "\n");
                 Soundlevel_handler.postDelayed(this, 1000);
             }
         };
@@ -190,19 +190,21 @@ public class SensorListenerService extends Service implements SensorEventListene
             float y = event.values[1];
             float z = event.values[2];
            // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
-            DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+ "\n");
+            DataLogger.writeTolog( "A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+ "\n");
             Log.i(Sensor_TAG, Long.toString(event.timestamp)+" " + "Accelerometer x=" + x + " y=" + y + " z=" + z);
         }
         else if (mySensor.getType() == Sensor.TYPE_PROXIMITY) {
             float x = event.values[0];
-            DataLogger.writeTolog(" P " + x + " "+Long.toString(event.timestamp)+"\n");
+           // DataLogger.writeTolog(" P " + x + " "+Long.toString(event.timestamp)+"\n");
+            DataLogger.writeTolog("P " + x + " "+"\n");
             Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "Proximity x=" + x);
         }
         else if (mySensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            DataLogger.writeTolog( " M " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+ "\n");
+           // DataLogger.writeTolog( " M " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+ "\n");
+            DataLogger.writeTolog( "M " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+ "\n");
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + " " + "Magnetic_feild x=" + x + " y=" + y + " z=" + z);
         }
 
