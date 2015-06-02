@@ -15,13 +15,15 @@ import java.util.Date;
 public class DataLogger {
 
     /* write into text file*/
+    protected static final String Log_TAG = "Log";
 
     public static void writeTolog(String content){
 
         File file;
         FileOutputStream outputStream;
 
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        //SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat s = new SimpleDateFormat("HH:mm:ss");
         String timestamp = s.format(new Date());
         content = timestamp+" "+content;
 
@@ -29,13 +31,13 @@ public class DataLogger {
 
 
         try {
-            file = new File(Environment.getExternalStorageDirectory(),  "2015-05-29-fileversion.txt");
+            file = new File(Environment.getExternalStorageDirectory(),  "Google-walking-Shirt pocket.txt");
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());
             outputStream.close();
 
-            Log.i("123", content);
+            Log.i("Log", content);
 
         } catch (IOException e) {
             e.printStackTrace();

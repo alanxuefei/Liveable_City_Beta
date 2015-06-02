@@ -189,7 +189,8 @@ public class SensorListenerService extends Service implements SensorEventListene
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            DataLogger.writeTolog( " A " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+"\n");
+           // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
+            DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+ "\n");
             Log.i(Sensor_TAG, Long.toString(event.timestamp)+" " + "Accelerometer x=" + x + " y=" + y + " z=" + z);
         }
         else if (mySensor.getType() == Sensor.TYPE_PROXIMITY) {
