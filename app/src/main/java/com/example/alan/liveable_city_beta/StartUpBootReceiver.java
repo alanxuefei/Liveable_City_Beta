@@ -17,8 +17,12 @@ public class StartUpBootReceiver  extends BroadcastReceiver {
 
         if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
             Log.d("startuptest", "StartUpBootReceiver BOOT_COMPLETED");
-            Intent startServiceIntent = new Intent(context, SensorListenerService.class);
-            context.startService(startServiceIntent);
+            boolean DoesUserAgree = context.getSharedPreferences("PREFERENCE", context.MODE_PRIVATE).getBoolean("DoesUserAgree", true);
+            if (DoesUserAgree == true){
+                Intent startServiceIntent = new Intent(context, SensorListenerService.class);
+                context.startService(startServiceIntent);
+            };
+
         }
     }
 
