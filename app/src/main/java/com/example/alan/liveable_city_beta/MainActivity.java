@@ -3,6 +3,7 @@ package com.example.alan.liveable_city_beta;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +15,15 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
+    protected static final String FirstRun_TAG = "FirstRun";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Intent intent = new Intent(this, SensorListenerService.class);
        // startService(intent);
+        checkFirstRun();
     }
 
     @Override
@@ -96,5 +100,21 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, HumanActivityDiaryActivity.class);
         startActivity(intent);
 
+    }
+
+    public void checkFirstRun() {
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        if (isFirstRun){
+            // Place your dialog code here to display the dialog
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("isFirstRun", false)
+                    .apply();
+            Log.i(FirstRun_TAG, "First Time");
+        }
+        else{
+            Log.i(FirstRun_TAG, "Not First Time");
+        }
     }
 }

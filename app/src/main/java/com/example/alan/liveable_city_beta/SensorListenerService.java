@@ -190,12 +190,14 @@ public class SensorListenerService extends Service implements SensorEventListene
             float y = event.values[1];
             float z = event.values[2];
            // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
-            DataLogger.writeTolog( "A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+ "\n");
-            Log.i(Sensor_TAG, Long.toString(event.timestamp)+" " + "Accelerometer x=" + x + " y=" + y + " z=" + z);
+            String dataformat= " A " + String.format("%-15f", x) + " " + String.format("%-15f", y) + " " + String.format("%-15f", z) + " "+ "\n";
+            DataLogger.writeTolog( dataformat);
+            Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
         else if (mySensor.getType() == Sensor.TYPE_PROXIMITY) {
             float x = event.values[0];
            // DataLogger.writeTolog(" P " + x + " "+Long.toString(event.timestamp)+"\n");
+            String dataformat= "P " + String.format("%-15f", x) + "\n";
             DataLogger.writeTolog("P " + x + " "+"\n");
             Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "Proximity x=" + x);
         }
@@ -204,8 +206,9 @@ public class SensorListenerService extends Service implements SensorEventListene
             float y = event.values[1];
             float z = event.values[2];
            // DataLogger.writeTolog( " M " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+ "\n");
-            DataLogger.writeTolog( "M " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+ "\n");
-            Log.i(Sensor_TAG, Long.toString(event.timestamp) + " " + "Magnetic_feild x=" + x + " y=" + y + " z=" + z);
+            String dataformat= " M " + String.format("%-15f", x) + " " + String.format("%-15f", y) + " " + String.format("%-15f", z) + " "+ "\n";
+            DataLogger.writeTolog(dataformat);
+            Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
 
     }
