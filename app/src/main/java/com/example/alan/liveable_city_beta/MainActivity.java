@@ -103,18 +103,22 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void checkFirstRun() {
-        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
-        if (isFirstRun){
+        boolean DoesUserAgree = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("DoesUserAgree", false);
+
+        if (DoesUserAgree){
             // Place your dialog code here to display the dialog
 
-            getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("isFirstRun", false)
-                    .apply();
-            Log.i(FirstRun_TAG, "First Time");
+
+            Log.i(FirstRun_TAG, "User  agree");
+
+
+            Intent intent = new Intent(this, SensorListenerService.class);
+            startService(intent);
         }
         else{
-            Log.i(FirstRun_TAG, "Not First Time");
+            Log.i(FirstRun_TAG, "User have not agree yet");
+            UserAgreementDialogFragment UserAgreement = new UserAgreementDialogFragment();;
+            UserAgreement.show(getSupportFragmentManager(), "NoticeDialogFragment");
         }
     }
 }

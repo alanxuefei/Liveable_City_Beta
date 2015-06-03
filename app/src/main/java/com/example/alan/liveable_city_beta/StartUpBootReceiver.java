@@ -21,4 +21,5 @@ public class StartUpBootReceiver  extends BroadcastReceiver {
             context.startService(startServiceIntent);
         }
     }
+
 }

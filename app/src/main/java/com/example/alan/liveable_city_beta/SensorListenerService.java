@@ -73,6 +73,10 @@ public class SensorListenerService extends Service implements SensorEventListene
 
     @Override
     public void onCreate() {
+
+        boolean DoesUserAgree = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("DoesUserAgree", true);
+        if (DoesUserAgree==false){stopSelf();};
+
         buildGoogleApiClient();
         // The service is being created
 

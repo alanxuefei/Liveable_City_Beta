@@ -18,5 +18,9 @@
 
     <string name="not_connected">GoogleApiClient not yet connected. Try again.</string>
     <string name="title_activity_human_activity_diary">HumanActivityDiaryActivity</string>
+    <string name="user_agreement">we will collect the sensor data from your phone. The APP will use 3mb - 5mb data per month. However you can stop data collection at anytime!
+    Thank You For Your Contribution. SGD200 will give to you if you contribute 100mb data.</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
 
 </resources>
