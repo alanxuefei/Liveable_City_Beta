@@ -222,7 +222,7 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         double longitude = location.getLongitude();
         double latitude =  location.getLatitude();
-        String Location_information= " L " + longitude + " " + latitude+" "+location.getProvider();
+        String Location_information= "L " + longitude + " " + latitude+" "+location.getProvider();
 
         Log.i(Location_TAG,  Location_information);
         DataLogger.writeTolog(Location_information + "\n");

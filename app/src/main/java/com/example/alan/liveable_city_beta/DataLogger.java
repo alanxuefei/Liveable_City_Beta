@@ -24,6 +24,7 @@ public class DataLogger {
 
         //SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         SimpleDateFormat s = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String timestamp = s.format(new Date());
         content = timestamp+" "+content;
 
@@ -31,7 +32,7 @@ public class DataLogger {
 
 
         try {
-            file = new File(Environment.getExternalStorageDirectory(),  "81271676_2015_02_06.txt");
+            file = new File(Environment.getExternalStorageDirectory(),  date+"81271676.txt");
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());

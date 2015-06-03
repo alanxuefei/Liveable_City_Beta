@@ -18,22 +18,22 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, SensorListenerService.class);
-        startService(intent);
+        //Intent intent = new Intent(this, SensorListenerService.class);
+       // startService(intent);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Intent intent = new Intent(this, SensorListenerService.class);
-        startService(intent);
+       // Intent intent = new Intent(this, SensorListenerService.class);
+       // startService(intent);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = new Intent(this, SensorListenerService.class);
-        startService(intent);
+       // Intent intent = new Intent(this, SensorListenerService.class);
+       // startService(intent);
     }
 
     @Override
