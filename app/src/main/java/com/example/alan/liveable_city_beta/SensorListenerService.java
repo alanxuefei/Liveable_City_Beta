@@ -106,7 +106,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
         }*/
 
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), 1000*10);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (1/10)*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
 
@@ -194,14 +194,14 @@ public class SensorListenerService extends Service implements SensorEventListene
             float y = event.values[1];
             float z = event.values[2];
            // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
-            String dataformat= " A " + String.format("%-15f", x) + " " + String.format("%-15f", y) + " " + String.format("%-15f", z) + " "+ "\n";
+            String dataformat= "A " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
             DataLogger.writeTolog( dataformat);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
         else if (mySensor.getType() == Sensor.TYPE_PROXIMITY) {
             float x = event.values[0];
            // DataLogger.writeTolog(" P " + x + " "+Long.toString(event.timestamp)+"\n");
-            String dataformat= "P " + String.format("%-15f", x) + "\n";
+            String dataformat= "P " + String.format("%f", x) + "\n";
             DataLogger.writeTolog("P " + x + " "+"\n");
             Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "Proximity x=" + x);
         }
@@ -210,7 +210,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             float y = event.values[1];
             float z = event.values[2];
            // DataLogger.writeTolog( " M " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+ "\n");
-            String dataformat= " M " + String.format("%-15f", x) + " " + String.format("%-15f", y) + " " + String.format("%-15f", z) + " "+ "\n";
+            String dataformat= "M " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
             DataLogger.writeTolog(dataformat);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }

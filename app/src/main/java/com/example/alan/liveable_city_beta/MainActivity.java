@@ -2,7 +2,7 @@ package com.example.alan.liveable_city_beta;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +13,7 @@ import android.widget.Toast;
  * Created by Xue Fei on 19/5/2015.
  */
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     protected static final String FirstRun_TAG = "FirstRun";
 
@@ -97,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
     public void clickImage_rate_this_place(View view) {
         Toast.makeText(this, "Image_rate_this_place", Toast.LENGTH_SHORT).show();
         //DataLogger.writeTolog("_________________________________start_a_new_test____________________________"+"\n");
-        Intent intent = new Intent(this, HumanActivityDiaryActivity.class);
+        Intent intent = new Intent(this, RateThisPlaceActivity.class);
         startActivity(intent);
 
     }

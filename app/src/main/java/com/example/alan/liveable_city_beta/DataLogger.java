@@ -1,7 +1,6 @@
 package com.example.alan.liveable_city_beta;
 
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,26 +22,27 @@ public class DataLogger {
         FileOutputStream outputStream;
 
         //SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        SimpleDateFormat s = new SimpleDateFormat("HH:mm:ss");
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-        String timestamp = s.format(new Date());
+        SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+        String timestamp = timeformat.format(new Date());
+        String datestamp = dateformat.format(new Date());
         content = timestamp+" "+content;
 
-
-
-
         try {
-            file = new File(Environment.getExternalStorageDirectory(),  date+"81271676.txt");
+            file = new File(Environment.getExternalStorageDirectory(),  datestamp+"Google-onhandrun02.txt");
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());
             outputStream.close();
 
-            Log.i("Log", content);
+          //  Log.i("Log", content);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
+
+
+
 }

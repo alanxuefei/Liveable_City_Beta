@@ -1,7 +1,7 @@
 package com.example.alan.liveable_city_beta;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-public class HumanActivityDiaryActivity extends ActionBarActivity {
+public class HumanActivityDiaryActivity extends AppCompatActivity {
 
     private String[] monthsArray = { "Stop","Walking", "Jogging", "Running", "Bicycle", "MRT", "BUS", "Lift Up",
             "Lift Down", "Auto Stair up", "Auto Stair down", "Working at Office", "Fitness equipment"

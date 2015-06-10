@@ -8,41 +8,53 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
 
-    <GridLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:columnCount="2"
-        android:rowCount="3">
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="142dp"
-            android:layout_height="142dp"
-            android:id="@+id/imageView_rate_this_place"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:clickable="true"
-            android:onClick="clickImage_rate_this_place"
-            android:src="@drawable/rate_this_place" />
+            <ImageView
+                android:layout_width="142dp"
+                android:layout_height="142dp"
+                android:id="@+id/imageView_rate_this_place"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:clickable="true"
+                android:onClick="clickImage_rate_this_place"
+                android:src="@drawable/rate_this_place" />
 
-        <ImageView
-            android:layout_width="142dp"
-            android:layout_height="142dp"
-            android:id="@+id/imageView_sensordashboard"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:src="@drawable/sensordashboard" />
+            <ImageView
+                android:layout_width="142dp"
+                android:layout_height="142dp"
+                android:id="@+id/imageView_sensordashboard"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:src="@drawable/sensordashboard" />
+        </LinearLayout>
 
-        <ImageView
-            android:layout_width="102dp"
-            android:layout_height="102dp"
-            android:id="@+id/activity_log"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:src="@drawable/activity_log" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </GridLayout>
+            <ImageView
+                android:layout_width="142dp"
+                android:layout_height="142dp"
+                android:id="@+id/activity_log"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:src="@drawable/activity_log" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>
