@@ -75,7 +75,7 @@ public class HumanActivityDiaryActivity extends AppCompatActivity {
 
         String value = (String)a.getItemAtPosition(position);
         Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-        DataLogger.writeTolog("________________________________ "+value + "________________________________\n");
+        DataLogger.writeTolog("________________________________ "+value + "________________________________\n",SensorListenerService.logswich);
         Log.i(HumanActivityTAG, value);
 
     }

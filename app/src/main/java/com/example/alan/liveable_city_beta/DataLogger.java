@@ -16,7 +16,9 @@ public class DataLogger {
     /* write into text file*/
     protected static final String Log_TAG = "Log";
 
-    public static void writeTolog(String content){
+
+
+    public static void writeTolog(String content,String logswich){
 
         File file;
         FileOutputStream outputStream;
@@ -29,7 +31,7 @@ public class DataLogger {
         content = timestamp+" "+content;
 
         try {
-            file = new File(Environment.getExternalStorageDirectory(),  datestamp+"Google-onhandrun02.txt");
+            file = new File(Environment.getExternalStorageDirectory(),  "30minsdata"+datestamp+logswich+".txt");
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());

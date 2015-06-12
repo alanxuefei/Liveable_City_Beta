@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 /**
  * Created by Xue Fei on 19/5/2015.
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void clickImage_activity_log(View view) {
-        Toast.makeText(this, "Activity_log", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Activity_log", Toast.LENGTH_SHORT).show();
         //DataLogger.writeTolog("_________________________________start_a_new_test____________________________"+"\n");
         Intent intent = new Intent(this, HumanActivityDiaryActivity.class);
         startActivity(intent);
@@ -95,9 +94,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickImage_rate_this_place(View view) {
-        Toast.makeText(this, "Image_rate_this_place", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Image_rate_this_place", Toast.LENGTH_SHORT).show();
         //DataLogger.writeTolog("_________________________________start_a_new_test____________________________"+"\n");
         Intent intent = new Intent(this, RateThisPlaceActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void clickImage_my_mood(View view) {
+        //Toast.makeText(this, "Activity_log", Toast.LENGTH_SHORT).show();
+        //DataLogger.writeTolog("_________________________________start_a_new_test____________________________"+"\n");
+        Intent intent = new Intent(this, MyMoodActivity.class);
         startActivity(intent);
 
     }

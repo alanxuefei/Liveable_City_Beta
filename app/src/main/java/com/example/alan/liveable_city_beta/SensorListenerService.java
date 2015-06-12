@@ -45,6 +45,8 @@ public class SensorListenerService extends Service implements SensorEventListene
     IntentFilter ifilter;
     Intent batteryStatus;
 
+    private boolean boolcheck=true;
+
 
     /**
      * Used when requesting or removing activity detection updates.
@@ -60,11 +62,14 @@ public class SensorListenerService extends Service implements SensorEventListene
     protected static final String Audio_TAG = "AudioLevel";
     protected static final String WakelockTag = "Wakelock";
 
+    //logswich
+    static String logswich = "Test";
+
 
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
 
-
+    public int ACCsamplingrate=1;
 
     private SoundLevelMonitor soundlevel= new SoundLevelMonitor();
 
@@ -106,7 +111,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
         }*/
 
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (1/10)*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
 
@@ -129,7 +134,7 @@ public class SensorListenerService extends Service implements SensorEventListene
                 double i= soundlevel.Soundlevel_getAmplitude();
                 Log.i(Audio_TAG, " mic "+String.valueOf(i));
 
-                DataLogger.writeTolog( "S " + String.valueOf(i) + "\n");
+                DataLogger.writeTolog( "S " + String.valueOf(i) + "\n",logswich);
                 Soundlevel_handler.postDelayed(this, 1000);
             }
         };
@@ -151,6 +156,22 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         handler.postDelayed(r, 1000);
 
+
+
+    /*    final Handler handler001 = new Handler();
+        final Runnable r001 = new Runnable() {
+
+            public void run() {
+                logswich=Integer.toString(ACCsamplingrate);
+               // Log.i("changeACC", "changeACC " + ACCsamplingrate + "logswich "+logswich);
+                changeACCsamplingrate(ACCsamplingrate);
+                ACCsamplingrate = ACCsamplingrate+20;
+                handler001.postDelayed(this, 1000*60*30);
+            }
+        };
+
+        handler001.postDelayed(r001, 1000*60);
+*/
 
 
         return mStartMode;
@@ -195,14 +216,14 @@ public class SensorListenerService extends Service implements SensorEventListene
             float z = event.values[2];
            // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
             String dataformat= "A " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
-            DataLogger.writeTolog( dataformat);
+            DataLogger.writeTolog( dataformat,logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
         else if (mySensor.getType() == Sensor.TYPE_PROXIMITY) {
             float x = event.values[0];
            // DataLogger.writeTolog(" P " + x + " "+Long.toString(event.timestamp)+"\n");
             String dataformat= "P " + String.format("%f", x) + "\n";
-            DataLogger.writeTolog("P " + x + " "+"\n");
+            DataLogger.writeTolog("P " + x + " "+"\n",logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "Proximity x=" + x);
         }
         else if (mySensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
@@ -211,7 +232,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             float z = event.values[2];
            // DataLogger.writeTolog( " M " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+ "\n");
             String dataformat= "M " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
-            DataLogger.writeTolog(dataformat);
+            DataLogger.writeTolog(dataformat,logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
 
@@ -232,9 +253,9 @@ public class SensorListenerService extends Service implements SensorEventListene
         String Location_information= "L " + longitude + " " + latitude+" "+location.getProvider();
 
         Log.i(Location_TAG,  Location_information);
-        DataLogger.writeTolog(Location_information + "\n");
+        DataLogger.writeTolog(Location_information + "\n",logswich);
 
-        Toast.makeText(this, Location_information, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, Location_information, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -264,7 +285,7 @@ public class SensorListenerService extends Service implements SensorEventListene
 
 
         Log.i("MyActivity",  " "+"battery level " + batteryPct);
-        DataLogger.writeTolog( " " + "B " + batteryPct + "\n");
+        DataLogger.writeTolog( " " + "B " + batteryPct + "\n",logswich);
         return batteryPct;
     }
 
@@ -379,6 +400,27 @@ public class SensorListenerService extends Service implements SensorEventListene
     }
 
 
+    /**
+     * Removes activity recognition updates using
+     * {@link com.google.android.gms.location.ActivityRecognitionApi#removeActivityUpdates} which
+     * returns a {@link com.google.android.gms.common.api.PendingResult}. Since this activity
+     * implements the PendingResult interface, the activity itself receives the callback, and the
+     * code within {@code onResult} executes. Note: once {@code removeActivityUpdates()} completes
+     * successfully, the {@code DetectedActivitiesIntentService} stops receiving callbacks about
+     * detected activities.
+     */
+    public void changeACCsamplingrate(int samplingrate) {
+
+    // if (boolcheck==true){
+         boolcheck=false;
+         sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
+    // }else{
+        boolcheck=true;
+        int delay= (int)((1/(float)ACCsamplingrate)*1000*1000);
+         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), delay);
+        Log.i("changeACC", "changeACC " + ACCsamplingrate + "" + logswich + "delayxue" + delay);
+   // }
+    }
 
 
 }

@@ -22,5 +22,6 @@
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
     <string name="title_activity_rate_this_place">RateThisPlaceActivity</string>
+    <string name="title_activity_my_mood">MyMood</string>
 
 </resources>

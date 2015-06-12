@@ -53,6 +53,15 @@
             android:name=".FetchAddressIntentService"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name=".MyMood"
+            android:label="@string/title_activity_my_mood" >
+        </activity>
+        <activity
+            android:name=".MyMoodActivity"
+            android:label="@string/title_activity_my_mood" >
+        </activity>
     </application>
 
 </manifest>
