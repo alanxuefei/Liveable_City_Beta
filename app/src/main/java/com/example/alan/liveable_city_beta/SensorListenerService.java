@@ -69,7 +69,7 @@ public class SensorListenerService extends Service implements SensorEventListene
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
 
-    public int ACCsamplingrate=1;
+    public int ACCsamplingrate=55;
 
     private SoundLevelMonitor soundlevel= new SoundLevelMonitor();
 

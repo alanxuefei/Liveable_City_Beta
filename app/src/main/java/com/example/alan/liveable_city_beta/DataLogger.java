@@ -18,10 +18,10 @@ public class DataLogger {
 
 
 
-    public static void writeTolog(String content,String logswich){
+    public static void writeTolog(String content,String logswich)  {
 
         File file;
-        FileOutputStream outputStream;
+        FileOutputStream outputStream=null;
 
         //SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
@@ -30,17 +30,27 @@ public class DataLogger {
         String datestamp = dateformat.format(new Date());
         content = timestamp+" "+content;
 
+
+
         try {
-            file = new File(Environment.getExternalStorageDirectory(),  "30minsdata"+datestamp+logswich+".txt");
+            file = new File(Environment.getExternalStorageDirectory(),  "xiaomi"+datestamp+logswich+".txt");
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());
-            outputStream.close();
 
           //  Log.i("Log", content);
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally{
+            if ( outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
 
     }

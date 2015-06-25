@@ -1,9 +1,10 @@
 package com.example.alan.liveable_city_beta;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TabHost;
 
 
 public class MyMoodActivity extends ActionBarActivity {
@@ -12,6 +13,7 @@ public class MyMoodActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_mood);
+        TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
     }
 
     @Override
