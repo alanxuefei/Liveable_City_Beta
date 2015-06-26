@@ -11,85 +11,77 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
 
             <ImageView
-                android:layout_width="142dp"
-                android:layout_height="142dp"
+                android:layout_width="228dp"
+                android:layout_height="275dp"
                 android:id="@+id/imageView_rate_this_place"
                 android:layout_row="0"
                 android:layout_column="0"
+
                 android:clickable="true"
                 android:onClick="clickImage_rate_this_place"
-                android:src="@drawable/rate_this_place" />
+                android:src="@drawable/rate_this_place"
+                android:layout_weight="0.32" />
 
-            <ImageView
-                android:layout_width="142dp"
-                android:layout_height="142dp"
-                android:id="@+id/imageView_sensordashboard"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:clickable="false"
-                android:onClick="clickImage_sensordashboard"
-                android:src="@drawable/sensordashboard" />
+
         </LinearLayout>
+
+
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
 
             <ImageView
-                android:layout_width="142dp"
-                android:layout_height="142dp"
-                android:id="@+id/activity_log"
+                android:layout_width="152dp"
+                android:layout_height="163dp"
+                android:id="@+id/visitedplaces"
                 android:layout_row="1"
                 android:layout_column="0"
                 android:clickable="true"
-                android:onClick="clickImage_activity_log"
-                android:src="@drawable/activity_log" />
+                android:onClick="clickImage_reward"
+                android:src="@drawable/visitedplaces"
+                android:cropToPadding="false" />
 
             <ImageView
-                android:layout_width="142dp"
-                android:layout_height="142dp"
-                android:id="@+id/my_mood"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:clickable="true"
-                android:onClick="clickImage_my_mood"
-                android:src="@drawable/my_mood" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="142dp"
-                android:layout_height="142dp"
-                android:id="@+id/sound_analyzer"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:clickable="false"
-                android:onClick="clickImage_sound_analyzer"
-                android:src="@drawable/sound_analyzer" />
-
-            <ImageView
-                android:layout_width="142dp"
-                android:layout_height="142dp"
+                android:layout_width="150dp"
+                android:layout_height="160dp"
                 android:id="@+id/reward"
                 android:layout_row="1"
                 android:layout_column="0"
                 android:clickable="false"
                 android:onClick="clickImage_reward"
-                android:src="@drawable/reward" />
+                android:src="@drawable/myreward"
+                android:adjustViewBounds="true" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User ID: alan.xuefei@googlemail.com"
+                android:id="@+id/textView" />
         </LinearLayout>
 
     </LinearLayout>
