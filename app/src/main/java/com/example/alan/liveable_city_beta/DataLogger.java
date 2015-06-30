@@ -1,13 +1,22 @@
 package com.example.alan.liveable_city_beta;
 
 import android.os.Environment;
+import android.util.Log;
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPReply;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 /**
  * Created by Xue Fei on 25/5/2015.
  */
@@ -53,6 +62,58 @@ public class DataLogger {
 
         }
 
+    }
+
+    /**
+     *
+     * @param ip
+     * @param userName
+     * @param pass
+     */
+    public static void connnectingwithFTP(String ip, String userName, String pass) {
+       boolean status = false;
+        FTPClient mFtpClient = new FTPClient();
+        try {
+
+
+            Log.e("isFTPConnected", String.valueOf(status));
+            mFtpClient.connect(InetAddress.getByName(ip));
+            status = mFtpClient.login(userName, pass);
+            Log.e("isFTPConnected", String.valueOf(status));
+            if (FTPReply.isPositiveCompletion(mFtpClient.getReplyCode())) {
+                mFtpClient.setFileType(FTP.ASCII_FILE_TYPE);
+                mFtpClient.enterLocalPassiveMode();
+                FTPFile[] mFileArray = mFtpClient.listFiles();
+                Log.e("Size", String.valueOf(mFileArray.length));
+            }
+
+
+        } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File thefile = new File(Environment.getExternalStorageDirectory(),  "IMG_20150617_174915.jpg");
+        uploadFile(mFtpClient,thefile,"d");
+    }
+
+    /**
+     *
+     * @param ftpClient FTPclient object
+     * @param downloadFile local file which need to be uploaded.
+     */
+    public static void uploadFile(FTPClient ftpClient, File downloadFile,String serverfilePath) {
+        try {
+            FileInputStream srcFileStream = new FileInputStream(downloadFile);
+            boolean status = ftpClient.storeFile(downloadFile.getName(),
+                    srcFileStream);
+            Log.e("Status", String.valueOf(status));
+            srcFileStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
