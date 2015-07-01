@@ -14,14 +14,24 @@ import android.widget.Toast;
 
 public class HumanActivityDiaryActivity extends AppCompatActivity {
 
-    private String[] monthsArray = { "Stop","Walking", "Jogging", "Running", "Bicycle", "MRT", "BUS", "Lift Up",
-            "Lift Down", "Auto Stair up", "Auto Stair down", "Working at Office", "Fitness equipment"
+    private String[] monthsArray = { "Stop",
+                                     "Walking-Onhand","Walking-Onpocket","Walking-Onbag",
+                                     "Lift-Up-Onhand","Lift-Up-Onpocket","Lift-Up-Onbag",
+                                     "Lift-Down-Onhand","Lift-Down-Onpocket","Lift-Down-Onbag",
+                                     "escalator-Up-Onhand","escalator-Up-Onpocket","escalator-Up-Onbag",
+                                     "escalator-Down-Onhand","escalator-Down-Onpocket","escalator-Down-Onbag",
+                                     "Stair-Up-Onhand","Stai-Up-Onpocket","Stai-Up-Onbag",
+                                     "Stair-Down-Onhand","Stai-Down-Onpocket","Stai-Down-Onbag",
+                                     "Jogging-Onhand","Jogging-Onpocket","Jogging-Onbag",
+                                     "Running-Onhand","Running-Onpocket","Running-Onbag",
+                                     "Sitdown-Onhand","Sitdown-Onpocket","Sitdown-Onbag",
+
+
+              "Bicycle", "MRT", "BUS",   "Working at Office", "Fitness equipment"
             , "Sit down – HP on table / surface"
             , "Sit down – HP in pocket"
             , "Sit down – using HP read news / send msg etc"
-            , "Normal Stair Up"
-            , "Normal Stair Down"
-            , "Fitness equipment"};
+             };
 
     protected static final String HumanActivityTAG = "HumanActivity";
     private ListView HumanActivityListView;

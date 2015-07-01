@@ -40,6 +40,7 @@ public class UploadFilesToFTPTask extends AsyncTask {
 
     @Override
     protected Object doInBackground(Object[] params) {
+
         connnectingwithFTP();
 
         return null;
@@ -72,6 +73,12 @@ public class UploadFilesToFTPTask extends AsyncTask {
         String pass=       "#5BDr+3[J;OS";
         boolean status = false;
         FTPClient mFtpClient = new FTPClient();
+
+
+
+
+
+
         try {
 
 
@@ -95,7 +102,17 @@ public class UploadFilesToFTPTask extends AsyncTask {
             e.printStackTrace();
         }
 
-
+        try {
+            boolean existing =mFtpClient.changeWorkingDirectory(DataLogger.Myid);
+            if (existing) {
+                Log.e("FTP", "can");
+            }
+            else{
+                Log.e("FTP", "can not");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
         String timestamp = timeformat.format(new Date());

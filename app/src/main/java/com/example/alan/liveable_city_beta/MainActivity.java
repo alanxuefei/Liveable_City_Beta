@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * Created by Xue Fei on 19/5/2015.
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
       /*  Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
         startService(mServiceIntent);*/
-
+        Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
         UploadFilesToFTPTask myfileuploader = new UploadFilesToFTPTask(this);
         myfileuploader.execute();
 
