@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.net.ftp.FTP;
@@ -29,7 +28,7 @@ import java.util.Date;
 
 public class UploadFilesToFTPTask extends AsyncTask {
     private Context context;
-    public TextView uploadprogress;
+
 
 
     public UploadFilesToFTPTask(Context context) {
@@ -103,14 +102,14 @@ public class UploadFilesToFTPTask extends AsyncTask {
 
         File myfile = new File(Environment.getExternalStorageDirectory(),  DataLogger.mystorefilename);
 
-        File to = new File(Environment.getExternalStorageDirectory(),  timestamp+DataLogger.mystorefilename);
+        File to = new File(Environment.getExternalStorageDirectory(),  DataLogger.Myid+"_"+timestamp+"_"+DataLogger.mystorefilename);
         myfile.renameTo(to);
         Log.e("FTP", to.getName());
         Log.e("FTP", myfile.getName());
 
         if (myfile!=null) {
 
-            uploadFile(mFtpClient, to, DataLogger.Myid + "_" + timestamp);
+            uploadFile(mFtpClient, to, "");
         }
         else{
             Log.e("FTP",  "can not find file");
@@ -129,7 +128,6 @@ public class UploadFilesToFTPTask extends AsyncTask {
             FileInputStream srcFileStream = new FileInputStream(downloadFile);
           //e5  Toast.makeText(get, "fpt", Toast.LENGTH_SHORT).show();
             Log.e("FTP", "uploading");
-            Toast.makeText(this.context, "uploading", Toast.LENGTH_SHORT).show();
             ftpClient.setCopyStreamListener(createListener());
             boolean status = ftpClient.storeFile(serverfilePath+downloadFile.getName(),
                     srcFileStream);
@@ -158,7 +156,9 @@ public class UploadFilesToFTPTask extends AsyncTask {
                 for (long l = megsTotal; l < megs; l++) {
                     //System.err.print("#");
                     Log.e("FTP", "#");
+
                 }
+
                 megsTotal = megs;
             }
         };

@@ -63,7 +63,7 @@ public class SensorListenerService extends Service implements SensorEventListene
     protected static final String WakelockTag = "Wakelock";
 
     //logswich
-    static String logswich = "Test";
+    static String logswich = "";
 
 
     /*google activity detection*/
