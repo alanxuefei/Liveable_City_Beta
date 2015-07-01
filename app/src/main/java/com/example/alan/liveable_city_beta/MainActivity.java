@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     protected static final String FirstRun_TAG = "FirstRun";
 
+    private void showDialog(String s) {
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         //Intent intent = new Intent(this, SensorListenerService.class);
        // startService(intent);
         checkFirstRun();
+
 
     }
 
@@ -87,12 +90,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void clickImage_activity_log(View view) {
-      /*  Toast.makeText(this, "Activity_log", Toast.LENGTH_SHORT).show();
+      /*  Toast.makeText(this, "Activity_log", Toast.LENGTH_SHORT).show();*/
         //DataLogger.writeTolog("_________________________________start_a_new_test____________________________" + "\n");
         Intent intent = new Intent(this, HumanActivityDiaryActivity.class);
-        startActivity(intent);*/
-       // Intent intent = new Intent(this, FTPService.class);
-       // startService(intent);
+        startActivity(intent);
+
+
+
+
+    }
+
+
+    public void clickImage_fpt(View view) {
+
+
+      /*  Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
+        startService(mServiceIntent);*/
+
+        UploadFilesToFTPTask myfileuploader = new UploadFilesToFTPTask(this);
+        myfileuploader.execute();
+
 
     }
 
@@ -104,13 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void clickImage_my_mood(View view) {
-        //Toast.makeText(this, "Activity_log", Toast.LENGTH_SHORT).show();
-        //DataLogger.writeTolog("_________________________________start_a_new_test____________________________"+"\n");
-        Intent intent = new Intent(this, MyMoodActivity.class);
-        startActivity(intent);
 
-    }
 
     public void checkFirstRun() {
         boolean DoesUserAgree = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("DoesUserAgree", false);

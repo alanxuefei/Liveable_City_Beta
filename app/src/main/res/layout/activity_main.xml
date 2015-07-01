@@ -64,8 +64,8 @@
                 android:id="@+id/reward"
                 android:layout_row="1"
                 android:layout_column="0"
-                android:clickable="false"
-                android:onClick="clickImage_activity_log"
+                android:clickable="true"
+                android:onClick="clickImage_fpt"
                 android:src="@drawable/myreward"
                 android:adjustViewBounds="true" />
 

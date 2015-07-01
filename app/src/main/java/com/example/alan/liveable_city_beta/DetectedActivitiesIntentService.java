@@ -78,7 +78,9 @@ public class DetectedActivitiesIntentService extends IntentService {
          //   Toast.makeText(this,  Activity_value, Toast.LENGTH_SHORT).show();
         }
 
-        DataLogger.connnectingwithFTP("ftp.adajinyuanbao.com","i2r@adajinyuanbao.com","#5BDr+3[J;OS");
+
+
+
         //Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "MAGNETIC_FIELD x=" + x+" y="+y+" z="+z);
 
         // Broadcast the list of detected activities.

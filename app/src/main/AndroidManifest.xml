@@ -55,15 +55,14 @@
             android:name=".FetchAddressIntentService"
             android:exported="false" >
         </service>
-
-        <activity
-            android:name=".MyMoodActivity"
-            android:label="@string/title_activity_my_mood" >
-        </activity>
-
+        <service
+            android:name=".IntentServiceFTP"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".IntentServiceUpload"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>
-
-
-
