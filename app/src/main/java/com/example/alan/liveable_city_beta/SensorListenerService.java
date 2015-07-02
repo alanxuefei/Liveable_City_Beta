@@ -62,6 +62,28 @@ public class SensorListenerService extends Service implements SensorEventListene
     protected static final String Audio_TAG = "AudioLevel";
     protected static final String WakelockTag = "Wakelock";
 
+    private final Handler Soundlevel_handler = new Handler();
+
+
+    private Runnable Soundlevel_runable = new Runnable() {
+        public void run() {
+            double i= soundlevel.Soundlevel_getAmplitude();
+            Log.i(Audio_TAG, " mic "+String.valueOf(i));
+
+            DataLogger.writeTolog( "S " + String.valueOf(i) + "\n",logswich);
+            Soundlevel_handler.postDelayed(this, 1000);
+        }
+    };
+
+
+    private final Handler Batteryhandler = new Handler();
+    final Runnable Battery_runable = new Runnable() {
+        public void run() {
+            ReadBatteryLevel();
+            Batteryhandler.postDelayed(this, 1000*60*15);
+        }
+    };
+
     //logswich
     static String logswich = "";
 
@@ -91,11 +113,6 @@ public class SensorListenerService extends Service implements SensorEventListene
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 WakelockTag);
-
-    }
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
 
         wakeLock.acquire();
         Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
@@ -130,37 +147,21 @@ public class SensorListenerService extends Service implements SensorEventListene
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         /*sound_level*/
-
         soundlevel.Soundlevel_start();
-
-       final Handler Soundlevel_handler = new Handler();
-
-        final Runnable r0 = new Runnable() {
-            public void run() {
-                double i= soundlevel.Soundlevel_getAmplitude();
-                Log.i(Audio_TAG, " mic "+String.valueOf(i));
-
-                DataLogger.writeTolog( "S " + String.valueOf(i) + "\n",logswich);
-                Soundlevel_handler.postDelayed(this, 1000);
-            }
-        };
-
-        Soundlevel_handler.postDelayed(r0, 1000);
+        Soundlevel_handler.postDelayed(Soundlevel_runable, 1000);
 
 
+        /*battery_level*/
         ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         batteryStatus = this.registerReceiver(null, ifilter);
+        Batteryhandler.postDelayed(Battery_runable, 1000);
 
-        final Handler handler = new Handler();
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
-        final Runnable r = new Runnable() {
-            public void run() {
-                ReadBatteryLevel();
-                handler.postDelayed(this, 1000*60*15);
-            }
-        };
 
-        handler.postDelayed(r, 1000);
+
 
 
 
@@ -201,11 +202,14 @@ public class SensorListenerService extends Service implements SensorEventListene
     public void onDestroy() {
 
         Log.d("startuptest", "stop service ");
+
+        Soundlevel_handler.removeCallbacks(Soundlevel_runable);
         sensorManager.unregisterListener(this);
         soundlevel.Soundlevel_stop();
         removeActivityUpdates();
         mGoogleApiClient.disconnect();
         wakeLock.release();
+        Toast.makeText(this, "sensor service Stop", Toast.LENGTH_SHORT).show();
         super.onDestroy();
         // The service is no longer used and is being destroyed
     }
@@ -306,10 +310,7 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-
         float batteryPct = level / (float) scale;
-
-
         Log.i("MyActivity",  " "+"battery level " + batteryPct);
         DataLogger.writeTolog( " " + "B " + batteryPct + "\n",logswich);
         return batteryPct;
