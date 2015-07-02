@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     protected static final String FirstRun_TAG = "FirstRun";
+    protected static final String ActionBar_TAG = "ActionBar";
 
     private void showDialog(String s) {
     }
@@ -26,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
         //Intent intent = new Intent(this, SensorListenerService.class);
        // startService(intent);
         checkFirstRun();
-
+        DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name));
+        DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name+"/"+"PassiveData"));
+        DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name+"/"+"ActiveData"));
 
     }
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        Intent intent = new Intent(this, SensorListenerService.class);
+        //Intent intent = new Intent(this, SensorListenerService.class);
        // stopService(intent);
 
     }
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Intent intent = new Intent(this, SensorListenerService.class);
+        //Intent intent = new Intent(this, SensorListenerService.class);
        // stopService(intent);
     }
 
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        Intent intent = new Intent(this, SensorListenerService.class);
+      //  Intent intent = new Intent(this, SensorListenerService.class);
        // stopService(intent);
     }
 
@@ -80,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Log.i(ActionBar_TAG, "clicked");
+        this.finish();
+        System.exit(0);
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {

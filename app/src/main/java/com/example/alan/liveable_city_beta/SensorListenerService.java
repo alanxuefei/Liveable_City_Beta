@@ -112,6 +112,7 @@ public class SensorListenerService extends Service implements SensorEventListene
         }*/
 
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)ACCsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
 
@@ -216,6 +217,15 @@ public class SensorListenerService extends Service implements SensorEventListene
             float z = event.values[2];
            // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
             String dataformat= "A " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
+            DataLogger.writeTolog( dataformat,logswich);
+            Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
+        }
+        else if (mySensor.getType() == Sensor.TYPE_GYROSCOPE) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
+            String dataformat= "G " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
             DataLogger.writeTolog( dataformat,logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }

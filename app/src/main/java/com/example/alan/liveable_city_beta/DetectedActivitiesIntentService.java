@@ -72,7 +72,7 @@ public class DetectedActivitiesIntentService extends IntentService {
             String Activity_value=Constants.getActivityString(
                     getApplicationContext(),
                     da.getType()) + " " + da.getConfidence() + "%";
-            DataLogger.writeTolog("G " + Activity_value + "\n", SensorListenerService.logswich);
+            DataLogger.writeTolog("g " + Activity_value + "\n", SensorListenerService.logswich);
             Log.i(TAG, Activity_value);
 
          //   Toast.makeText(this,  Activity_value, Toast.LENGTH_SHORT).show();

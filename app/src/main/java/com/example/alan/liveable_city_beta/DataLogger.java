@@ -30,11 +30,13 @@ public class DataLogger {
         String timestamp = timeformat.format(new Date());
         String datestamp = dateformat.format(new Date());
         content = timestamp+" "+content;
-        mystorefilename= Myid+"_"+datestamp+logswich+".txt";
+        mystorefilename=   datestamp+logswich+".txt";
+
+
 
 
         try {
-            file = new File(Environment.getExternalStorageDirectory(),  mystorefilename);
+            file = new File(Environment.getExternalStorageDirectory(), "/"+R.string.app_name+"/"+"PassiveData/"+mystorefilename);
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());
@@ -57,6 +59,32 @@ public class DataLogger {
     }
 
 
+    public static void CheckAndCreateFolder(String path)  {
 
+        File folder = new File(Environment.getExternalStorageDirectory() + "/"+path);
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdir();
+        }
+        if (success) {
+            // Do something on success
+        } else {
+            // Do something else on failure
+        }
+
+    }
+
+
+    public static void EmptyFolder(String path) {
+
+        File dir = new File(path);
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                new File(dir, children[i]).delete();
+            }
+        }
+
+    }
 
 }
