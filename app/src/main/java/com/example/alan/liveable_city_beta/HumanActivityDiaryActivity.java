@@ -1,5 +1,6 @@
 package com.example.alan.liveable_city_beta;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -85,6 +86,17 @@ public class HumanActivityDiaryActivity extends AppCompatActivity {
 
         String value = (String)a.getItemAtPosition(position);
         Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+        if (value.equals("Stop") ){
+            Log.i(HumanActivityTAG, "Stop");
+
+            stopService(new Intent(this, SensorListenerService.class));
+
+        }else{
+            Log.i(HumanActivityTAG, "Others");
+
+            startService(new Intent(this, SensorListenerService.class));
+        }
+
         DataLogger.writeTolog("________________________________ "+value + "________________________________\n",SensorListenerService.logswich);
         Log.i(HumanActivityTAG, value);
 

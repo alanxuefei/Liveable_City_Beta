@@ -30,12 +30,10 @@ import java.util.zip.ZipOutputStream;
  * Created by Xue Fei on 1/7/2015.
  */
 
-public class UploadFilesToFTPTask extends AsyncTask {
+public class AsyncTaskUploadFilesToFTP extends AsyncTask {
     private Context context;
 
-
-
-    public UploadFilesToFTPTask(Context context) {
+    public AsyncTaskUploadFilesToFTP(Context context) {
         super();
         this.context=context;
 

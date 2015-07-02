@@ -69,7 +69,10 @@ public class SensorListenerService extends Service implements SensorEventListene
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
 
-    public int ACCsamplingrate=100;
+    public double ACCsamplingrate=100;
+    public double GROsamplingrate=50;
+    public double Lightsamplingrate=0.5;
+  //  public int ACCsamplingrate=100;
 
     private SoundLevelMonitor soundlevel= new SoundLevelMonitor();
 
@@ -112,9 +115,11 @@ public class SensorListenerService extends Service implements SensorEventListene
         }*/
 
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)ACCsamplingrate)*1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), (int)(1/(float)Lightsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
+
 
 
         /*location */
@@ -194,11 +199,14 @@ public class SensorListenerService extends Service implements SensorEventListene
     }
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "sensor service stop", Toast.LENGTH_SHORT).show();
+
+        Log.d("startuptest", "stop service ");
+        sensorManager.unregisterListener(this);
         soundlevel.Soundlevel_stop();
         removeActivityUpdates();
         mGoogleApiClient.disconnect();
         wakeLock.release();
+        super.onDestroy();
         // The service is no longer used and is being destroyed
     }
 
@@ -226,6 +234,14 @@ public class SensorListenerService extends Service implements SensorEventListene
             float z = event.values[2];
             // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
             String dataformat= "G " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
+            DataLogger.writeTolog( dataformat,logswich);
+            Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
+        }
+        else if (mySensor.getType() == Sensor.TYPE_LIGHT) {
+            float x = event.values[0];
+
+            // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
+            String dataformat= "L " + String.format("%f", x)+ "\n";
             DataLogger.writeTolog( dataformat,logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }

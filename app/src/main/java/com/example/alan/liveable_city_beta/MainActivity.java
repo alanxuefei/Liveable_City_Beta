@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Intent intent = new Intent(this, SensorListenerService.class);
-       // startService(intent);
-        checkFirstRun();
+
+       // checkFirstRun();
+
         DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name));
         DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name+"/"+"PassiveData"));
         DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name+"/"+"ActiveData"));
@@ -84,9 +84,11 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Log.i(ActionBar_TAG, "clicked");
-        this.finish();
-        System.exit(0);
 
+        //this.finish();
+        //System.exit(0);
+        Intent intent = new Intent(this, SensorListenerService.class);
+        stopService(intent);
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
       /*  Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
         startService(mServiceIntent);*/
         Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
-        UploadFilesToFTPTask myfileuploader = new UploadFilesToFTPTask(this);
+        AsyncTaskUploadFilesToFTP myfileuploader = new AsyncTaskUploadFilesToFTP(this);
         myfileuploader.execute();
 
 
