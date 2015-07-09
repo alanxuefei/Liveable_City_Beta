@@ -1,4 +1,4 @@
-package com.example.alan.liveable_city_beta;
+package com.example.alan.rate_this_place;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -90,14 +90,15 @@ public class HumanActivityDiaryActivity extends AppCompatActivity {
             Log.i(HumanActivityTAG, "Stop");
 
             stopService(new Intent(this, SensorListenerService.class));
+            DataLogger.SelfLabel_Human_Status="Stop";
 
         }else{
             Log.i(HumanActivityTAG, "Others");
-
             startService(new Intent(this, SensorListenerService.class));
+            DataLogger.SelfLabel_Human_Status=value;
         }
 
-        DataLogger.writeTolog("________________________________ "+value + "________________________________\n",SensorListenerService.logswich);
+      //  DataLogger.writeTolog("________________________________ "+value + "________________________________\n",SensorListenerService.logswich);
         Log.i(HumanActivityTAG, value);
 
     }

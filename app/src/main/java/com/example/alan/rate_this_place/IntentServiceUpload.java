@@ -1,4 +1,4 @@
-package com.example.alan.liveable_city_beta;
+package com.example.alan.rate_this_place;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.content.Context;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class FetchAddressIntentService extends IntentService {
+public class IntentServiceUpload extends IntentService {
     // TODO: Rename actions, choose action names that describe tasks that this
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     private static final String ACTION_FOO = "com.example.alan.liveable_city_beta.action.FOO";
@@ -29,7 +29,7 @@ public class FetchAddressIntentService extends IntentService {
      */
     // TODO: Customize helper method
     public static void startActionFoo(Context context, String param1, String param2) {
-        Intent intent = new Intent(context, FetchAddressIntentService.class);
+        Intent intent = new Intent(context, IntentServiceUpload.class);
         intent.setAction(ACTION_FOO);
         intent.putExtra(EXTRA_PARAM1, param1);
         intent.putExtra(EXTRA_PARAM2, param2);
@@ -44,15 +44,15 @@ public class FetchAddressIntentService extends IntentService {
      */
     // TODO: Customize helper method
     public static void startActionBaz(Context context, String param1, String param2) {
-        Intent intent = new Intent(context, FetchAddressIntentService.class);
+        Intent intent = new Intent(context, IntentServiceUpload.class);
         intent.setAction(ACTION_BAZ);
         intent.putExtra(EXTRA_PARAM1, param1);
         intent.putExtra(EXTRA_PARAM2, param2);
         context.startService(intent);
     }
 
-    public FetchAddressIntentService() {
-        super("FetchAddressIntentService");
+    public IntentServiceUpload() {
+        super("IntentServiceUpload");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.alan.liveable_city_beta;
+package com.example.alan.rate_this_place;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -22,7 +22,9 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -32,16 +34,35 @@ import java.util.zip.ZipOutputStream;
 
 public class AsyncTaskUploadFilesToFTP extends AsyncTask {
     private Context context;
+    private String UserID;
+    protected static final String FTP_TAG = "FTP";
+
+
+
 
     public AsyncTaskUploadFilesToFTP(Context context) {
         super();
         this.context=context;
 
 
+
     }
+
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        UserID= context.getSharedPreferences("UserInfo", context.MODE_PRIVATE)
+                .getString("UserID", "");
+        Log.e(FTP_TAG, UserID);
+
+
+    }
+
 
     @Override
     protected Object doInBackground(Object[] params) {
+
 
         connnectingwithFTP();
 
@@ -53,6 +74,7 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         Toast.makeText(this.context, "File is uploaded successfully", Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -78,15 +100,12 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
 
 
 
-
-
-
         try {
 
-            Log.e("FTP", String.valueOf(status));
+            Log.e(FTP_TAG, String.valueOf(status));
             mFtpClient.connect(InetAddress.getByName(ip));
             status = mFtpClient.login(userName, pass);
-            Log.e("FTP", String.valueOf(status));
+            Log.e(FTP_TAG, String.valueOf(status));
             if (FTPReply.isPositiveCompletion(mFtpClient.getReplyCode())) {
                 mFtpClient.setFileType(FTP.ASCII_FILE_TYPE);
                 mFtpClient.enterLocalPassiveMode();
@@ -118,26 +137,18 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
         SimpleDateFormat timeformat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss_");
         String timestamp = timeformat.format(new Date ());
 
-        File myfile = new File(Environment.getExternalStorageDirectory(),  "/"+R.string.app_name+"/"+DataLogger.mystorefilename);
-        String INPUT_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/PassiveData";
-        String ZIPPED_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/"+ DataLogger.Myid+ timestamp+"passivedata.zip";
+
+       String INPUT_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/PassiveData";
+       String ZIPPED_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/"+ DataLogger.Myid+ timestamp+"passivedata.zip";
         zipSimpleFolder(new File(INPUT_FOLDER), "", ZIPPED_FOLDER);
-        DataLogger.EmptyFolder(INPUT_FOLDER);
-        uploadFile(mFtpClient, new File(ZIPPED_FOLDER), "");
-        //File to = new File(Environment.getExternalStorageDirectory(),  DataLogger.Myid+"_"+timestamp+"_"+DataLogger.mystorefilename);
-        // myfile.renameTo(to);
-        //Log.e("FTP", to.getName());
-        //Log.e("FTP", myfile.getName());
+      //  String output=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/alan2015-07-06_18:32:19_passivedata.zip";
 
+       DataLogger.EmptyFolder(INPUT_FOLDER);
+       File to = new File(ZIPPED_FOLDER);
 
+        Log.e("FTP", to.getName());
+        uploadFile(mFtpClient, to, "");
 
-       /* if (myfile!=null) {
-
-           // uploadFile(mFtpClient, to, "");
-        }
-        else{
-            Log.e("FTP",  "can not find file");
-        }*/
     }
 
     /**
@@ -151,15 +162,21 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
 
             FileInputStream srcFileStream = new FileInputStream(downloadFile);
           //e5  Toast.makeText(get, "fpt", Toast.LENGTH_SHORT).show();
-            Log.e("FTP", "uploading");
-            ftpClient.setCopyStreamListener(createListener());
-            boolean status = ftpClient.storeFile(serverfilePath+downloadFile.getName(),
+
+           ftpClient.setFileType(FTP.BINARY_FILE_TYPE);  // Ascii vs. Binary Files  Zip is Binary File.
+
+           // ftpClient.setFileTransferMode(FTP.BINARY_FILE_TYPE);
+            Log.e("FTP", "uploading ");
+          //  ftpClient.setCopyStreamListener(createListener());
+
+            boolean status = ftpClient.storeFile( downloadFile.getName(),
                     srcFileStream);
-            Log.e("FTP", "done");
+            Log.e("FTP", "done "+status);
             srcFileStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
 

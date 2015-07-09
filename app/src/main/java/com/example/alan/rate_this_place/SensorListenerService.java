@@ -1,4 +1,4 @@
-package com.example.alan.liveable_city_beta;
+package com.example.alan.rate_this_place;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -36,6 +36,8 @@ public class SensorListenerService extends Service implements SensorEventListene
     IBinder mBinder;      // interface for clients that bind
     boolean mAllowRebind; // indicates whether onRebind should be used
 
+    /*location*/
+    LocationManager mlocationManager;
     /*sensor*/
     private SensorManager sensorManager = null;
     PowerManager.WakeLock wakeLock;
@@ -141,10 +143,10 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         /*location */
         // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        mlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this); //long minTime, float minDistance
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        mlocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this); //long minTime, float minDistance
+        mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         /*sound_level*/
         soundlevel.Soundlevel_start();
@@ -204,6 +206,7 @@ public class SensorListenerService extends Service implements SensorEventListene
         Log.d("startuptest", "stop service ");
 
         Soundlevel_handler.removeCallbacks(Soundlevel_runable);
+        mlocationManager.removeUpdates(this);
         sensorManager.unregisterListener(this);
         soundlevel.Soundlevel_stop();
         removeActivityUpdates();
@@ -227,8 +230,8 @@ public class SensorListenerService extends Service implements SensorEventListene
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-           // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
-            String dataformat= "A " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
+           // DataLogger.writeTolog( " A " + String.format("%.3f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
+            String dataformat= "A " + String.format("%.3f", x) + " " + String.format("%.3f", y) + " " + String.format("%.3f", z) + " "+ "\n";
             DataLogger.writeTolog( dataformat,logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
@@ -237,7 +240,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             float y = event.values[1];
             float z = event.values[2];
             // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
-            String dataformat= "G " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
+            String dataformat= "G " + String.format("%.3f", x) + " " + String.format("%.3f", y) + " " + String.format("%.3f", z) + " "+ "\n";
             DataLogger.writeTolog( dataformat,logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
@@ -245,7 +248,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             float x = event.values[0];
 
             // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
-            String dataformat= "L " + String.format("%f", x)+ "\n";
+            String dataformat= "L " + String.format("%3f", x)+ "\n";
             DataLogger.writeTolog( dataformat,logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
@@ -261,7 +264,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             float y = event.values[1];
             float z = event.values[2];
            // DataLogger.writeTolog( " M " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+ "\n");
-            String dataformat= "M " + String.format("%f", x) + " " + String.format("%f", y) + " " + String.format("%f", z) + " "+ "\n";
+            String dataformat= "M " + String.format("%.3f", x) + " " + String.format("%.3f", y) + " " + String.format("%.3f", z) + " "+ "\n";
             DataLogger.writeTolog(dataformat,logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }

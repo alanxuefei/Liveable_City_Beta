@@ -1,4 +1,4 @@
-package com.example.alan.liveable_city_beta;
+package com.example.alan.rate_this_place;
 
 import android.media.MediaRecorder;
 

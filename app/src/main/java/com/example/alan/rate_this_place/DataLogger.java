@@ -1,4 +1,4 @@
-package com.example.alan.liveable_city_beta;
+package com.example.alan.rate_this_place;
 
 import android.os.Environment;
 
@@ -17,6 +17,7 @@ public class DataLogger {
 
     public static String Myid="alan";
     public static String mystorefilename;
+    public static String SelfLabel_Human_Status ="Stop";
 
 
     public static void writeTolog(String content,String logswich)  {
@@ -29,7 +30,7 @@ public class DataLogger {
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         String timestamp = timeformat.format(new Date());
         String datestamp = dateformat.format(new Date());
-        content = timestamp+" "+content;
+        content = timestamp+" "+ SelfLabel_Human_Status+" "+content;
         mystorefilename=   datestamp+logswich+".txt";
 
 
