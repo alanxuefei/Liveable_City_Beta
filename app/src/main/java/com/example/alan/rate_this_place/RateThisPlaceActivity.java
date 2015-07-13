@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -124,11 +126,7 @@ public class RateThisPlaceActivity extends AppCompatActivity implements  GoogleA
     }
 
 
-    public void displayAddressOutput(String  locationname) {
-        TextView mEditText_locationname=(TextView)findViewById(R.id.textView_locationname);
-        mEditText_locationname.setText("good");
 
-    }
 
 
     class AddressResultReceiver extends ResultReceiver {
@@ -157,8 +155,13 @@ public class RateThisPlaceActivity extends AppCompatActivity implements  GoogleA
                 @Override
                 public void run() {
                     // This code will always run on the UI thread, therefore is safe to modify UI elements.
-                    TextView mEditText_locationname = (TextView) findViewById(R.id.textView_locationname);
-                    mEditText_locationname.setText(mAddressOutput);
+                    EditText mEditText_locationname = (EditText) findViewById(R.id.editText_locationname);
+                    mEditText_locationname.setText("LOCATION: "+mAddressOutput+" (Tap to change the current location)");
+                   // TextView mTextview_locationname = (TextView) findViewById(R.id.textView_locationname);
+                   // mTextview_locationname.setText(mAddressOutput+" (Tap to change the current location)");
+                    ProgressBar mprogressBar_locationname = (ProgressBar) findViewById(R.id.progressBar_locationname);
+                    mprogressBar_locationname.setVisibility(View.GONE);
+
                 }
             });
 
