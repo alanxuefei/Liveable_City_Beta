@@ -105,10 +105,13 @@ public class MainActivity extends AppCompatActivity   {
         int id = item.getItemId();
         Log.i(ActionBar_TAG, "clicked");
 
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+
         //this.finish();
         //System.exit(0);
-        Intent intent = new Intent(this, SensorListenerService.class);
-        stopService(intent);
+      //  Intent intent = new Intent(this, SensorListenerService.class);
+       // stopService(intent);
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;

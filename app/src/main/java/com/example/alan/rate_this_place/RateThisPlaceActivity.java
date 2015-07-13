@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -169,4 +170,32 @@ public class RateThisPlaceActivity extends AppCompatActivity implements  GoogleA
 
         }
     }
+
+    public void clickImage_unhappyface(View view) {
+
+
+        CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox);
+        CheckBox checkBox1=(CheckBox)findViewById(R.id.checkBox2);
+        CheckBox checkBox2=(CheckBox)findViewById(R.id.checkBox3);
+
+        checkBox.setText("Unclean");
+        checkBox1.setText("Unsafe");
+        checkBox2.setText("Unfriendly");
+
+    }
+
+    public void clickImage_happyface(View view) {
+
+
+        CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox);
+        CheckBox checkBox1=(CheckBox)findViewById(R.id.checkBox2);
+        CheckBox checkBox2=(CheckBox)findViewById(R.id.checkBox3);
+
+        checkBox.setText("Clean");
+        checkBox1.setText("Safe");
+        checkBox2.setText("Friendly");
+
+    }
+
+
 }

@@ -30,6 +30,7 @@
     <string name="address_found">address_found</string>
 
     <string name="decimal_points">%.3f</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>
