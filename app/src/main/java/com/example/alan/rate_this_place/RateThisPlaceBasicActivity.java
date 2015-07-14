@@ -47,8 +47,6 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
 
         // Initilization
 
-
-
          /*location */
         // Acquire a reference to the system Location Manager
         // startIntentService();
@@ -61,9 +59,6 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
         //String[] countries = getResources().getStringArray(languages);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,languages);
         actv.setAdapter(adapter);*/
-
-
-
 
     }
 
@@ -81,7 +76,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_rate_this_place, menu);
+         getMenuInflater().inflate(R.menu.rate_this_place_menu_main, menu);
         return true;
     }
 

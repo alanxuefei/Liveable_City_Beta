@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity   {
 
         setContentView(R.layout.activity_main);
 
+
+
+
+
        // checkFirstRun();
         ReadGoogleAccount();
         DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name));
