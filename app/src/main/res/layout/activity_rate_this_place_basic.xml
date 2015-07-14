@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="104dp"
+                android:layout_height="79dp"
+                android:id="@+id/progressBar_locationname" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/editText_locationname"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="This Place Makes Me Feel:"
+            android:id="@+id/textView" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/happyface"
+                android:id="@+id/imageView"
+                android:layout_marginLeft="40dp"
+                android:adjustViewBounds="true"
+                android:focusable="false"
+                android:clickable="true"
+                android:onClick="clickImage_happyface"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/unhappyface"
+                android:id="@+id/imageView3"
+                android:gravity="center"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:onClick="clickImage_unhappyface"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="This Place is:"
+            android:id="@+id/textView2" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="59dp"
+                android:text="Clean"
+                android:id="@+id/checkBox"
+                android:layout_weight="0.08"
+                android:textSize="20dp"
+                android:textColor="#ffffff"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="59dp"
+                android:text="Safe"
+                android:id="@+id/checkBox2"
+                android:layout_weight="0.08"
+                android:textSize="20dp"
+                android:textColor="#ffffff"
+                android:singleLine="false"
+                android:textColorHighlight="#ffffff" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="59dp"
+                android:text="Green"
+                android:id="@+id/checkBox3"
+                android:layout_weight="0.08"
+                android:textSize="20dp"
+                android:textColor="#ffffff"/>
+
+        </LinearLayout>
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/AutoCompleteTextView_Commentary"
+            android:layout_weight="0.28"
+            android:hint="Write a comment..."/>
+
+        <Button
+            android:layout_width="278dp"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/button"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+</RelativeLayout>

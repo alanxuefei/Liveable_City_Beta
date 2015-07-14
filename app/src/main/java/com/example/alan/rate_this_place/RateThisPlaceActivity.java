@@ -1,66 +1,53 @@
 package com.example.alan.rate_this_place;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.ResultReceiver;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
+import com.example.alan.rate_this_place.view.SlidingTabLayout;
+
+public class RateThisPlaceActivity extends AppCompatActivity {
 
 
-public class RateThisPlaceActivity extends AppCompatActivity implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    protected static final String Tab_TAG = "Tab";
+    /**
+     * A custom {@link ViewPager} title strip which looks much like Tabs present in Android v4.0 and
+     * above, but is designed to give continuous feedback to the user when scrolling.
+     */
+    private SlidingTabLayout mSlidingTabLayout;
 
-    private AutoCompleteTextView actv;
-    String[] languages={"This place is not clean","This is a most crowded place on Earth","IOS","SQL","JDBC","Web services"};
-    /*google activity detection*/
-    protected GoogleApiClient mGoogleApiClient;
-    public AddressResultReceiver mResultReceiver = new AddressResultReceiver(this);
-    String mAddressOutput;
+    /**
+     * A {@link ViewPager} which will be used in conjunction with the {@link SlidingTabLayout} above.
+     */
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_this_place);
-         /*location */
-        // Acquire a reference to the system Location Manager
-        // startIntentService();
-        Log.i("LoactionName", "User  agree");
-        buildGoogleApiClient();
 
+        // BEGIN_INCLUDE (setup_viewpager)
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+         mViewPager.setAdapter(new SamplePagerAdapter());
+        // END_INCLUDE (setup_viewpager)
 
-
-       /* actv = (AutoCompleteTextView) findViewById(R.id.AutoCompleteTextView_Commentary);
-        //String[] countries = getResources().getStringArray(languages);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,languages);
-        actv.setAdapter(adapter);*/
-
-
-
+        // BEGIN_INCLUDE (setup_slidingtablayout)
+        // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
+        // it's PagerAdapter set.
+        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setViewPager(mViewPager);
+        // END_INCLUDE (setup_slidingtablayout)
 
     }
 
-    protected synchronized void buildGoogleApiClient() {
-        Log.i("LoactionName", "User  agree1");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-/*googleApi*/
-        mGoogleApiClient.connect();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,118 +71,76 @@ public class RateThisPlaceActivity extends AppCompatActivity implements  GoogleA
         return super.onOptionsItemSelected(item);
     }
 
-         /*location*/
+    /**
+     * The {@link android.support.v4.view.PagerAdapter} used to display pages in this sample.
+     * The individual pages are simple and just display two lines of text. The important section of
+     * this class is the {@link #getPageTitle(int)} method which controls what is displayed in the
+     * {@link SlidingTabLayout}.
+     */
+    class SamplePagerAdapter extends PagerAdapter {
 
-
-
-    protected void startLocationNameIntentService(Location location) {
-
-
-        Log.i("locationname", String.valueOf(mResultReceiver));
-        Intent intent = new Intent(this, FetchAddressIntentService.class);
-        intent.putExtra(Constants.RECEIVER, mResultReceiver);
-        intent.putExtra(Constants.LOCATION_DATA_EXTRA, location);
-        startService(intent);
-    }
-
-
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        Log.i("LoactionName", "User  agree3");
-       // mGoogleApiClient.disconnect();
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-
-        double longitude = mLastLocation.getLongitude();
-        double latitude = mLastLocation.getLatitude();
-        String Location_information= "L " + longitude + " " + latitude+" "+mLastLocation.getProvider();
-        Log.i("LoactionName", Location_information);
-        startLocationNameIntentService(mLastLocation);
-
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-
-
-
-
-    class AddressResultReceiver extends ResultReceiver {
-        Activity mRateThisPlace;
-        public AddressResultReceiver(Activity RateThisPlace) {
-            super(null);
-            mRateThisPlace=RateThisPlace;
-
-        }
-
+        /**
+         * @return the number of pages to display
+         */
         @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-
-            // Display the address string
-            // or an error message sent from the intent service.
-             mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
-            //displayAddressOutput(mAddressOutput);
-
-            // Show a toast message if an address was found.
-            if (resultCode == Constants.SUCCESS_RESULT) {
-               // showToast(getString(R.string.address_found));
-            }
-            Log.i("locationname", mAddressOutput);
-
-            mRateThisPlace.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    // This code will always run on the UI thread, therefore is safe to modify UI elements.
-                    EditText mEditText_locationname = (EditText) findViewById(R.id.editText_locationname);
-                    mEditText_locationname.setText("LOCATION: "+mAddressOutput+" (Tap to change the current location)");
-                   // TextView mTextview_locationname = (TextView) findViewById(R.id.textView_locationname);
-                   // mTextview_locationname.setText(mAddressOutput+" (Tap to change the current location)");
-                    ProgressBar mprogressBar_locationname = (ProgressBar) findViewById(R.id.progressBar_locationname);
-                    mprogressBar_locationname.setVisibility(View.GONE);
-
-                }
-            });
-
-
-
+        public int getCount() {
+            return 10;
         }
+
+        /**
+         * @return true if the value returned from {@link #instantiateItem(ViewGroup, int)} is the
+         * same object as the {@link View} added to the {@link ViewPager}.
+         */
+        @Override
+        public boolean isViewFromObject(View view, Object o) {
+            return o == view;
+        }
+
+        // BEGIN_INCLUDE (pageradapter_getpagetitle)
+        /**
+         * Return the title of the item at {@code position}. This is important as what this method
+         * returns is what is displayed in the {@link SlidingTabLayout}.
+         * <p>
+         * Here we construct one using the position value, but for real application the title should
+         * refer to the item's contents.
+         */
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Item " + (position + 1);
+        }
+        // END_INCLUDE (pageradapter_getpagetitle)
+
+        /**
+         * Instantiate the {@link View} which should be displayed at {@code position}. Here we
+         * inflate a layout from the apps resources and then change the text view to signify the position.
+         */
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            // Inflate a new layout from our resources
+            View view =  getLayoutInflater().inflate(R.layout.pager_item,
+                    container, false);
+            // Add the newly created View to the ViewPager
+            container.addView(view);
+
+            // Retrieve a TextView from the inflated View, and update it's text
+            TextView title = (TextView) view.findViewById(R.id.item_title);
+            title.setText(String.valueOf(position + 1));
+
+            Log.i(Tab_TAG , "instantiateItem() [position: " + position + "]");
+
+            // Return the View
+            return view;
+        }
+
+        /**
+         * Destroy the item from the {@link ViewPager}. In our case this is simply removing the
+         * {@link View}.
+         */
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+            Log.i(Tab_TAG , "destroyItem() [position: " + position + "]");
+        }
+
     }
-
-    public void clickImage_unhappyface(View view) {
-
-
-        CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox);
-        CheckBox checkBox1=(CheckBox)findViewById(R.id.checkBox2);
-        CheckBox checkBox2=(CheckBox)findViewById(R.id.checkBox3);
-
-        checkBox.setText("Unclean");
-        checkBox1.setText("Unsafe");
-        checkBox2.setText("Unfriendly");
-
-    }
-
-    public void clickImage_happyface(View view) {
-
-
-        CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox);
-        CheckBox checkBox1=(CheckBox)findViewById(R.id.checkBox2);
-        CheckBox checkBox2=(CheckBox)findViewById(R.id.checkBox3);
-
-        checkBox.setText("Clean");
-        checkBox1.setText("Safe");
-        checkBox2.setText("Friendly");
-
-    }
-
-
 }
