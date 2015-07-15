@@ -3,8 +3,11 @@ package com.example.alan.rate_this_place;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
 
 public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTabChangeListener {
@@ -15,21 +18,25 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
         setContentView(R.layout.activity_rate_this_place);
 
         TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
 
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.i("ddd", "toolbar_click");
+                finish();
+                return false;
+            }
+        });
 
         tabHost.setup();
-
-
-
         TabHost.TabSpec spec1=tabHost.newTabSpec("Tab 1");
-        spec1.setContent(R.id.linearLayout_basic);
-        spec1.setIndicator("Tab 1");
+        spec1.setIndicator("Simple");
+        spec1.setContent(new Intent().setClass(this, RateThisPlaceBasicActivity.class));
 
         TabHost.TabSpec spec2=tabHost.newTabSpec("Tab 2");
-        spec2.setIndicator("Tab 2");
-       // spec2.setContent(R.id.linearLayout_detail);
-          Intent intentBerry = new Intent().setClass(this, RateThisPlaceBasicActivity.class);
-        spec2.setContent(intentBerry);
+        spec2.setIndicator("Detail");
+        spec2.setContent(new Intent().setClass(this, RateThisPlaceDetailActivity.class));
 
         tabHost.addTab(spec1);
         tabHost.addTab(spec2);
@@ -65,6 +72,12 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
 
     @Override
     public void onTabChanged(String tabId) {
+
+    }
+
+    public void ReturnButton(View v) {
+        Log.i("test", "returen");
+        super.onBackPressed();
 
     }
 }

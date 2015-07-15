@@ -23,7 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 
-public class RateThisPlaceBasicActivity extends AppCompatActivity implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class RateThisPlaceDetailActivity extends AppCompatActivity implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private AutoCompleteTextView actv;
     String[] languages={"This place is not clean","This is a most crowded place on Earth","IOS","SQL","JDBC","Web services"};
@@ -42,7 +42,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rate_this_place_basic);
+        setContentView(R.layout.activity_rate_this_place_detail);
 
 
         // Initilization
@@ -169,7 +169,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
                     // This code will always run on the UI thread, therefore is safe to modify UI elements.
                     TextView mEditText_locationname = (TextView) findViewById(R.id.textView_locationname);
                     mEditText_locationname.setText("LOCATION: "+mAddressOutput);
-                    //  mEditText_locationname.setText("LOCATION: "+mAddressOutput+" (Tap to change the current location)");
+                  //  mEditText_locationname.setText("LOCATION: "+mAddressOutput+" (Tap to change the current location)");
                    // TextView mTextview_locationname = (TextView) findViewById(R.id.textView_locationname);
                    // mTextview_locationname.setText(mAddressOutput+" (Tap to change the current location)");
                     ProgressBar mprogressBar_locationname = (ProgressBar) findViewById(R.id.progressBar_locationname);

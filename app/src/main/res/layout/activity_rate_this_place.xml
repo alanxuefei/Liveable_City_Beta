@@ -18,19 +18,31 @@ android:layout_height="match_parent"
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:minHeight="?attr/actionBarSize"
-                android:background="#2196F3"
+                android:background="#2E8DEF"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:onClick="31">
+                android:onClick="ReturnButton">
 
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:text="Rate This Place"
                     android:textSize="20sp"
-                    android:shadowColor="#2196F3"
-                    />
+                    android:background="#2E8DEF"
+
+                    android:textColor="#FFFFFF" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView4"
+                    android:src="@drawable/returnbutton"
+                    android:cropToPadding="false"
+                    android:background="#2E8DEF"
+                    android:adjustViewBounds="false"
+                    android:layout_gravity="right"
+                    android:paddingRight="10dp" />
 
 
 
@@ -67,4 +79,6 @@ android:layout_height="match_parent"
             </FrameLayout>
         </LinearLayout>
     </TabHost>
+
+
 </RelativeLayout>

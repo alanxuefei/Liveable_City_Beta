@@ -5,14 +5,13 @@ import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.regex.Pattern;
 
@@ -25,16 +24,32 @@ public class MainActivity extends AppCompatActivity   {
     protected static final String FirstRun_TAG = "FirstRun";
     protected static final String ActionBar_TAG = "ActionBar";
     protected static final String GoogleSignIn_TAG = "GoogleSignIn";
-    /* Client used to interact with Google APIs. */
-    private GoogleApiClient mGoogleApiClient;
-    /* Is there a ConnectionResult resolution in progress? */
-    private boolean mIsResolving = false;
-    /* Should we automatically resolve ConnectionResults when possible? */
-    private boolean mShouldResolve = false;
-    private static final int RC_SIGN_IN = 0;
+    protected static final String Toolbar_TAG = "Toolbar";
 
-    private void showDialog(String s) {
-    }
+
+    private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            String msg = "";
+            switch (menuItem.getItemId()) {
+              /*  case R.id.action_edit:
+                    msg += "Click edit";
+                    break;
+                case R.id.action_share:
+                    msg += "Click share";
+                    break;
+                case R.id.action_settings:
+                    msg += "Click setting";
+                    break;*/
+            }
+
+            if(!msg.equals("")) {
+                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+            Log.i(Toolbar_TAG, "toolbar_click");
+            return true;
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +58,8 @@ public class MainActivity extends AppCompatActivity   {
         setContentView(R.layout.activity_main);
 
 
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
        // checkFirstRun();
@@ -107,10 +123,10 @@ public class MainActivity extends AppCompatActivity   {
         // as you specify a parent activity in AndroidManifest.xml.
 
         int id = item.getItemId();
-        Log.i(ActionBar_TAG, "clicked");
+        Log.i(ActionBar_TAG, "clicked"+id);
 
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+      //  Intent intent = new Intent(this, MapsActivity.class);
+       // startActivity(intent);
 
         //this.finish();
         //System.exit(0);
