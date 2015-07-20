@@ -7,17 +7,21 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView" >
+        android:id="@+id/scrollView"
+        >
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+            >
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@layout/pictureshape">
 
                 <ProgressBar
                     style="?android:attr/progressBarStyleSmall"
@@ -37,19 +41,21 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="This Place Makes Me Feel:"
-                android:id="@+id/textView" />
+
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="198dp"
-                android:weightSum="1">
-
+                android:layout_height="241dp"
+                android:weightSum="1"
+                android:background="@layout/pictureshape"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="This Place Makes Me Feel:"
+                    android:id="@+id/textView" />
                 <ImageView
                     android:layout_width="254dp"
                     android:layout_height="161dp"
@@ -61,7 +67,8 @@
                     android:clickable="true"
                     android:onClick="clickImage_happyface"
                     android:layout_marginTop="10dp"
-                    android:cropToPadding="false" />
+                    android:cropToPadding="false"
+                    android:layout_marginBottom="10dp" />
 
 
             </LinearLayout>
@@ -69,7 +76,9 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@layout/pictureshape"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -146,13 +155,27 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView3"
-                android:src="@drawable/takeapicture"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@layout/pictureshape"
+                android:layout_marginTop="5dp">
 
-                android:layout_gravity="center"/>
+                <ImageView
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:id="@+id/imageView_takeapicture"
+                    android:src="@drawable/tap_here_to_take_a_picture"
+                    android:layout_gravity="left"
+                    android:onClick="clickImage_takeapicture" />
+
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/imageView_picture"
+                    android:layout_marginBottom="10dp" />
+            </LinearLayout>
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -161,14 +184,18 @@
                 android:ems="10"
                 android:id="@+id/AutoCompleteTextView_Commentary"
                 android:layout_weight="0.28"
-                android:hint="Write a comment..."/>
+
+                android:hint="Write a comment..."
+                android:background="@layout/pictureshape"
+                android:layout_marginTop="5dp" />
 
             <Button
                 android:layout_width="278dp"
                 android:layout_height="wrap_content"
                 android:text="Submit"
                 android:id="@+id/button"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                />
         </LinearLayout>
     </ScrollView>
 

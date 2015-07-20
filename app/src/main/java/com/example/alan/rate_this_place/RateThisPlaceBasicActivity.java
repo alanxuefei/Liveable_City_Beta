@@ -107,14 +107,17 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
         intent.putExtra(Constants.RECEIVER, mResultReceiver);
         intent.putExtra(Constants.LOCATION_DATA_EXTRA, location);
         startService(intent);
+
     }
 
 
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.i("LoactionName", "User  agree3");
+        Log.i("LoactionName", "GoogleApiClient is connected");
        // mGoogleApiClient.disconnect();
+        Log.i("LoactionName", "GoogleApiClient is connected " + mGoogleApiClient.isConnected());
+
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if(mLastLocation!=null){
@@ -123,6 +126,16 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
             String Location_information= "L " + longitude + " " + latitude+" "+mLastLocation.getProvider();
             Log.i("LoactionName", Location_information);
             startLocationNameIntentService(mLastLocation);
+            Log.i("LoactionName", "get the location name");
+        }
+        else{
+            Log.i("LoactionName","can not obtain the location name");
+            try {
+                Thread.sleep(1000);                 //1000 milliseconds is one second.
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            mGoogleApiClient.reconnect();
         }
 
     }
@@ -168,10 +181,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
                 public void run() {
                     // This code will always run on the UI thread, therefore is safe to modify UI elements.
                     TextView mEditText_locationname = (TextView) findViewById(R.id.textView_locationname);
-                    mEditText_locationname.setText("LOCATION: "+mAddressOutput);
-                    //  mEditText_locationname.setText("LOCATION: "+mAddressOutput+" (Tap to change the current location)");
-                   // TextView mTextview_locationname = (TextView) findViewById(R.id.textView_locationname);
-                   // mTextview_locationname.setText(mAddressOutput+" (Tap to change the current location)");
+                    mEditText_locationname.setText("Location: \n" + mAddressOutput);
                     ProgressBar mprogressBar_locationname = (ProgressBar) findViewById(R.id.progressBar_locationname);
                     mprogressBar_locationname.setVisibility(View.GONE);
 
@@ -206,6 +216,17 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
         checkBox.setText("Clean");
         checkBox1.setText("Safe");
         checkBox2.setText("Friendly");
+
+    }
+
+    public void clickImage_locationname(View view) {
+
+        Log.i("locationname", "click to refresh");
+        TextView mEditText_locationname = (TextView) findViewById(R.id.textView_locationname);
+        mEditText_locationname.setText("Detecting Location");
+        ProgressBar mprogressBar_locationname = (ProgressBar) findViewById(R.id.progressBar_locationname);
+        mprogressBar_locationname.setVisibility(View.VISIBLE);
+        mGoogleApiClient.reconnect();
 
     }
 
