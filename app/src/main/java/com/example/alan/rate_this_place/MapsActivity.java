@@ -2,16 +2,20 @@ package com.example.alan.rate_this_place;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    protected static final String Googlemap_TAG = "Googlemap";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +68,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        centerMapOnMyLocation();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-       // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney), 10);
+          mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        Log.i(Googlemap_TAG, "ready");
+    }
+
+    private void centerMapOnMyLocation() {
+
+
+        LatLngBounds AUSTRALIA = new LatLngBounds(
+                new LatLng(-44, 113), new LatLng(-10, 154));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AUSTRALIA.getCenter(), 10));
     }
 }
