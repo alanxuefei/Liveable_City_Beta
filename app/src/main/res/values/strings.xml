@@ -42,6 +42,10 @@
 
     <string name="action_example">Example action</string>
     <string name="title_activity_rate_this_place2">RateThisPlace2Activity</string>
+    <string name="action_aboutus">About Us</string>
+    <string name="action_userprofile">User Profile</string>
+    <string name="action_mapview">Map View</string>
+    <string name="action_home">Home</string>
 
 
 </resources>

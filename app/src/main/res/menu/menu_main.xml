@@ -1,9 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    <item android:id="@+id/action_home" android:title="@string/action_home"
         android:orderInCategory="100" app:showAsAction="never"
         />
+    <item android:id="@+id/action_mapview" android:title="@string/action_mapview"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/userprofile" android:title="@string/action_userprofile"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/aboutus" android:title="@string/action_aboutus"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
     <item android:id="@+id/action_feedback"
           android:icon="@drawable/ic_action_feedback_button"
           android:orderInCategory="100"   app:showAsAction="ifRoom"
