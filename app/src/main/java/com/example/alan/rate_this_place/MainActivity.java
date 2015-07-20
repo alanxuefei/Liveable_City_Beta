@@ -122,23 +122,26 @@ public class MainActivity extends AppCompatActivity   {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        int id = item.getItemId();
-        Log.i(ActionBar_TAG, "clicked"+id);
 
-        FeedbackDialogFragment FeedbackDialog = new FeedbackDialogFragment();;
-        FeedbackDialog.show(getSupportFragmentManager(), "FeedbackDialog");
 
-      //  Intent intent = new Intent(this, MapsActivity.class);
-       // startActivity(intent);
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                break;
+            case R.id.action_mapview:
+                startActivity(new Intent(this, MapsActivity.class));
+                break;
+            case R.id.action_userprofile:
+                break;
+            case R.id.action_aboutus:
 
-        //this.finish();
-        //System.exit(0);
-      //  Intent intent = new Intent(this, SensorListenerService.class);
-       // stopService(intent);
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                break;
+            case R.id.action_feedback:
+                new FeedbackDialogFragment().show(getSupportFragmentManager(), "FeedbackDialog");
+                break;
         }
+
+
+
 
         return super.onOptionsItemSelected(item);
     }
