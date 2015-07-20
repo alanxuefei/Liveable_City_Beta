@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity   {
         int id = item.getItemId();
         Log.i(ActionBar_TAG, "clicked"+id);
 
+        FeedbackDialogFragment FeedbackDialog = new FeedbackDialogFragment();;
+        FeedbackDialog.show(getSupportFragmentManager(), "FeedbackDialog");
+
       //  Intent intent = new Intent(this, MapsActivity.class);
        // startActivity(intent);
 

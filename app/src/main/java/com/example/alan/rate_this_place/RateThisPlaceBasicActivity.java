@@ -117,13 +117,13 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
        // mGoogleApiClient.disconnect();
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-
-        double longitude = mLastLocation.getLongitude();
-        double latitude = mLastLocation.getLatitude();
-        String Location_information= "L " + longitude + " " + latitude+" "+mLastLocation.getProvider();
-        Log.i("LoactionName", Location_information);
-        startLocationNameIntentService(mLastLocation);
-
+        if(mLastLocation!=null){
+            double longitude = mLastLocation.getLongitude();
+            double latitude = mLastLocation.getLatitude();
+            String Location_information= "L " + longitude + " " + latitude+" "+mLastLocation.getProvider();
+            Log.i("LoactionName", Location_information);
+            startLocationNameIntentService(mLastLocation);
+        }
 
     }
 
