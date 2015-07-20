@@ -150,21 +150,20 @@ public class MainActivity extends AppCompatActivity   {
         Intent intent = new Intent(this, HumanActivityDiaryActivity.class);
         startActivity(intent);
 
-
-
-
     }
 
 
-    public void clickImage_fpt(View view) {
+    public void clickImage_myreward(View view) {
 
 
       /*  Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
         startService(mServiceIntent);*/
-        Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
+       /* Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
         AsyncTaskUploadFilesToFTP myfileuploader = new AsyncTaskUploadFilesToFTP(this);
-        myfileuploader.execute();
+        myfileuploader.execute();*/
 
+        Intent intent = new Intent(this, MyRewardActivity.class);
+        startActivity(intent);
 
     }
 
