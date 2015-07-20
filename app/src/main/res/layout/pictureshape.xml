@@ -10,7 +10,7 @@ android:shape="rectangle" android:layout_width="match_parent" android:layout_hei
 <!-- view border color and width -->
 <stroke
     android:width="3dp"
-    android:color="#ff337aff" >
+    android:color="#ff4587ff" >
 </stroke>
 
 <!-- If you want to add some padding -->
