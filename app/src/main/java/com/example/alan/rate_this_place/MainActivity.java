@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity   {
                 startActivity(new Intent(this, MapsActivity.class));
                 break;
             case R.id.action_userprofile:
+                startActivity(new Intent(this, UserProfileActivity.class));
                 break;
             case R.id.action_aboutus:
 

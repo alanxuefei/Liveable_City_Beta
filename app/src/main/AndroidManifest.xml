@@ -103,6 +103,10 @@
             android:name=".MyRewardActivity"
             android:label="@string/title_activity_my_reward" >
         </activity>
+        <activity
+            android:name=".UserProfileActivity"
+            android:label="@string/title_activity_user_profile" >
+        </activity>
     </application>
 
 </manifest>
