@@ -1,34 +1,43 @@
 package com.example.alan.rate_this_place;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     protected static final String Googlemap_TAG = "Googlemap";
+    protected GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
+        buildGoogleApiClient();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setUpMapIfNeeded();
+      //  setUpMapIfNeeded();
+
+        mGoogleApiClient.reconnect();
     }
 
     /**
@@ -69,7 +78,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void setUpMap() {
         //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-        centerMapOnMyLocation();
+      //  centerMapOnMyLocation();
+
+        mMap.setMyLocationEnabled(true);
+        mMap.setIndoorEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 15));
+
+        LatLng MELBOURNE = new LatLng(mLastLocation.getLatitude()-0.001, mLastLocation.getLongitude()-0.001);
+        Marker melbourne = mMap.addMarker(new MarkerOptions()
+                .position(MELBOURNE)
+                .title("2015-07-21 18:31").snippet(" Bob: I like this place").flat(true));
+        melbourne.showInfoWindow();
+
+        LatLng MKen = new LatLng(mLastLocation.getLatitude()+0.002, mLastLocation.getLongitude()-0.002);
+        Marker Ken = mMap.addMarker(new MarkerOptions()
+                .position(MKen)
+                .title("2015-07-21 12:21").snippet(" Ken: good view").flat(true));
+        Ken.showInfoWindow();
+
+        LatLng MAlice = new LatLng(mLastLocation.getLatitude()-0.002, mLastLocation.getLongitude()+0.003);
+        Marker Alice = mMap.addMarker(new MarkerOptions()
+                .position(MAlice).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                .title("2015-07-21 15:21").snippet(" Alice: We need to add a lamp post here").flat(true));
+        Alice.showInfoWindow();
+
+
+
+
     }
 
     @Override
@@ -78,12 +113,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i(Googlemap_TAG, "ready");
     }
 
-    private void centerMapOnMyLocation() {
 
 
-        LatLngBounds AUSTRALIA = new LatLngBounds(
-                new LatLng(-44, 113), new LatLng(-10, 154));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AUSTRALIA.getCenter(), 10));
+    protected synchronized void buildGoogleApiClient() {
+        Log.i("LoactionName", "User  agree1");
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+/*googleApi*/
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if(mLastLocation!=null){
+            setUpMapIfNeeded();
+        }
+        else{
+            Log.i("LoactionName","can not obtain the location name");
+            try {
+                Thread.sleep(1000);                 //1000 milliseconds is one second.
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            mGoogleApiClient.reconnect();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }
