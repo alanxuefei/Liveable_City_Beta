@@ -37,7 +37,7 @@ public class DataLogger {
 
 
         try {
-            file = new File(Environment.getExternalStorageDirectory(), "/"+R.string.app_name+"/"+"PassiveData/"+mystorefilename);
+            file = new File(Environment.getExternalStorageDirectory(), "/"+"RateThisPlace"+"/"+"PassiveData/"+mystorefilename);
 
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());

@@ -11,6 +11,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.regex.Pattern;
@@ -64,9 +65,10 @@ public class MainActivity extends AppCompatActivity   {
 
        // checkFirstRun();
         ReadGoogleAccount();
-        DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name));
-        DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name+"/"+"PassiveData"));
-        DataLogger.CheckAndCreateFolder(String.valueOf(R.string.app_name+"/"+"ActiveData"));
+
+        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"));
+        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"+"/"+"PassiveData"));
+        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"+"/"+"ActiveData"));
 
     }
 
@@ -208,7 +210,7 @@ public class MainActivity extends AppCompatActivity   {
         for (Account account : accounts) {
             if (emailPattern.matcher(account.name).matches()) {
                 possibleEmail = account.name;
-                Log.i(ActionBar_TAG, possibleEmail);
+                Log.i("GoogleAccount", possibleEmail);
             }
         }
 
@@ -217,6 +219,7 @@ public class MainActivity extends AppCompatActivity   {
                 .putString("UserID",possibleEmail)
                 .apply();
 
+        ((TextView)findViewById(R.id.textView_UserID)).setText("UserID: "+possibleEmail);
         return possibleEmail;
 
     }

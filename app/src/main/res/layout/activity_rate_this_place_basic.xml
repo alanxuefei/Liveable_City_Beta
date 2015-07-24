@@ -48,53 +48,65 @@
             android:layout_width="match_parent"
             android:layout_height="149dp"
             android:background="@layout/pictureshape"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.40">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="This Place Makes Me Feel:"
+                android:text="This place makes me feel:"
                 android:id="@+id/textView" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="1"
-                android:layout_weight="0.27">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/happyface"
-                    android:id="@+id/imageView"
-                    android:layout_marginLeft="40dp"
-                    android:adjustViewBounds="true"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:onClick="clickImage_happyface"
-                    android:layout_marginTop="10dp"
-                    android:cropToPadding="false" />
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/unhappyface"
-                    android:id="@+id/imageView2"
-                    android:layout_marginLeft="40dp"
-                    android:adjustViewBounds="true"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:onClick="clickImage_unhappyface"
-                    android:layout_marginTop="10dp"
-                    android:cropToPadding="false"
-                    android:layout_weight="0.06" />
 
 
 
-            </LinearLayout>
-        </LinearLayout>
+
+
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="52dp"
+                            android:tag="1"
+                            android:id="@+id/radioButton" />
+
+                        <ImageView
+                            android:layout_width="115dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/happyface"
+                            android:id="@+id/imageView"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickImage_happyface"
+
+                            />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="52dp"
+                            android:tag="2"
+                            android:id="@+id/radioButton2" />
+
+                        <ImageView
+                            android:layout_width="120dp"
+                            android:layout_height="110dp"
+                            android:src="@drawable/unhappyface"
+                            android:id="@+id/imageView2"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickImage_unhappyface"
+                             />
+                        </RadioGroup>
+                    </LinearLayout>
+
+
+
+
 
         <LinearLayout
             android:orientation="vertical"
@@ -107,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="This Place is:"
+                android:text="This place is:"
                 android:id="@+id/textView2" />
 
             <LinearLayout

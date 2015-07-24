@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -213,6 +214,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
         checkBox1.setText("Unsafe");
         checkBox2.setText("Unfriendly");
         */
+         ((RadioButton)findViewById(R.id.radioButton2)).setChecked(true);;
         usermood =Mood.UNHAPPY;
     }
 
@@ -226,6 +228,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
         checkBox.setText("Clean");
         checkBox1.setText("Safe");
         checkBox2.setText("Friendly");*/
+        ((RadioButton)findViewById(R.id.radioButton)).setChecked(true);;
         usermood =Mood.HAPPY;
 
     }
