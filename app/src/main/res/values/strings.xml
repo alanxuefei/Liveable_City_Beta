@@ -48,6 +48,7 @@
     <string name="action_home">Home</string>
     <string name="title_activity_my_reward">MyReward</string>
     <string name="youhaveearn">You have earned</string>
+    <string name="title_activity_test">test</string>
 
 
 </resources>

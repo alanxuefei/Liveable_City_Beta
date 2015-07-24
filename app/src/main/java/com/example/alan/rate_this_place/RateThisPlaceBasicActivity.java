@@ -22,6 +22,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class RateThisPlaceBasicActivity extends AppCompatActivity implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -31,8 +37,11 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
     protected GoogleApiClient mGoogleApiClient;
     public AddressResultReceiver mResultReceiver = new AddressResultReceiver(this);
     String mAddressOutput;
+    private Location mLastLocation;
 
+    private enum Mood {  HAPPY, UNHAPPY }
 
+    private Mood  usermood =Mood.HAPPY;
 
     private ActionBar actionBar;
     // Tab titles
@@ -118,7 +127,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
        // mGoogleApiClient.disconnect();
         Log.i("LoactionName", "GoogleApiClient is connected " + mGoogleApiClient.isConnected());
 
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if(mLastLocation!=null){
             double longitude = mLastLocation.getLongitude();
@@ -196,26 +205,28 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
     public void clickImage_unhappyface(View view) {
 
 
-        CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox);
+       /* CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox1);
         CheckBox checkBox1=(CheckBox)findViewById(R.id.checkBox2);
         CheckBox checkBox2=(CheckBox)findViewById(R.id.checkBox3);
 
         checkBox.setText("Unclean");
         checkBox1.setText("Unsafe");
         checkBox2.setText("Unfriendly");
-
+        */
+        usermood =Mood.UNHAPPY;
     }
 
     public void clickImage_happyface(View view) {
 
 
-        CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox);
+        /* CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox1);
         CheckBox checkBox1=(CheckBox)findViewById(R.id.checkBox2);
         CheckBox checkBox2=(CheckBox)findViewById(R.id.checkBox3);
 
         checkBox.setText("Clean");
         checkBox1.setText("Safe");
-        checkBox2.setText("Friendly");
+        checkBox2.setText("Friendly");*/
+        usermood =Mood.HAPPY;
 
     }
 
@@ -229,6 +240,68 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
         mGoogleApiClient.reconnect();
 
     }
+
+
+    public void clickButton_submit(View view) {
+
+        SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timestamp = datetimeformat.format(new Date());
+
+        JSONObject JsonGenerator_basicrating = new JSONObject();
+        JSONObject JsonGenerator_basicrating_location = new JSONObject();
+        try {
+            if (mLastLocation==null){JsonGenerator_basicrating_location=null;}
+            else {
+                JsonGenerator_basicrating_location.put("longitude", mLastLocation.getLongitude());
+                JsonGenerator_basicrating_location.put("latitude", mLastLocation.getLatitude());
+            }
+            JsonGenerator_basicrating.put("Datatime", timestamp);
+            JsonGenerator_basicrating.put("Location", JsonGenerator_basicrating_location);
+            JsonGenerator_basicrating.put("Mood", usermood.toString());
+            boolean CheckBox1 = ((CheckBox) findViewById(R.id.checkBox1)).isChecked();
+            boolean CheckBox2 = ((CheckBox) findViewById(R.id.checkBox2)).isChecked();
+            boolean CheckBox3 = ((CheckBox) findViewById(R.id.checkBox3)).isChecked();
+            JsonGenerator_basicrating.put("Clean", CheckBox1);
+            JsonGenerator_basicrating.put("Safe", CheckBox2);
+            JsonGenerator_basicrating.put("Green", CheckBox3);
+
+            Log.i("JSON", JsonGenerator_basicrating.toString());
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    /*
+     [
+   {
+     "datatime": 2015-01-01 21:30:51,
+     "comment": "I suggest to add a bin here",
+     "location": "latitude longitude",
+     "mood": "Happy",
+     "Clean":
+     "Safe":
+     "Green":
+     "user": {
+       "name": "android_newb",
+       "followers_count": 41
+
+   },
+   {
+     "id": 912345678902,
+     "text": "@android_newb just use android.util.JsonWriter!",
+     "geo": [50.454722, -104.606667],
+     "user": {
+       "name": "jesse",
+       "followers_count": 2
+     }
+   }
+ ]}
+     */
 
 
 }
