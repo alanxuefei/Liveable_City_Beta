@@ -54,29 +54,144 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="241dp"
+                android:layout_height="wrap_content"
                 android:weightSum="1"
                 android:background="@layout/pictureshape"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.92">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="This Place Makes Me Feel:"
                     android:id="@+id/textView" />
-                <ImageView
-                    android:layout_width="254dp"
-                    android:layout_height="161dp"
-                    android:src="@drawable/allface"
-                    android:id="@+id/imageView"
-                    android:layout_marginLeft="40dp"
-                    android:adjustViewBounds="true"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:onClick="clickImage_happyface"
-                    android:layout_marginTop="10dp"
-                    android:cropToPadding="false"
-                    android:layout_marginBottom="10dp" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RadioGroup
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/radioGroup1"
+                        android:onClick="clickRadio_group1"
+                        android:clickable="true">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButton1"
+                            android:onClick="clickRadio_group1" />
+
+                        <ImageView
+                            android:layout_width="115dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/happyface"
+                            android:id="@+id/imageView1"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickimage_face1"
+
+                            />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButton2"
+                            android:onClick="clickRadio_group1" />
+
+                        <ImageView
+                            android:layout_width="115dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/unhappyface"
+                            android:id="@+id/imageView2"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickimage_face2"
+
+                            />
+                    </RadioGroup>
+
+                    <RadioGroup
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/radioGroup2"
+                        android:onClick="clickRadio_group2"
+                        android:clickable="true">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButton3"
+                            android:onClick="clickRadio_group2" />
+
+                        <ImageView
+                            android:layout_width="115dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/surprisedface"
+                            android:id="@+id/imageView3"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickimage_face3"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButton4"
+                            android:onClick="clickRadio_group2" />
+
+                        <ImageView
+                            android:layout_width="115dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/funnyface"
+                            android:id="@+id/imageViewfunnyface"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickimage_face4"/>
+                    </RadioGroup>
+
+                    <RadioGroup
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/radioGroup3"
+                        android:onClick="clickRadio_group3"
+                        android:clickable="true">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButton5"
+                            android:onClick="clickRadio_group5" />
+
+                        <ImageView
+                            android:layout_width="115dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/angryface"
+                            android:id="@+id/imageViewangryface"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickimage_face5"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButton6"
+                            android:onClick="clickRadio_group6" />
+
+                        <ImageView
+                            android:layout_width="115dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/dislikeface"
+                            android:id="@+id/imageViewdislikeface"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickimage_face6"/>
+                    </RadioGroup>
+
+                </RadioGroup>
 
 
             </LinearLayout>
@@ -87,79 +202,180 @@
                 android:layout_height="match_parent"
                 android:background="@layout/pictureshape"
                 android:layout_marginTop="5dp">
+               <!-- CLEANNESS:-->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="CLEANNESS: "
+                        android:id="@+id/textView4"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/textViewCLEANNESS" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="CLEANNESS"
-                    android:id="@+id/textView4"
-                    />
-
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ratingBar" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="SAFTY"
-                    android:id="@+id/textView3" />
-
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ratingBar2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="BEAUTIFULNESS"
-                    android:id="@+id/textView5" />
+                </LinearLayout>
 
                 <RatingBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ratingBarBEAUTIFULNESS" />
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:id="@+id/ratingBarCLEANNESS"
+                    android:clickable="true" />
+                <!--  SAFTY-->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="GREENNESS"
-                    android:id="@+id/textViewGREENNESS" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="SAFTY: "
+                        android:id="@+id/textView3" />
 
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ratingBarGREENNESS" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="FRIENDLINESS"
-                    android:id="@+id/textViewFRIENDLINESS" />
-
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ratingBarFRIENDLINESS" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="INTERESTINGNESS"
-                    android:id="@+id/textViewINTERESTINGNESS" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/textViewSAFTY" />
+                </LinearLayout>
 
                 <RatingBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ratingBarINTERESTINGNESS" />
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:id="@+id/ratingBarSAFTY"
+                    android:clickable="true" />
+
+                <!-- BEAUTIFULNESS-->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="BEAUTIFULNESS: "
+                        android:id="@+id/textView5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/textViewBEAUTIFULNESS" />
+                </LinearLayout>
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:id="@+id/ratingBarBEAUTIFULNESS"
+                    android:clickable="true" />
+
+
+
+                <!-- GREENNESS-->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="GREENNESS: "
+                        android:id="@+id/textViewGREENNESS0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/textViewGREENNESS" />
+                </LinearLayout>
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:id="@+id/ratingBarGREENNESS"
+                    android:clickable="true" />
+                <!-- FRIENDLINESS-->
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="FRIENDLINESS: "
+                        android:id="@+id/textViewFRIENDLINESS0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/textViewFRIENDLINESS" />
+                </LinearLayout>
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:id="@+id/ratingBarFRIENDLINESS"
+                    android:clickable="true" />
+                <!-- INTERESTINGNESS-->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="FRIENDLINESS: "
+                        android:id="@+id/textViewINTERESTINGNESS0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/textViewINTERESTINGNESS" />
+                </LinearLayout>
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:id="@+id/ratingBarINTERESTINGNESS"
+                    android:clickable="true" />
+
 
             </LinearLayout>
 

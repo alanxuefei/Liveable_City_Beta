@@ -206,14 +206,6 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
     public void clickImage_unhappyface(View view) {
 
 
-       /* CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox1);
-        CheckBox checkBox1=(CheckBox)findViewById(R.id.checkBox2);
-        CheckBox checkBox2=(CheckBox)findViewById(R.id.checkBox3);
-
-        checkBox.setText("Unclean");
-        checkBox1.setText("Unsafe");
-        checkBox2.setText("Unfriendly");
-        */
          ((RadioButton)findViewById(R.id.radioButton2)).setChecked(true);;
         usermood =Mood.UNHAPPY;
     }
@@ -221,13 +213,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
     public void clickImage_happyface(View view) {
 
 
-        /* CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox1);
-        CheckBox checkBox1=(CheckBox)findViewById(R.id.checkBox2);
-        CheckBox checkBox2=(CheckBox)findViewById(R.id.checkBox3);
 
-        checkBox.setText("Clean");
-        checkBox1.setText("Safe");
-        checkBox2.setText("Friendly");*/
         ((RadioButton)findViewById(R.id.radioButton)).setChecked(true);;
         usermood =Mood.HAPPY;
 

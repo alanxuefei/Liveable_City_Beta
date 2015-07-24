@@ -18,6 +18,9 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -55,7 +58,7 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
         Log.i("LoactionName", "User  agree");
         buildGoogleApiClient();
 
-
+        addListenerOnRatingBar();
 
        /* actv = (AutoCompleteTextView) findViewById(R.id.AutoCompleteTextView_Commentary);
         //String[] countries = getResources().getStringArray(languages);
@@ -257,6 +260,110 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
         ProgressBar mprogressBar_locationname = (ProgressBar) findViewById(R.id.progressBar_locationname);
         mprogressBar_locationname.setVisibility(View.VISIBLE);
         mGoogleApiClient.reconnect();
+
+    }
+
+    public void clickimage_face1(View view) {
+        ((RadioButton)findViewById(R.id.radioButton1)).setChecked(true);;
+        clickRadio_group1(view);
+    }
+    public void clickimage_face2(View view) {
+        ((RadioButton)findViewById(R.id.radioButton2)).setChecked(true);;
+        clickRadio_group1(view);
+    }
+    public void clickimage_face3(View view) {
+        ((RadioButton)findViewById(R.id.radioButton3)).setChecked(true);;
+        clickRadio_group2(view);
+    }
+    public void clickimage_face4(View view) {
+        ((RadioButton)findViewById(R.id.radioButton4)).setChecked(true);;
+        clickRadio_group2(view);
+    }
+    public void clickimage_face5(View view) {
+        ((RadioButton)findViewById(R.id.radioButton5)).setChecked(true);;
+        clickRadio_group3(view);
+    }
+    public void clickimage_face6(View view) {
+        ((RadioButton)findViewById(R.id.radioButton6)).setChecked(true);;
+        clickRadio_group3(view);
+    }
+
+
+    public void clickRadio_group1(View view) {
+
+        ((RadioGroup)findViewById(R.id.radioGroup2)).clearCheck();
+        ((RadioGroup)findViewById(R.id.radioGroup3)).clearCheck();
+    }
+    public void clickRadio_group2(View view) {
+
+        ((RadioGroup)findViewById(R.id.radioGroup1)).clearCheck();
+        ((RadioGroup)findViewById(R.id.radioGroup3)).clearCheck();
+
+    }
+    public void clickRadio_group3(View view) {
+
+        ((RadioGroup)findViewById(R.id.radioGroup2)).clearCheck();
+        ((RadioGroup)findViewById(R.id.radioGroup1)).clearCheck();
+    }
+
+    public void addListenerOnRatingBar() {
+
+        final String[] ratingscale = {"very poor","poor", "ok", "good","very good"};
+
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBarCLEANNESS);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,  boolean fromUser) {
+
+                TextView mtextViewCLEANNESS = (TextView) findViewById(R.id.textViewCLEANNESS);
+                mtextViewCLEANNESS.setText(ratingscale[(int)rating-1]);
+            }
+        });
+
+        ratingBar = (RatingBar) findViewById(R.id.ratingBarSAFTY);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,  boolean fromUser) {
+
+                TextView mtextViewCLEANNESS = (TextView) findViewById(R.id.textViewSAFTY);
+                mtextViewCLEANNESS.setText(ratingscale[(int)rating-1]);
+            }
+        });
+
+        ratingBar = (RatingBar) findViewById(R.id.ratingBarBEAUTIFULNESS);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,  boolean fromUser) {
+
+                TextView mtextViewCLEANNESS = (TextView) findViewById(R.id.textViewBEAUTIFULNESS);
+                mtextViewCLEANNESS.setText(ratingscale[(int)rating-1]);
+            }
+        });
+
+        ratingBar = (RatingBar) findViewById(R.id.ratingBarGREENNESS);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,  boolean fromUser) {
+
+                TextView mtextViewCLEANNESS = (TextView) findViewById(R.id.textViewGREENNESS);
+                mtextViewCLEANNESS.setText(ratingscale[(int)rating-1]);
+            }
+        });
+
+
+        ratingBar = (RatingBar) findViewById(R.id.ratingBarFRIENDLINESS);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,  boolean fromUser) {
+
+                TextView mtextViewCLEANNESS = (TextView) findViewById(R.id.textViewFRIENDLINESS);
+                mtextViewCLEANNESS.setText(ratingscale[(int)rating-1]);
+            }
+        });
+
+        ratingBar = (RatingBar) findViewById(R.id.ratingBarINTERESTINGNESS);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,  boolean fromUser) {
+
+                TextView mtextViewCLEANNESS = (TextView) findViewById(R.id.textViewINTERESTINGNESS);
+                mtextViewCLEANNESS.setText(ratingscale[(int)rating-1]);
+            }
+        });
 
     }
 
