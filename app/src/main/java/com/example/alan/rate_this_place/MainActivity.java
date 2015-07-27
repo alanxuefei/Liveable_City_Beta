@@ -2,7 +2,11 @@ package com.example.alan.rate_this_place;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity   {
     @Override
     public void onStart() {
         super.onStart();
-
+        checkNetworkandGPS();
        // Intent intent = new Intent(this, SensorListenerService.class);
        // startService(intent);
     }
@@ -222,6 +226,44 @@ public class MainActivity extends AppCompatActivity   {
         ((TextView)findViewById(R.id.textView_UserID)).setText("UserID: "+possibleEmail);
         return possibleEmail;
 
+    }
+
+
+    public void checkNetworkandGPS()
+    {
+
+
+
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            Log.i("check netowork", "No GPS");
+        }
+
+        if (isConnectingToInternet())
+        {
+            Log.i("check netowork", "internet");
+        }
+        else{
+            new NetworkandGPSFragment().show(getSupportFragmentManager(), "NetworkandGPSDialog");
+            Log.i("check netowork", "no internet");
+        }
+    }
+
+    public boolean isConnectingToInternet(){
+        ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null)
+        {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                    {
+                        return true;
+                    }
+
+        }
+        return false;
     }
 
 

@@ -15,7 +15,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@layout/pictureshape">
+            android:background="@layout/pictureshape"
+            android:layout_weight="0.22">
 
             <ImageView
                 android:layout_width="40dp"
@@ -32,11 +33,10 @@
                 android:layout_marginBottom="10dp" />
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="72dp"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Detecting Location"
                 android:id="@+id/textView_locationname"
-                android:layout_weight="0.35"
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:onClick="clickImage_locationname" />

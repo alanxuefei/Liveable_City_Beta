@@ -107,10 +107,7 @@
             android:name=".UserProfileActivity"
             android:label="@string/title_activity_user_profile" >
         </activity>
-        <activity
-            android:name=".test"
-            android:label="@string/title_activity_test" >
-        </activity>
+
     </application>
 
 </manifest>

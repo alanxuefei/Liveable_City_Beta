@@ -70,4 +70,10 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
         super.onBackPressed();
 
     }
+
+
+
+
+
 }
+
