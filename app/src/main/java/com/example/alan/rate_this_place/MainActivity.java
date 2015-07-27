@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity   {
     protected static final String ActionBar_TAG = "ActionBar";
     protected static final String GoogleSignIn_TAG = "GoogleSignIn";
     protected static final String Toolbar_TAG = "Toolbar";
+    protected static final String GPS_Internet_Check_TAG = "GPS_Internet_Check";
 
 
     private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity   {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        checkNetworkandGPS();
 
        // checkFirstRun();
         ReadGoogleAccount();
@@ -236,18 +237,36 @@ public class MainActivity extends AppCompatActivity   {
 
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
 
-        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-            Log.i("check netowork", "No GPS");
-        }
+        if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            Log.i(GPS_Internet_Check_TAG, "GPS Yes");
+            if (isConnectingToInternet())
+            {
+                ((TextView)findViewById(R.id.textView8)).setText("");
+                Log.i(GPS_Internet_Check_TAG, "internet Yes");
+            }
+            else{
+                ((TextView)findViewById(R.id.textView8)).setText("Internet is not available");
 
-        if (isConnectingToInternet())
-        {
-            Log.i("check netowork", "internet");
+                Log.i(GPS_Internet_Check_TAG, "internet No");
+            }
         }
         else{
-            new NetworkandGPSFragment().show(getSupportFragmentManager(), "NetworkandGPSDialog");
-            Log.i("check netowork", "no internet");
+
+            Log.i(GPS_Internet_Check_TAG, "GPS No");
+            if (isConnectingToInternet())
+            {
+                ((TextView)findViewById(R.id.textView8)).setText("GPS is off");
+                Log.i(GPS_Internet_Check_TAG, "internet Yes");
+            }
+            else{
+                ((TextView)findViewById(R.id.textView8)).setText("Internet is not available and GPS is off");
+
+                Log.i(GPS_Internet_Check_TAG, "internet No");
+            }
+
         }
+
+
     }
 
     public boolean isConnectingToInternet(){

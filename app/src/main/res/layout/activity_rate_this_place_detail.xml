@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="This Place Makes Me Feel:"
+                    android:text="This place makes me feel:"
                     android:id="@+id/textView" />
 
                 <RadioGroup
