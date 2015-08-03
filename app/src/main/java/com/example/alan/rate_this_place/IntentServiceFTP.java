@@ -9,6 +9,8 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -43,9 +45,23 @@ public class IntentServiceFTP extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-         //connnectingwithFTP();
 
-        testphp();
+        String jsonString = intent.getStringExtra("this");
+        JSONObject obj = null;
+        try {
+             obj = new JSONObject(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (obj!=null){
+            try {
+                UploadSimpleRatingtoServer(obj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
          Log.e("Status", "done");
     }
 
@@ -112,10 +128,14 @@ public class IntentServiceFTP extends IntentService {
 
 
 
-    public void testphp() {
+    public void UploadSimpleRatingtoServer(JSONObject obj) throws JSONException {
 
 
-
+     /*   String  Datatimevalue = obj.getString("Datatime");
+        String  Datatimevalue = obj.getString("Location");
+        String  Datatimevalue = obj.getString("Mood");
+        String  Datatimevalue = obj.getString("Datatime");
+        String  Datatimevalue = obj.getString("Datatime");*/
 
         URL url = null;
         try {
