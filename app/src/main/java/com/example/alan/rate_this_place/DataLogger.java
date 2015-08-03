@@ -53,10 +53,10 @@ public class DataLogger {
 
 
 
-    public static void writeActiveDataTolog(String content) {
+    public static void writeSimpleRatingTolog(String content) {
         try {
 
-            FileWriter file = new FileWriter(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "ratingsimple.txt",true);
+            FileWriter file = new FileWriter(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "simplerating.txt",true);
             file.write(content+"\n");
             file.flush();
             file.close();

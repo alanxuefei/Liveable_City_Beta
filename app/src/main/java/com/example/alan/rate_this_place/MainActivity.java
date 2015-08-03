@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity   {
         setSupportActionBar(toolbar);
         checkNetworkandGPS();
 
-        checkFirstRun();
+       // checkFirstRun();
         ReadGoogleAccount();
 
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"));

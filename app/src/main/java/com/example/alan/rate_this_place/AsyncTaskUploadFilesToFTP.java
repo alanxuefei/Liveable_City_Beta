@@ -2,7 +2,6 @@ package com.example.alan.rate_this_place;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,9 +21,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -92,9 +89,9 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
      */
     public void connnectingwithFTP() {
 
-        String ip="ftp.adajinyuanbao.com";
-        String userName=       "i2r@adajinyuanbao.com";
-        String pass=       "#5BDr+3[J;OS";
+        String ip="ftp.ratethisplace.co";
+        String userName=       "FTP@ratethisplace.co";
+        String pass=       "uMu6Uv+HRqY";
         boolean status = false;
         FTPClient mFtpClient = new FTPClient();
 
@@ -138,16 +135,16 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
         String timestamp = timeformat.format(new Date ());
 
 
-       String INPUT_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/PassiveData";
-       String ZIPPED_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/"+ DataLogger.Myid+ timestamp+"passivedata.zip";
-        zipSimpleFolder(new File(INPUT_FOLDER), "", ZIPPED_FOLDER);
+      // String INPUT_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/PassiveData";
+     //  String ZIPPED_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/"+ DataLogger.Myid+ timestamp+"passivedata.zip";
+      //  zipSimpleFolder(new File(INPUT_FOLDER), "", ZIPPED_FOLDER);
       //  String output=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/alan2015-07-06_18:32:19_passivedata.zip";
 
-       DataLogger.EmptyFolder(INPUT_FOLDER);
-       File to = new File(ZIPPED_FOLDER);
+      // DataLogger.EmptyFolder(INPUT_FOLDER);
+      // File to = new File(ZIPPED_FOLDER);
 
-        Log.e("FTP", to.getName());
-        uploadFile(mFtpClient, to, "");
+      //  Log.e("FTP", to.getName());
+       // uploadFile(mFtpClient, to, "");
 
     }
 

@@ -10,11 +10,18 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.SocketException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,9 +43,10 @@ public class IntentServiceFTP extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-         connnectingwithFTP();
+         //connnectingwithFTP();
 
-        Log.e("Status", "done");
+        testphp();
+         Log.e("Status", "done");
     }
 
 
@@ -49,8 +57,8 @@ public class IntentServiceFTP extends IntentService {
     public void connnectingwithFTP() {
 
         String ip="ftp.ratethisplace.co";
-        String userName=       "i2r@adajinyuanbao.com";
-        String pass=       "#5BDr+3[J;OS";
+        String userName=       "FTP@ratethisplace.co";
+        String pass=       "uMu6Uv+HRqY";
         boolean status = false;
         FTPClient mFtpClient = new FTPClient();
         try {
@@ -75,10 +83,11 @@ public class IntentServiceFTP extends IntentService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File thefile = new File(Environment.getExternalStorageDirectory(),  DataLogger.mystorefilename);
+
+        File thefile = new File(Environment.getExternalStorageDirectory(),  "/" + "RateThisPlace" + "/" + "ActiveData/" + "simplerating.txt");
         SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
         String timestamp = timeformat.format(new Date());
-        uploadFile(mFtpClient,thefile,DataLogger.Myid+"_"+timestamp);
+       uploadFile(mFtpClient, thefile, DataLogger.Myid + "_" + timestamp);
 
     }
 
@@ -90,16 +99,63 @@ public class IntentServiceFTP extends IntentService {
     public void uploadFile(FTPClient ftpClient, File downloadFile, String serverfilePath) {
         try {
             FileInputStream srcFileStream = new FileInputStream(downloadFile);
-
             boolean status = ftpClient.storeFile(serverfilePath+downloadFile.getName(),
                     srcFileStream);
             Log.e("Status", String.valueOf(status));
-
             srcFileStream.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+
+
+    public void testphp() {
+
+
+
+
+        URL url = null;
+        try {
+            url = new URL("http://www.ratethisplace.co/uploadtoDB.php?Datatime=2011:11:19%2011:11:11" +
+                    "&Location=singpoare%2022311" +
+                    "&Userid=alan%20%20i2r" +
+                    "&Feeling=happ%20%20y" +
+                    "&Thi%20%20%20sPla%20%20%20%20ceIs=clean" +
+                    "&Comment=Ilike%20%20%20thispl%20%20%20!ace%22");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection urlConnection = null;
+
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        InputStream in = null;
+        try {
+            in = new BufferedInputStream(urlConnection.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        BufferedReader r = new BufferedReader(new InputStreamReader(in));
+        StringBuilder total = new StringBuilder();
+        String line;
+        try {
+            while ((line = r.readLine()) != null) {
+                total.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.i("php",  total.toString());
 
     }
 

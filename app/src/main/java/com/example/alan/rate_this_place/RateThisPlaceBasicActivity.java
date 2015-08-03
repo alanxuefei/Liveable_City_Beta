@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -235,7 +236,6 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
 
         SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timestamp = datetimeformat.format(new Date());
-
         JSONObject JsonGenerator_basicrating = new JSONObject();
         JSONObject JsonGenerator_basicrating_location = new JSONObject();
         try {
@@ -253,19 +253,20 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
             JsonGenerator_basicrating.put("Clean", CheckBox1);
             JsonGenerator_basicrating.put("Safe", CheckBox2);
             JsonGenerator_basicrating.put("Green", CheckBox3);
-
             Log.i("JSON", JsonGenerator_basicrating.toString());
-
-            DataLogger.writeActiveDataTolog(JsonGenerator_basicrating.toString());
-
-
-
+            DataLogger.writeSimpleRatingTolog(JsonGenerator_basicrating.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
+       // clickbuttonRecieve();
+         Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
+          startService(mServiceIntent);
+        Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
+      //  AsyncTaskUploadFilesToFTP myfileuploader = new AsyncTaskUploadFilesToFTP(this);
+      //  myfileuploader.execute();
+
 
     }
-
 
 
     /*
