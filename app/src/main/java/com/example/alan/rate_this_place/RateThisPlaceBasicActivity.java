@@ -234,7 +234,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
 
     public void clickButton_submit(View view) {
 
-        SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String timestamp = datetimeformat.format(new Date());
         JSONObject JsonGenerator_basicrating = new JSONObject();
         JSONObject JsonGenerator_basicrating_location = new JSONObject();

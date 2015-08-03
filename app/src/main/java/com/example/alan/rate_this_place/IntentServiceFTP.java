@@ -131,20 +131,32 @@ public class IntentServiceFTP extends IntentService {
     public void UploadSimpleRatingtoServer(JSONObject obj) throws JSONException {
 
 
-     /*   String  Datatimevalue = obj.getString("Datatime");
-        String  Datatimevalue = obj.getString("Location");
-        String  Datatimevalue = obj.getString("Mood");
-        String  Datatimevalue = obj.getString("Datatime");
-        String  Datatimevalue = obj.getString("Datatime");*/
+        String Datatimevalue = obj.getString("Datatime");
+        String Locationlongitudevalue = new JSONObject(obj.getString("Location")).getString("longitude");
+        String Locationlatitudeevalue = new JSONObject(obj.getString("Location")).getString("latitude");
 
+        String Moodvalue = obj.getString("Mood");
+        String Cleanvalue = obj.getString("Clean");
+        String Safevalue = obj.getString("Safe");
+        String Greenvalue = obj.getString("Green");
+        String Commentaryvalue = obj.getString("Commentary");
+
+        Log.i("php", Datatimevalue+Locationlongitudevalue+Moodvalue+Cleanvalue +Commentaryvalue );
         URL url = null;
         try {
-            url = new URL("http://www.ratethisplace.co/uploadtoDB.php?Datatime=2011:11:19%2011:11:11" +
-                    "&Location=singpoare%2022311" +
+          /*  url = new URL("http://www.ratethisplace.co/uploadtoDB.php?" +
+                    "Datatime="+Datatimevalue +
+                    "&Locationlongitude="+Locationlongitudevalue +
+                    "&Locationlatitude="+Locationlatitudeevalue +
                     "&Userid=alan%20%20i2r" +
-                    "&Feeling=happ%20%20y" +
-                    "&Thi%20%20%20sPla%20%20%20%20ceIs=clean" +
-                    "&Comment=Ilike%20%20%20thispl%20%20%20!ace%22");
+                    "&Feeling="+Moodvalue +
+                    "&Clean="+Cleanvalue +
+                    "&Safe="+Safevalue +
+                    "&Green="+Greenvalue +
+                    "&Comment="+Commentaryvalue.replaceAll(" ", "%20"));*/
+
+          //  Log.i("php", url.toString());
+          url = new URL("http://www.ratethisplace.co/uploadtoDB.php?SimpleRatingJson="+obj.toString().replaceAll(" ", "%20"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
