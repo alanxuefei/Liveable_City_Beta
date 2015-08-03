@@ -108,6 +108,11 @@
             android:label="@string/title_activity_user_profile" >
         </activity>
 
+        <service
+            android:name=".GeofenceTransitionsIntentService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

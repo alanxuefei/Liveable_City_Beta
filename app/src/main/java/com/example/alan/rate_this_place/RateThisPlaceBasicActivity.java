@@ -256,6 +256,9 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
 
             Log.i("JSON", JsonGenerator_basicrating.toString());
 
+            DataLogger.writeActiveDataTolog(JsonGenerator_basicrating.toString());
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();

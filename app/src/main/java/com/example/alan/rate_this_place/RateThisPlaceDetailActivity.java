@@ -341,11 +341,11 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
             }
         });
 
-        ratingBar = (RatingBar) findViewById(R.id.ratingBarINTERESTINGNESS);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBarCONVENIENCE);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,  boolean fromUser) {
 
-                TextView mtextViewCLEANNESS = (TextView) findViewById(R.id.textViewINTERESTINGNESS);
+                TextView mtextViewCLEANNESS = (TextView) findViewById(R.id.textViewCONVENIENCE);
                 mtextViewCLEANNESS.setText(ratingscale[(int)rating-1]);
             }
         });

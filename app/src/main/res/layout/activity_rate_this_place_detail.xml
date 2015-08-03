@@ -267,7 +267,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="BEAUTIFULNESS: "
+                        android:text="BEAUTY: "
                         android:id="@+id/textView5" />
 
                     <TextView
@@ -355,15 +355,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="FRIENDLINESS: "
-                        android:id="@+id/textViewINTERESTINGNESS0" />
+                        android:text="CONVENIENCE: "
+                        android:id="@+id/textViewCONVENIENCE0" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text=""
-                        android:id="@+id/textViewINTERESTINGNESS" />
+                        android:id="@+id/textViewCONVENIENCE" />
                 </LinearLayout>
 
                 <RatingBar
@@ -371,7 +371,7 @@
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     android:stepSize="1"
-                    android:id="@+id/ratingBarINTERESTINGNESS"
+                    android:id="@+id/ratingBarCONVENIENCE"
                     android:clickable="true" />
 
 

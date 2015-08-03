@@ -48,7 +48,7 @@ public class IntentServiceFTP extends IntentService {
      */
     public void connnectingwithFTP() {
 
-        String ip="ftp.adajinyuanbao.com";
+        String ip="ftp.ratethisplace.co";
         String userName=       "i2r@adajinyuanbao.com";
         String pass=       "#5BDr+3[J;OS";
         boolean status = false;

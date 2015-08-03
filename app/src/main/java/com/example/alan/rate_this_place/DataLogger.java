@@ -4,6 +4,7 @@ import android.os.Environment;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,17 +34,10 @@ public class DataLogger {
         content = timestamp+" "+ SelfLabel_Human_Status+" "+content;
         mystorefilename=   datestamp+logswich+".txt";
 
-
-
-
         try {
             file = new File(Environment.getExternalStorageDirectory(), "/"+"RateThisPlace"+"/"+"PassiveData/"+mystorefilename);
-
             outputStream = new FileOutputStream(file,true);
             outputStream.write(content.getBytes());
-
-          //  Log.i("Log", content);
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally{
@@ -54,9 +48,21 @@ public class DataLogger {
                     e.printStackTrace();
                 }
             }
-
         }
+    }
 
+
+
+    public static void writeActiveDataTolog(String content) {
+        try {
+
+            FileWriter file = new FileWriter(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "ratingsimple.txt",true);
+            file.write(content+"\n");
+            file.flush();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
