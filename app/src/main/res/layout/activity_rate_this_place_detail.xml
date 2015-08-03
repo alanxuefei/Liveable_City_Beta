@@ -14,14 +14,12 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             >
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@layout/pictureshape">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:layout_width="40dp"
@@ -56,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="1"
-                android:background="@layout/pictureshape"
+
                 android:layout_marginTop="5dp"
                 android:layout_weight="0.92">
                 <TextView
@@ -200,7 +198,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@layout/pictureshape"
+
                 android:layout_marginTop="5dp">
                <!-- CLEANNESS:-->
                 <LinearLayout
@@ -383,7 +381,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@layout/pictureshape"
+
                 android:layout_marginTop="10dp">
 
                 <ImageView
@@ -411,7 +409,7 @@
                 android:layout_weight="0.28"
 
                 android:hint="Write a comment..."
-                android:background="@layout/pictureshape"
+
                 android:layout_marginTop="5dp" />
 
             <Button
