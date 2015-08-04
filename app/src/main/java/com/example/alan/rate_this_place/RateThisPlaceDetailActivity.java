@@ -310,7 +310,7 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
 
     public void addListenerOnRatingBar() {
 
-        final String[] ratingscale = {"very poor","poor", "average", "good","very good"};
+        final String[] ratingscale = {"Very poor","Poor", "Average", "Good","Excellent"};
 
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBarCLEANNESS);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
