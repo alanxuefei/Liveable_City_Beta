@@ -41,9 +41,9 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
     String mAddressOutput;
     private Location mLastLocation;
 
-    private enum Mood {  HAPPY, UNHAPPY }
+    private enum Mood { NOFEELING, HAPPY, UNHAPPY}
 
-    private Mood  usermood =Mood.HAPPY;
+    private Mood  usermood =Mood.NOFEELING;
 
     private ActionBar actionBar;
     // Tab titles

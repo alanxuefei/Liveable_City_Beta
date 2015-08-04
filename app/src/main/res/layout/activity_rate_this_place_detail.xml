@@ -80,7 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/radioButton1"
-                            android:onClick="clickRadio_group1" />
+                            android:onClick="clickimage_happyface" />
 
                         <ImageView
                             android:layout_width="115dp"
@@ -89,7 +89,7 @@
                             android:id="@+id/imageView1"
                             android:focusable="false"
                             android:clickable="true"
-                            android:onClick="clickimage_face1"
+                            android:onClick="clickimage_happyface"
 
                             />
 
@@ -97,7 +97,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/radioButton2"
-                            android:onClick="clickRadio_group1" />
+                            android:onClick="clickimage_unhappyface" />
 
                         <ImageView
                             android:layout_width="115dp"
@@ -106,7 +106,7 @@
                             android:id="@+id/imageView2"
                             android:focusable="false"
                             android:clickable="true"
-                            android:onClick="clickimage_face2"
+                            android:onClick="clickimage_unhappyface"
 
                             />
                     </RadioGroup>
@@ -123,7 +123,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/radioButton3"
-                            android:onClick="clickRadio_group2" />
+                            android:onClick="clickimage_surprisedface" />
 
                         <ImageView
                             android:layout_width="115dp"
@@ -132,13 +132,13 @@
                             android:id="@+id/imageView3"
                             android:focusable="false"
                             android:clickable="true"
-                            android:onClick="clickimage_face3"/>
+                            android:onClick="clickimage_surprisedface"/>
 
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/radioButton4"
-                            android:onClick="clickRadio_group2" />
+                            android:onClick="clickimage_funnyface" />
 
                         <ImageView
                             android:layout_width="115dp"
@@ -147,7 +147,7 @@
                             android:id="@+id/imageViewfunnyface"
                             android:focusable="false"
                             android:clickable="true"
-                            android:onClick="clickimage_face4"/>
+                            android:onClick="clickimage_funnyface"/>
                     </RadioGroup>
 
                     <RadioGroup
@@ -162,7 +162,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/radioButton5"
-                            android:onClick="clickRadio_group5" />
+                            android:onClick="clickimage_angryface" />
 
                         <ImageView
                             android:layout_width="115dp"
@@ -171,13 +171,13 @@
                             android:id="@+id/imageViewangryface"
                             android:focusable="false"
                             android:clickable="true"
-                            android:onClick="clickimage_face5"/>
+                            android:onClick="clickimage_angryface"/>
 
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/radioButton6"
-                            android:onClick="clickRadio_group6" />
+                            android:onClick="clickimage_dislikeface" />
 
                         <ImageView
                             android:layout_width="115dp"
@@ -186,7 +186,7 @@
                             android:id="@+id/imageViewdislikeface"
                             android:focusable="false"
                             android:clickable="true"
-                            android:onClick="clickimage_face6"/>
+                            android:onClick="clickimage_dislikeface"/>
                     </RadioGroup>
 
                 </RadioGroup>
@@ -417,6 +417,7 @@
                 android:layout_height="wrap_content"
                 android:text="Submit"
                 android:id="@+id/button"
+                android:onClick="clickButton_submit"
                 android:layout_gravity="center"
                 />
         </LinearLayout>

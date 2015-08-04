@@ -27,6 +27,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class RateThisPlaceDetailActivity extends AppCompatActivity implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -36,6 +42,10 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
     protected GoogleApiClient mGoogleApiClient;
     public AddressResultReceiver mResultReceiver = new AddressResultReceiver(this);
     String mAddressOutput;
+    Location mLastLocation;
+
+    private enum Mood {NOFEELING, HAPPY, UNHAPPY, SURPRISE,FUNNY,ANGRY,DISLIKE};
+    private Mood  usermood =Mood.NOFEELING;
 
 
 
@@ -122,7 +132,7 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
         // mGoogleApiClient.disconnect();
         Log.i("LoactionName", "GoogleApiClient is connected " + mGoogleApiClient.isConnected());
 
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if(mLastLocation!=null){
             double longitude = mLastLocation.getLongitude();
@@ -248,29 +258,36 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
 
     }
 
-    public void clickimage_face1(View view) {
+    public void clickimage_happyface(View view) {
         ((RadioButton)findViewById(R.id.radioButton1)).setChecked(true);;
         clickRadio_group1(view);
+        usermood =Mood.HAPPY;
+
     }
-    public void clickimage_face2(View view) {
+    public void clickimage_unhappyface(View view) {
         ((RadioButton)findViewById(R.id.radioButton2)).setChecked(true);;
         clickRadio_group1(view);
+        usermood =Mood.UNHAPPY;
     }
-    public void clickimage_face3(View view) {
+    public void clickimage_surprisedface(View view) {
         ((RadioButton)findViewById(R.id.radioButton3)).setChecked(true);;
         clickRadio_group2(view);
+        usermood =Mood.SURPRISE;
     }
-    public void clickimage_face4(View view) {
+    public void clickimage_funnyface(View view) {
         ((RadioButton)findViewById(R.id.radioButton4)).setChecked(true);;
         clickRadio_group2(view);
+        usermood =Mood.FUNNY;
     }
-    public void clickimage_face5(View view) {
+    public void clickimage_angryface(View view) {
         ((RadioButton)findViewById(R.id.radioButton5)).setChecked(true);;
         clickRadio_group3(view);
+        usermood =Mood.ANGRY;
     }
-    public void clickimage_face6(View view) {
+    public void clickimage_dislikeface(View view) {
         ((RadioButton)findViewById(R.id.radioButton6)).setChecked(true);;
         clickRadio_group3(view);
+        usermood =Mood.DISLIKE;
     }
 
 
@@ -293,7 +310,7 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
 
     public void addListenerOnRatingBar() {
 
-        final String[] ratingscale = {"very poor","poor", "ok", "good","very good"};
+        final String[] ratingscale = {"very poor","poor", "average", "good","very good"};
 
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBarCLEANNESS);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -349,6 +366,47 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
                 mtextViewCLEANNESS.setText(ratingscale[(int)rating-1]);
             }
         });
+
+    }
+
+    public void clickButton_submit(View view) {
+
+        SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timestamp = datetimeformat.format(new Date());
+        JSONObject JsonGenerator_basicrating = new JSONObject();
+        JSONObject JsonGenerator_basicrating_location = new JSONObject();
+
+        try {
+            JsonGenerator_basicrating.put("UserID", this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
+            JsonGenerator_basicrating.put("Nickname",  "Alan");
+            if (mLastLocation==null){JsonGenerator_basicrating_location=null;}
+            else {
+                JsonGenerator_basicrating_location.put("longitude", mLastLocation.getLongitude());
+                JsonGenerator_basicrating_location.put("latitude", mLastLocation.getLatitude());
+            }
+            JsonGenerator_basicrating.put("Datatime", timestamp);
+            JsonGenerator_basicrating.put("Location", JsonGenerator_basicrating_location);
+            JsonGenerator_basicrating.put("Feeling", usermood.toString());
+            JsonGenerator_basicrating.put("Cleanness", ((RatingBar) findViewById(R.id.ratingBarCLEANNESS)).getRating());
+            JsonGenerator_basicrating.put("Safty", ((RatingBar) findViewById(R.id.ratingBarSAFTY)).getRating());
+            JsonGenerator_basicrating.put("Beauty", ((RatingBar) findViewById(R.id.ratingBarBEAUTIFULNESS)).getRating());
+            JsonGenerator_basicrating.put("Greenness", ((RatingBar) findViewById(R.id.ratingBarGREENNESS)).getRating());
+            JsonGenerator_basicrating.put("Friendliness", ((RatingBar) findViewById(R.id.ratingBarFRIENDLINESS)).getRating());
+            JsonGenerator_basicrating.put("Convenience", ((RatingBar) findViewById(R.id.ratingBarCONVENIENCE)).getRating());
+            JsonGenerator_basicrating.put("Commentary", ((AutoCompleteTextView)findViewById(R.id.AutoCompleteTextView_Commentary)).getText().toString());
+            Log.i("JSON", JsonGenerator_basicrating.toString());
+            DataLogger.writeSimpleRatingTolog(JsonGenerator_basicrating.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // clickbuttonRecieve();
+     //   Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
+      //  mServiceIntent.putExtra("this",JsonGenerator_basicrating.toString());
+      //  startService(mServiceIntent);
+      //  Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
+        //  AsyncTaskUploadFilesToFTP myfileuploader = new AsyncTaskUploadFilesToFTP(this);
+        //  myfileuploader.execute();
+
 
     }
 
