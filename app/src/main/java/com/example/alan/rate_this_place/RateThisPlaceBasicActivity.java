@@ -238,7 +238,12 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
         String timestamp = datetimeformat.format(new Date());
         JSONObject JsonGenerator_basicrating = new JSONObject();
         JSONObject JsonGenerator_basicrating_location = new JSONObject();
+
         try {
+
+
+
+            JsonGenerator_basicrating.put("UserID", this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
             if (mLastLocation==null){JsonGenerator_basicrating_location=null;}
             else {
                 JsonGenerator_basicrating_location.put("longitude", mLastLocation.getLongitude());
@@ -246,15 +251,11 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
             }
             JsonGenerator_basicrating.put("Datatime", timestamp);
             JsonGenerator_basicrating.put("Location", JsonGenerator_basicrating_location);
-            JsonGenerator_basicrating.put("Mood", usermood.toString());
-            boolean CheckBox1 = ((CheckBox) findViewById(R.id.checkBox1)).isChecked();
-            boolean CheckBox2 = ((CheckBox) findViewById(R.id.checkBox2)).isChecked();
-            boolean CheckBox3 = ((CheckBox) findViewById(R.id.checkBox3)).isChecked();
-            JsonGenerator_basicrating.put("Clean", CheckBox1);
-            JsonGenerator_basicrating.put("Safe", CheckBox2);
-            JsonGenerator_basicrating.put("Green", CheckBox3);
-            String com= ((AutoCompleteTextView)findViewById(R.id.AutoCompleteTextView_Commentary)).getText().toString();
-            JsonGenerator_basicrating.put("Commentary", com);
+            JsonGenerator_basicrating.put("Feeling", usermood.toString());
+            JsonGenerator_basicrating.put("Clean", ((CheckBox) findViewById(R.id.checkBox1)).isChecked());
+            JsonGenerator_basicrating.put("Safe", ((CheckBox) findViewById(R.id.checkBox2)).isChecked());
+            JsonGenerator_basicrating.put("Green", ((CheckBox) findViewById(R.id.checkBox3)).isChecked());
+            JsonGenerator_basicrating.put("Commentary", ((AutoCompleteTextView)findViewById(R.id.AutoCompleteTextView_Commentary)).getText().toString());
             Log.i("JSON", JsonGenerator_basicrating.toString());
             DataLogger.writeSimpleRatingTolog(JsonGenerator_basicrating.toString());
         } catch (JSONException e) {

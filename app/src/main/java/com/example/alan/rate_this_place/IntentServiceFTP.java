@@ -131,7 +131,7 @@ public class IntentServiceFTP extends IntentService {
     public void UploadSimpleRatingtoServer(JSONObject obj) throws JSONException {
 
 
-        String Datatimevalue = obj.getString("Datatime");
+       /* String Datatimevalue = obj.getString("Datatime");
         String Locationlongitudevalue = new JSONObject(obj.getString("Location")).getString("longitude");
         String Locationlatitudeevalue = new JSONObject(obj.getString("Location")).getString("latitude");
 
@@ -141,7 +141,7 @@ public class IntentServiceFTP extends IntentService {
         String Greenvalue = obj.getString("Green");
         String Commentaryvalue = obj.getString("Commentary");
 
-        Log.i("php", Datatimevalue+Locationlongitudevalue+Moodvalue+Cleanvalue +Commentaryvalue );
+        Log.i("php", Datatimevalue+Locationlongitudevalue+Moodvalue+Cleanvalue +Commentaryvalue );*/
         URL url = null;
         try {
           /*  url = new URL("http://www.ratethisplace.co/uploadtoDB.php?" +
