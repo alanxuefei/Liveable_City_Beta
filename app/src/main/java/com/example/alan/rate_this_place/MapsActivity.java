@@ -12,9 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
@@ -27,9 +25,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_maps);
         buildGoogleApiClient();
+
+
+
+
     }
 
     @Override
@@ -84,24 +85,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setIndoorEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 15));
 
-        LatLng MELBOURNE = new LatLng(mLastLocation.getLatitude()-0.001, mLastLocation.getLongitude()-0.001);
-        Marker melbourne = mMap.addMarker(new MarkerOptions()
-                .position(MELBOURNE)
-                .title("2015-07-21 18:31").snippet(" Bob: I like this place").flat(true));
-        melbourne.showInfoWindow();
 
-        LatLng MKen = new LatLng(mLastLocation.getLatitude()+0.002, mLastLocation.getLongitude()-0.002);
-        Marker Ken = mMap.addMarker(new MarkerOptions()
-                .position(MKen)
-                .title("2015-07-21 12:21").snippet(" Ken: good view").flat(true));
-        Ken.showInfoWindow();
-
-        LatLng MAlice = new LatLng(mLastLocation.getLatitude()-0.002, mLastLocation.getLongitude()+0.003);
-        Marker Alice = mMap.addMarker(new MarkerOptions()
-                .position(MAlice).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                .title("2015-07-21 15:21").snippet(" Alice: We need to add a lamp post here").flat(true));
-        Alice.showInfoWindow();
-
+        (new AsyncTaskGetDataToMap(mMap,mLastLocation)).execute();
 
 
 
@@ -109,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-          mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
         Log.i(Googlemap_TAG, "ready");
     }
 
@@ -154,4 +139,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+    public void setList(String value){
+
+    }
+
+
 }
