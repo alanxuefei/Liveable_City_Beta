@@ -244,6 +244,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
 
 
             JsonGenerator_basicrating.put("UserID", this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
+            JsonGenerator_basicrating.put("Nickname",  "Alan");
             if (mLastLocation==null){JsonGenerator_basicrating_location=null;}
             else {
                 JsonGenerator_basicrating_location.put("longitude", mLastLocation.getLongitude());
