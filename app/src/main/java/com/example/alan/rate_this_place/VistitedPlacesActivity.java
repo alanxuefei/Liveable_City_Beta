@@ -1,37 +1,19 @@
 package com.example.alan.rate_this_place;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 
-public class HumanActivityDiaryActivity extends AppCompatActivity {
+public class VistitedPlacesActivity extends AppCompatActivity {
 
-    private String[] monthsArray = { "Stop",
-                                     "Walking-Onhand","Walking-Onpocket","Walking-Onbag",
-                                     "Lift-Up-Onhand","Lift-Up-Onpocket","Lift-Up-Onbag",
-                                     "Lift-Down-Onhand","Lift-Down-Onpocket","Lift-Down-Onbag",
-                                     "escalator-Up-Onhand","escalator-Up-Onpocket","escalator-Up-Onbag",
-                                     "escalator-Down-Onhand","escalator-Down-Onpocket","escalator-Down-Onbag",
-                                     "Stair-Up-Onhand","Stai-Up-Onpocket","Stai-Up-Onbag",
-                                     "Stair-Down-Onhand","Stai-Down-Onpocket","Stai-Down-Onbag",
-                                     "Jogging-Onhand","Jogging-Onpocket","Jogging-Onbag",
-                                     "Running-Onhand","Running-Onpocket","Running-Onbag",
-                                     "Sitdown-Onhand","Sitdown-Onpocket","Sitdown-Onbag",
-
-
-              "Bicycle", "MRT", "BUS",   "Working at Office", "Fitness equipment"
-            , "Sit down – HP on table / surface"
-            , "Sit down – HP in pocket"
-            , "Sit down – using HP read news / send msg etc"
+    private String[] monthsArray = {"2015-01-01 11:30:00 Junrong East Do you like this Place?",
+            "2015-01-01 12:30:00 Junrong East Do lace?",
              };
 
     protected static final String HumanActivityTAG = "HumanActivity";
@@ -41,7 +23,7 @@ public class HumanActivityDiaryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_human_activity_diary);
+        setContentView(R.layout.activity_visited_places);
 
         HumanActivityListView = (ListView) findViewById(R.id.listView_HumanActivity);
 
@@ -84,7 +66,7 @@ public class HumanActivityDiaryActivity extends AppCompatActivity {
 
     public void clickthelistview(AdapterView<?> a, View v, int position, long id) {
 
-        String value = (String)a.getItemAtPosition(position);
+     /*   String value = (String)a.getItemAtPosition(position);
         Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
         if (value.equals("Stop") ){
             Log.i(HumanActivityTAG, "Stop");
@@ -99,7 +81,7 @@ public class HumanActivityDiaryActivity extends AppCompatActivity {
         }
 
       //  DataLogger.writeTolog("________________________________ "+value + "________________________________\n",SensorListenerService.logswich);
-        Log.i(HumanActivityTAG, value);
+        Log.i(HumanActivityTAG, value);*/
 
     }
 }

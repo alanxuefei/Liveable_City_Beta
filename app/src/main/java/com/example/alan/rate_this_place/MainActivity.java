@@ -63,11 +63,10 @@ public class MainActivity extends AppCompatActivity   {
 
         setContentView(R.layout.activity_main);
 
-
+        startService(new Intent(this, GeofencingService.class));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         checkNetworkandGPS();
-
        // checkFirstRun();
         ReadGoogleAccount();
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"));
@@ -81,6 +80,8 @@ public class MainActivity extends AppCompatActivity   {
     public void onStart() {
         super.onStart();
         checkNetworkandGPS();
+
+
        // Intent intent = new Intent(this, SensorListenerService.class);
        // startService(intent);
     }
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity   {
     public void clickImage_activity_log(View view) {
       /*  Toast.makeText(this, "Activity_log", Toast.LENGTH_SHORT).show();*/
         //DataLogger.writeTolog("_________________________________start_a_new_test____________________________" + "\n");
-        Intent intent = new Intent(this, HumanActivityDiaryActivity.class);
+        Intent intent = new Intent(this, VistitedPlacesActivity.class);
         startActivity(intent);
 
     }

@@ -56,7 +56,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".HumanActivityDiaryActivity"
+            android:name=".VistitedPlacesActivity"
             android:label="@string/title_activity_human_activity_diary" >
         </activity>
 
@@ -110,6 +110,13 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+        <service
+            android:name=".GeofencingService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+
     </application>
 
 </manifest>
