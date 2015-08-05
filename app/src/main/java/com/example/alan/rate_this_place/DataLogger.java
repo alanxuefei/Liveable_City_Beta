@@ -158,7 +158,7 @@ public class DataLogger {
 
           in.close();
         }
-        
+
 
         File file = new File(Input);
         if (!file.exists()) {
@@ -169,7 +169,7 @@ public class DataLogger {
         bw.append(geofenceTransitionDetails + ","+ '\n');
         for(int i=0; i<4; i++){
             if (value[i]!=null){
-                bw.append(value[i]+","+'\n');
+                bw.append(value[i]+'\n');
             }
         }
         bw.close();
