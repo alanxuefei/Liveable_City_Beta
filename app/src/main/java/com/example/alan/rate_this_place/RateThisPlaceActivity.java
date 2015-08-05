@@ -15,18 +15,25 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_this_place);
+        Intent intent = getIntent();
+        String From= intent.getStringExtra("From");
+        String TheLocation= intent.getStringExtra("TheLocation");
 
         TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
-
-
         tabHost.setup();
         TabHost.TabSpec spec1=tabHost.newTabSpec("Tab 1");
         spec1.setIndicator("Simple");
-        spec1.setContent(new Intent().setClass(this, RateThisPlaceBasicActivity.class));
+        Intent startBasicIntent = new Intent();
+        startBasicIntent.putExtra("From",From);
+        startBasicIntent.putExtra("TheLocation", TheLocation);
+        spec1.setContent(startBasicIntent.setClass(this, RateThisPlaceBasicActivity.class));
 
         TabHost.TabSpec spec2=tabHost.newTabSpec("Tab 2");
         spec2.setIndicator("Detail");
-        spec2.setContent(new Intent().setClass(this, RateThisPlaceDetailActivity.class));
+        Intent startDetailIntent = new Intent();
+        startDetailIntent.putExtra("From",From);
+        startDetailIntent.putExtra("TheLocation", TheLocation);
+        spec2.setContent(startDetailIntent.setClass(this, RateThisPlaceDetailActivity.class));
 
         tabHost.addTab(spec1);
         tabHost.addTab(spec2);

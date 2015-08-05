@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity   {
     public void clickImage_activity_log(View view) {
       /*  Toast.makeText(this, "Activity_log", Toast.LENGTH_SHORT).show();*/
         //DataLogger.writeTolog("_________________________________start_a_new_test____________________________" + "\n");
-        Intent intent = new Intent(this, VistitedPlacesActivity.class);
+        Intent intent = new Intent(this, VisitedPlacesActivity.class);
         startActivity(intent);
 
     }
@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity   {
        // Toast.makeText(this, "Image_rate_this_place", Toast.LENGTH_SHORT).show();
         //DataLogger.writeTolog("_________________________________start_a_new_test____________________________"+"\n");
         Intent intent = new Intent(this, RateThisPlaceActivity.class);
+        intent.putExtra("From","MainActivity");
         startActivity(intent);
 
     }

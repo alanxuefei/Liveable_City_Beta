@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +46,7 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
     protected GoogleApiClient mGoogleApiClient;
     public AddressResultReceiver mResultReceiver = new AddressResultReceiver(this);
     String mAddressOutput;
-    Location mLastLocation;
+    Location mLastLocation= new Location("");
 
     private enum Mood {NOFEELING, HAPPY, UNHAPPY, SURPRISE,FUNNY,ANGRY,DISLIKE};
     private Mood  usermood =Mood.NOFEELING;
@@ -62,22 +63,30 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_this_place_detail);
 
+        Intent intent = getIntent();
 
-        // Initilization
+        String From= intent.getStringExtra("From");
+        if (From!=null){
+            Log.i("LoactionName", From);
+            if (From.equals("MainActivity")){
+                buildGoogleApiClient();
+            }
+            else{
+                if (From.equals("VisitedPlacesActivity")){
+                    String TheLocation= intent.getStringExtra("TheLocation");
+                    TextView mEditText_locationname = (TextView) findViewById(R.id.textView_locationname);
+                    mEditText_locationname.setText("Location: \n" + TheLocation);
+                    LatLng thelocation= Constants.BAY_AREA_LANDMARKS.get(TheLocation);
+                    Log.i("LoactionName", thelocation.toString());
+                    mLastLocation.setLatitude(thelocation.latitude);//your coords of course
+                    mLastLocation.setLongitude(thelocation.longitude);
+                    ProgressBar mprogressBar_locationname = (ProgressBar) findViewById(R.id.progressBar_locationname);
+                    mprogressBar_locationname.setVisibility(View.GONE);
 
-         /*location */
-        // Acquire a reference to the system Location Manager
-        // startIntentService();
-        Log.i("LoactionName", "User  agree");
-        buildGoogleApiClient();
-
+                }
+            }
+        }
         addListenerOnRatingBar();
-
-       /* actv = (AutoCompleteTextView) findViewById(R.id.AutoCompleteTextView_Commentary);
-        //String[] countries = getResources().getStringArray(languages);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,languages);
-        actv.setAdapter(adapter);*/
-
     }
 
     protected synchronized void buildGoogleApiClient() {

@@ -1,7 +1,6 @@
 package com.example.alan.rate_this_place;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,43 +33,45 @@ import java.util.Date;
 
 public class RateThisPlaceBasicActivity extends AppCompatActivity implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private AutoCompleteTextView actv;
-    String[] languages={"This place is not clean","This is a most crowded place on Earth","IOS","SQL","JDBC","Web services"};
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
     public AddressResultReceiver mResultReceiver = new AddressResultReceiver(this);
     String mAddressOutput;
-    private Location mLastLocation;
+    private Location mLastLocation=new Location("");
 
     private enum Mood { NOFEELING, HAPPY, UNHAPPY}
 
     private Mood  usermood =Mood.NOFEELING;
 
-    private ActionBar actionBar;
-    // Tab titles
-    private String[] tabs = { "Top Rated", "Games", "Movies" };
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_this_place_basic);
+        Intent intent = getIntent();
 
+        String From= intent.getStringExtra("From");
+       if (From!=null){
+           Log.i("LoactionName", From);
+            if (From.equals("MainActivity")){
+                buildGoogleApiClient();
+            }
+           else{
+                if (From.equals("VisitedPlacesActivity")){
+                    String TheLocation= intent.getStringExtra("TheLocation");
+                    TextView mEditText_locationname = (TextView) findViewById(R.id.textView_locationname);
+                    mEditText_locationname.setText("Location: \n" + TheLocation);
+                    LatLng thelocation= Constants.BAY_AREA_LANDMARKS.get(TheLocation);
+                   Log.i("LoactionName", thelocation.toString());
+                     mLastLocation.setLatitude(thelocation.latitude);//your coords of course
+                    mLastLocation.setLongitude(thelocation.longitude);
+                    ProgressBar mprogressBar_locationname = (ProgressBar) findViewById(R.id.progressBar_locationname);
+                    mprogressBar_locationname.setVisibility(View.GONE);
 
-        // Initilization
-
-         /*location */
-        // Acquire a reference to the system Location Manager
-        // startIntentService();
-        Log.i("LoactionName", "User  agree");
-        buildGoogleApiClient();
-
-
-
-       /* actv = (AutoCompleteTextView) findViewById(R.id.AutoCompleteTextView_Commentary);
-        //String[] countries = getResources().getStringArray(languages);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,languages);
-        actv.setAdapter(adapter);*/
+                }
+            }
+       }
 
     }
 
@@ -111,14 +113,11 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
 
 
     protected void startLocationNameIntentService(Location location) {
-
-
         Log.i("locationname", String.valueOf(mResultReceiver));
         Intent intent = new Intent(this, FetchAddressIntentService.class);
         intent.putExtra(Constants.RECEIVER, mResultReceiver);
         intent.putExtra(Constants.LOCATION_DATA_EXTRA, location);
         startService(intent);
-
     }
 
 
@@ -207,7 +206,8 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
     public void clickImage_unhappyface(View view) {
 
 
-         ((RadioButton)findViewById(R.id.radioButton2)).setChecked(true);;
+        ((RadioButton)findViewById(R.id.radioButton2)).setChecked(true);
+        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Unappy");
         usermood =Mood.UNHAPPY;
     }
 
@@ -215,7 +215,8 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
 
 
 
-        ((RadioButton)findViewById(R.id.radioButton)).setChecked(true);;
+        ((RadioButton)findViewById(R.id.radioButton)).setChecked(true);
+        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Happy");
         usermood =Mood.HAPPY;
 
     }

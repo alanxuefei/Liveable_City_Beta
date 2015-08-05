@@ -1,14 +1,19 @@
 package com.example.alan.rate_this_place;
 
 import android.os.Environment;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 /**
@@ -82,8 +87,6 @@ public class DataLogger {
             // Do something else on failure
         }
 
-
-
     }
 
 
@@ -102,17 +105,31 @@ public class DataLogger {
 
     public static void AddtoVisitedPlacesList(String geofenceTransitionDetails) {
 
+
+
+
+
+
         SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 
         String datetime  = datetimeformat.format(new Date());
         JSONObject EnteredPlace = new JSONObject();
         try {
-            EnteredPlace.put("Datetime",datetime);
+            EnteredPlace.put("Datetime", datetime);
             EnteredPlace.put("Geofence",geofenceTransitionDetails);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        FileWriter file = null;
+
+        try {
+            addtofile(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "visitedplace.txt", EnteredPlace.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+      /*  FileWriter file = null;
         try {
             file = new FileWriter(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "visitedplace.txt", true);
             file.write(EnteredPlace.toString()+ "," + "\n");
@@ -121,6 +138,48 @@ public class DataLogger {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
+    }
+
+    public static  void addtofile(String Input,String geofenceTransitionDetails) throws IOException, ParseException {
+        String[] value ={null,null,null,null,null};
+        if ( new File(Input).exists()){
+
+
+        BufferedReader in = new BufferedReader(new FileReader(Input));
+
+        String line;
+        int linecount=0;
+        while(((line = in.readLine()) != null)&&(linecount<5)){
+            Log.i("DsssssD", line);
+            value[linecount]=line;
+            linecount++;
+        }
+
+          in.close();
+        }
+        
+
+        File file = new File(Input);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+        bw.append(geofenceTransitionDetails + ","+ '\n');
+        for(int i=0; i<4; i++){
+            if (value[i]!=null){
+                bw.append(value[i]+","+'\n');
+            }
+        }
+        bw.close();
+
+
+
+
+
+
+
     }
 
 }

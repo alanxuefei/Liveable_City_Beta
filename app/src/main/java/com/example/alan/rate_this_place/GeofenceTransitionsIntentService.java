@@ -93,7 +93,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
             // Send notification and log the transition details.
             sendNotification(geofenceTransitionDetails);
-            DataLogger.AddtoVisitedPlacesList(geofenceTransitionDetails);
+            DataLogger.AddtoVisitedPlacesList(geofenceTransitionDetails.replace("Entered: ",""));
             Log.i(TAG, geofenceTransitionDetails);
         } else {
             // Log the error.
@@ -135,7 +135,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
      */
     private void sendNotification(String notificationDetails) {
         // Create an explicit content Intent that starts the main Activity.
-        Intent notificationIntent = new Intent(getApplicationContext(), VistitedPlacesActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), VisitedPlacesActivity.class);
 
         // Construct a task stack.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);

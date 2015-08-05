@@ -1,5 +1,6 @@
 package com.example.alan.rate_this_place;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class VistitedPlacesActivity extends AppCompatActivity {
+public class VisitedPlacesActivity extends AppCompatActivity {
 
     protected static final String HumanActivityTAG = "HumanActivity";
 
@@ -52,7 +53,7 @@ public class VistitedPlacesActivity extends AppCompatActivity {
 
                 JSONArray mJsonArray = new JSONArray( "["+content.toString()+"]");
 
-                for(int i = 0 ; i < mJsonArray.length(); i++) {
+                for(int i = 0 ; i < mJsonArray.length()-1; i++) {
                     VisitedPlaceList.add(((mJsonArray.getJSONObject(i)).getString("Datetime")).toString()+"\n "+mJsonArray.getJSONObject(i).getString("Geofence").toString());
                 }
             }
@@ -111,22 +112,14 @@ public class VistitedPlacesActivity extends AppCompatActivity {
 
     public void clickthelistview(AdapterView<?> a, View v, int position, long id) {
 
-     /*   String value = (String)a.getItemAtPosition(position);
-        Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
-        if (value.equals("Stop") ){
-            Log.i(HumanActivityTAG, "Stop");
+       String value = (String)a.getItemAtPosition(position);
+        Log.i(HumanActivityTAG, value);
 
-            stopService(new Intent(this, SensorListenerService.class));
-            DataLogger.SelfLabel_Human_Status="Stop";
+        Intent startRatingIntent = new Intent(this, RateThisPlaceActivity.class);
+        startRatingIntent.putExtra("From","VisitedPlacesActivity");
+        startRatingIntent.putExtra("TheLocation", value.split(" ")[1]);
+        startActivity(startRatingIntent);
 
-        }else{
-            Log.i(HumanActivityTAG, "Others");
-            startService(new Intent(this, SensorListenerService.class));
-            DataLogger.SelfLabel_Human_Status=value;
-        }
-
-      //  DataLogger.writeTolog("________________________________ "+value + "________________________________\n",SensorListenerService.logswich);
-        Log.i(HumanActivityTAG, value);*/
 
     }
 

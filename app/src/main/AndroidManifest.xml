@@ -56,7 +56,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".VistitedPlacesActivity"
+            android:name=".VisitedPlacesActivity"
             android:label="@string/title_activity_human_activity_diary" >
         </activity>
 
