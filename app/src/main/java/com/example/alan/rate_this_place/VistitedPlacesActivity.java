@@ -1,7 +1,9 @@
 package com.example.alan.rate_this_place;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,14 +11,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 
 public class VistitedPlacesActivity extends AppCompatActivity {
 
-    private String[] monthsArray = {"2015-01-01 11:30:00 Junrong East Do you like this Place?",
-            "2015-01-01 12:30:00 Junrong East Do lace?",
-             };
-
     protected static final String HumanActivityTAG = "HumanActivity";
+
+
+
+
+
+
+   // JSONArray mJsonArray = new JSONArray(o.toString().replace("[],",""));
+
+    List<String> VisitedPlaceList = new ArrayList<>();
+
     private ListView HumanActivityListView;
     private ArrayAdapter arrayAdapter;
 
@@ -25,12 +42,40 @@ public class VistitedPlacesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visited_places);
 
+
+
+        String content = null;
+        try {
+            File f=new File(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "visitedplace.txt");
+            if (f.exists()) {
+                content = new Scanner(new File(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "visitedplace.txt")).useDelimiter("\\Z").next();
+
+                JSONArray mJsonArray = new JSONArray( "["+content.toString()+"]");
+
+                for(int i = 0 ; i < mJsonArray.length(); i++) {
+                    VisitedPlaceList.add(((mJsonArray.getJSONObject(i)).getString("Datetime")).toString()+"\n "+mJsonArray.getJSONObject(i).getString("Geofence").toString());
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (JSONException e) {
+        e.printStackTrace();
+        Log.i("visitedpalce", "wrong");
+        }
+
+
+
+
+
+
         HumanActivityListView = (ListView) findViewById(R.id.listView_HumanActivity);
 
         // this-The current activity context.
         // Second param is the resource Id for list layout row item
         // Third param is input array
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, monthsArray);
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, VisitedPlaceList.toArray());
         HumanActivityListView.setAdapter(arrayAdapter);
 
         HumanActivityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,6 +127,12 @@ public class VistitedPlacesActivity extends AppCompatActivity {
 
       //  DataLogger.writeTolog("________________________________ "+value + "________________________________\n",SensorListenerService.logswich);
         Log.i(HumanActivityTAG, value);*/
+
+    }
+
+    public void ReturnButton(View v) {
+        Log.i("test", "returen");
+        super.onBackPressed();
 
     }
 }

@@ -115,7 +115,7 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
 
 
                 mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(0.002*i+Double.parseDouble( mJsonArray.getJSONObject(i).getString("LocationLatitude")), Double.parseDouble(mJsonArray.getJSONObject(i).getString("LocationLongitude"))))
+                        .position(new LatLng(Double.parseDouble( mJsonArray.getJSONObject(i).getString("LocationLatitude")), Double.parseDouble(mJsonArray.getJSONObject(i).getString("LocationLongitude"))))
                                 .title(mJsonArray.getJSONObject(i).getString("Datatime")).snippet(mJsonArray.getJSONObject(i).getString("Comment")).flat(true)).showInfoWindow();
 
             }

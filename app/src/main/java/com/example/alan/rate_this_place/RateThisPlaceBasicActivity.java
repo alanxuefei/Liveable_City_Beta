@@ -274,32 +274,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
     }
 
 
-    /*
-     [
-   {
-     "datatime": 2015-01-01 21:30:51,
-     "comment": "I suggest to add a bin here",
-     "location": "latitude longitude",
-     "mood": "Happy",
-     "Clean":
-     "Safe":
-     "Green":
-     "user": {
-       "name": "android_newb",
-       "followers_count": 41
 
-   },
-   {
-     "id": 912345678902,
-     "text": "@android_newb just use android.util.JsonWriter!",
-     "geo": [50.454722, -104.606667],
-     "user": {
-       "name": "jesse",
-       "followers_count": 2
-     }
-   }
- ]}
-     */
 
 
 }

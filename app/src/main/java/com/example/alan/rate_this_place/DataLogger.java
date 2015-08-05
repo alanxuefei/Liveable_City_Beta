@@ -2,6 +2,9 @@ package com.example.alan.rate_this_place;
 
 import android.os.Environment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -94,6 +97,30 @@ public class DataLogger {
             }
         }
 
+    }
+
+
+    public static void AddtoVisitedPlacesList(String geofenceTransitionDetails) {
+
+        SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+
+        String datetime  = datetimeformat.format(new Date());
+        JSONObject EnteredPlace = new JSONObject();
+        try {
+            EnteredPlace.put("Datetime",datetime);
+            EnteredPlace.put("Geofence",geofenceTransitionDetails);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        FileWriter file = null;
+        try {
+            file = new FileWriter(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "visitedplace.txt", true);
+            file.write(EnteredPlace.toString()+ "," + "\n");
+            file.flush();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
