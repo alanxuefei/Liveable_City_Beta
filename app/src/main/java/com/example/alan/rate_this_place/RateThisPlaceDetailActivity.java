@@ -4,10 +4,11 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ResultReceiver;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ import com.google.android.gms.location.LocationServices;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -227,23 +230,55 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
     }
 
 
-
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
+
+    static final int REQUEST_TAKE_PHOTO = 1;
+    File photoFile = null;
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            // Create the File where the photo should go
+
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
         }
     }
+
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null)
+                             + "_"+timeStamp + "_Lat_"+mLastLocation.getLatitude()+"_Lon_"+mLastLocation.getLongitude()+"_"+mLastLocation.getProvider()+"_";
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/");
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        return image;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ImageView  mImageView_takeapicture = (ImageView) findViewById(R.id.imageView_picture);
-            mImageView_takeapicture.setImageBitmap(imageBitmap);
+            File file = new File(photoFile.toString());
+            ((ImageView) findViewById(R.id.imageView_picture)).setImageURI(Uri.fromFile(file));
         }
     }
 
@@ -262,32 +297,39 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
         ((RadioButton)findViewById(R.id.radioButton1)).setChecked(true);;
         clickRadio_group1(view);
         usermood =Mood.HAPPY;
+        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Happy");;
+
 
     }
     public void clickimage_unhappyface(View view) {
         ((RadioButton)findViewById(R.id.radioButton2)).setChecked(true);;
         clickRadio_group1(view);
         usermood =Mood.UNHAPPY;
+        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Unhappy");;
     }
     public void clickimage_surprisedface(View view) {
         ((RadioButton)findViewById(R.id.radioButton3)).setChecked(true);;
         clickRadio_group2(view);
         usermood =Mood.SURPRISE;
+        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Surprise");;
     }
     public void clickimage_funnyface(View view) {
         ((RadioButton)findViewById(R.id.radioButton4)).setChecked(true);;
         clickRadio_group2(view);
         usermood =Mood.FUNNY;
+        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Funny");;
     }
     public void clickimage_angryface(View view) {
         ((RadioButton)findViewById(R.id.radioButton5)).setChecked(true);;
         clickRadio_group3(view);
         usermood =Mood.ANGRY;
+        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Angry");;
     }
     public void clickimage_dislikeface(View view) {
         ((RadioButton)findViewById(R.id.radioButton6)).setChecked(true);;
         clickRadio_group3(view);
         usermood =Mood.DISLIKE;
+        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Dislike");;
     }
 
 
@@ -394,11 +436,15 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
             JsonGenerator_basicrating.put("Friendliness", ((RatingBar) findViewById(R.id.ratingBarFRIENDLINESS)).getRating());
             JsonGenerator_basicrating.put("Convenience", ((RatingBar) findViewById(R.id.ratingBarCONVENIENCE)).getRating());
             JsonGenerator_basicrating.put("Commentary", ((AutoCompleteTextView)findViewById(R.id.AutoCompleteTextView_Commentary)).getText().toString());
+            if (photoFile!= null) {JsonGenerator_basicrating.put("PhotoFileName",  photoFile.getName());}
             Log.i("JSON", JsonGenerator_basicrating.toString());
             DataLogger.writeSimpleRatingTolog(JsonGenerator_basicrating.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        AsyncTaskUploadDetaledRating myfileuploader = new AsyncTaskUploadDetaledRating(this,JsonGenerator_basicrating,photoFile);
+        myfileuploader.execute();
         // clickbuttonRecieve();
      //   Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
       //  mServiceIntent.putExtra("this",JsonGenerator_basicrating.toString());

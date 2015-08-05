@@ -156,7 +156,7 @@ public class IntentServiceFTP extends IntentService {
                     "&Comment="+Commentaryvalue.replaceAll(" ", "%20"));*/
 
           //  Log.i("php", url.toString());
-          url = new URL("http://www.ratethisplace.co/uploadtoDB.php?SimpleRatingJson="+obj.toString().replaceAll(" ", "%20"));
+          url = new URL("http://www.ratethisplace.co/uploadSimpleRatingtoDB.php?SimpleRatingJson="+obj.toString().replaceAll(" ", "%20"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

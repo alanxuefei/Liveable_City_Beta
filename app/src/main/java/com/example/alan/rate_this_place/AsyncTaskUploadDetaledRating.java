@@ -13,16 +13,21 @@ import org.apache.commons.net.io.CopyStreamEvent;
 import org.apache.commons.net.io.CopyStreamListener;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.SocketException;
+import java.net.URL;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -30,18 +35,20 @@ import java.util.zip.ZipOutputStream;
  * Created by Xue Fei on 1/7/2015.
  */
 
-public class AsyncTaskUploadFilesToFTP extends AsyncTask {
+public class AsyncTaskUploadDetaledRating extends AsyncTask {
     private Context context;
     private String UserID;
     protected static final String FTP_TAG = "FTP";
     JSONObject JsonGenerator_basicrating;
+    File photoFile;
 
 
 
-    public AsyncTaskUploadFilesToFTP(Context context,JSONObject JsonGenerator_basicrating0) {
+    public AsyncTaskUploadDetaledRating(Context context, JSONObject JsonGenerator_basicrating0,File photoFile0) {
         super();
         this.context=context;
         this.JsonGenerator_basicrating=JsonGenerator_basicrating0;
+        this.photoFile=photoFile0;
     }
 
 
@@ -60,9 +67,10 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
     protected Object doInBackground(Object[] params) {
 
 
-
-
         connnectingwithFTP();
+        UploadDetailedRatingtoServer(JsonGenerator_basicrating);
+
+
 
         return null;
     }
@@ -132,8 +140,7 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
             e.printStackTrace();
         }
 
-        SimpleDateFormat timeformat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss_");
-        String timestamp = timeformat.format(new Date ());
+        uploadFile(mFtpClient,  photoFile, "");
 
 
       // String INPUT_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/PassiveData";
@@ -253,12 +260,53 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
 
             // close ZipEntry to store the stream to the file
             zipOutputStream.closeEntry();
-            Log.e("FTP", "Regular file :" + inputFile.getCanonicalPath() + " is zipped to archive :"  );
+            Log.e("FTP", "Regular file :" + inputFile.getCanonicalPath() + " is zipped to archive :");
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void UploadDetailedRatingtoServer(JSONObject obj){
+
+
+        URL url = null;
+        try {
+
+            url = new URL("http://www.ratethisplace.co/uploadDetailedRatingtoDB.php?DetailedRatingJson="+obj.toString().replaceAll(" ", "%20"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection urlConnection = null;
+        Log.i("php",  url.toString());
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        InputStream in = null;
+        try {
+            in = new BufferedInputStream(urlConnection.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        BufferedReader r = new BufferedReader(new InputStreamReader(in));
+        StringBuilder total = new StringBuilder();
+        String line;
+        try {
+            while ((line = r.readLine()) != null) {
+                total.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.i("php",  total.toString());
 
     }
 

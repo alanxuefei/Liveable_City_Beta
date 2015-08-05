@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity   {
 
        // checkFirstRun();
         ReadGoogleAccount();
-
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"+"/"+"PassiveData"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"+"/"+"ActiveData"));
+        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"+"/"+"PendingToSend"));
 
     }
 
@@ -284,17 +284,5 @@ public class MainActivity extends AppCompatActivity   {
         }
         return false;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

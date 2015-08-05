@@ -57,12 +57,20 @@
 
                 android:layout_marginTop="5dp"
                 android:layout_weight="0.92">
-                <TextView
+
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="This place makes me feel:"
-                    android:id="@+id/textView" />
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="This place makes me feel:"
+                        android:id="@+id/textView" />
+
+                </LinearLayout>
 
                 <RadioGroup
                     android:layout_width="wrap_content"
