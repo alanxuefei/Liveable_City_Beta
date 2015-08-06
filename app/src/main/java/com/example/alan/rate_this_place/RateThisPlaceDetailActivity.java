@@ -454,14 +454,6 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
 
         AsyncTaskUploadDetaledRating myfileuploader = new AsyncTaskUploadDetaledRating(this,JsonGenerator_basicrating,photoFile);
         myfileuploader.execute();
-        // clickbuttonRecieve();
-     //   Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
-      //  mServiceIntent.putExtra("this",JsonGenerator_basicrating.toString());
-      //  startService(mServiceIntent);
-      //  Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
-        //  AsyncTaskUploadFilesToFTP myfileuploader = new AsyncTaskUploadFilesToFTP(this);
-        //  myfileuploader.execute();
-
 
     }
 

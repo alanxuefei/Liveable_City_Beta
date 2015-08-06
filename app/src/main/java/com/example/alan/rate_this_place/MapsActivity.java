@@ -28,16 +28,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         buildGoogleApiClient();
 
-
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
       //  setUpMapIfNeeded();
-
         mGoogleApiClient.reconnect();
     }
 
@@ -67,8 +63,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 setUpMap();
             }
         }
-
-
     }
 
     /**
@@ -78,18 +72,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-      //  centerMapOnMyLocation();
 
         mMap.setMyLocationEnabled(true);
         mMap.setIndoorEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 15));
-
-
         (new AsyncTaskGetDataToMap(mMap,mLastLocation)).execute();
-
-
-
     }
 
     @Override
@@ -97,10 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
         Log.i(Googlemap_TAG, "ready");
     }
-
-
-
-
+    
     protected synchronized void buildGoogleApiClient() {
         Log.i("LoactionName", "User  agree1");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -108,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-/*googleApi*/
+       /*googleApi*/
         mGoogleApiClient.connect();
     }
 

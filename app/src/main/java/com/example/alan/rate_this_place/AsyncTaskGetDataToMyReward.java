@@ -1,17 +1,13 @@
 package com.example.alan.rate_this_place;
 
 import android.app.Activity;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -26,22 +22,20 @@ import java.net.URL;
  * Created by Xue Fei on 1/7/2015.
  */
 
-public class AsyncTaskGetDataToMap extends AsyncTask {
+public class AsyncTaskGetDataToMyReward extends AsyncTask {
     private Activity context;
     private String UserID;
-    protected static final String GetDataToMap_TAG = "GetDataToMap";
-    GoogleMap mMap;
-    Location mLastLocation;
+    protected static final String AsyncTaskGetDataToMyReward_TAG = "AsyncTaskGetData_MYREWARDS";
+    JSONObject obj;
+    TextView TextViewReward;
 
 
 
 
-    public AsyncTaskGetDataToMap(GoogleMap mmMap,Location mmLastLocation) {
+    public AsyncTaskGetDataToMyReward(JSONObject JsonGenerator_basicrating0,TextView TextViewReward0 ) {
         super();
-        this.mMap=mmMap;
-        this.mLastLocation= mmLastLocation;
-
-
+        this.obj=JsonGenerator_basicrating0;
+        this.TextViewReward=TextViewReward0;
 
     }
 
@@ -57,11 +51,14 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
 
     @Override
     protected Object doInBackground(Object[] params) {
-        Log.i(GetDataToMap_TAG, "start");
+        Log.i(AsyncTaskGetDataToMyReward_TAG, "start");
         URL url = null;
+
+
         try {
 
-            url = new URL("http://www.ratethisplace.co/getDBtoMap.php");
+            url = new URL("http://www.ratethisplace.co/getMyRewards.php?MyRewardsJson="+obj.toString().replaceAll(" ", "%20"));
+            Log.i(AsyncTaskGetDataToMyReward_TAG, "http://www.ratethisplace.co/getMyRewards.php?MyRewardsJson="+obj.toString().replaceAll(" ", "%20"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -100,21 +97,17 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        Log.i(GetDataToMap_TAG, o.toString());
-
+        Log.i(AsyncTaskGetDataToMyReward_TAG, o.toString());
         try {
-            JSONArray mJsonArray = new JSONArray(o.toString().replace("[],",""));
-            for(int i = 0 ; i < mJsonArray.length(); i++) {
-                Log.i(GetDataToMap_TAG, mJsonArray.getJSONObject(i).toString());
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.parseDouble( mJsonArray.getJSONObject(i).getString("LocationLatitude")), Double.parseDouble(mJsonArray.getJSONObject(i).getString("LocationLongitude"))))
-                                .title(mJsonArray.getJSONObject(i).getString("Date")+" "+mJsonArray.getJSONObject(i).getString("Time")).snippet(mJsonArray.getJSONObject(i).getString("Comment")).flat(true)).showInfoWindow();
+            JSONObject mJsonResponse = new JSONObject(o.toString().replace("[],",""));
+            mJsonResponse.getString("Reward");
+            TextViewReward.setText(mJsonResponse.getString("Reward")+" points");
 
-            }
-
+            Log.i(AsyncTaskGetDataToMyReward_TAG, mJsonResponse.getString("Reward"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
     }
 
@@ -124,7 +117,7 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
     @Override
     protected void onProgressUpdate(Object[] values) {
         super.onProgressUpdate(values);
-        Toast.makeText(this.context, "uploading", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.context, "Connecting to The Server", Toast.LENGTH_SHORT).show();
     }
 
 

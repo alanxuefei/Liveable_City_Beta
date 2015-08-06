@@ -6,13 +6,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MyRewardActivity extends AppCompatActivity {
+
+    protected static final String MyRewardActivity_TAG = "MyRewardActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_reward);
+        JSONObject JsonGenerator_basicrating = new JSONObject();
+        try {
+            JsonGenerator_basicrating.put("UserID", this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        new AsyncTaskGetDataToMyReward( JsonGenerator_basicrating, (TextView)findViewById(R.id.textView_Rewards)).execute();
 
     }
 
@@ -39,8 +52,8 @@ public class MyRewardActivity extends AppCompatActivity {
     }
 
     public void ReturnButton(View v) {
-        Log.i("test", "returen");
         super.onBackPressed();
+        Log.i(MyRewardActivity_TAG, "return");
 
     }
 }
