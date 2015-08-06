@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -429,7 +430,7 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
 
         try {
             JsonGenerator_basicrating.put("UserID", this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
-            JsonGenerator_basicrating.put("Nickname",  "Alan");
+            JsonGenerator_basicrating.put("Nickname",   PreferenceManager.getDefaultSharedPreferences(this).getString("display_name", ""));
             if (mLastLocation==null){JsonGenerator_basicrating_location=null;}
             else {
                 JsonGenerator_basicrating_location.put("longitude", mLastLocation.getLongitude());

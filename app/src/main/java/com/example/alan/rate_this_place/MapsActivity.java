@@ -84,7 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
         Log.i(Googlemap_TAG, "ready");
     }
-    
+
     protected synchronized void buildGoogleApiClient() {
         Log.i("LoactionName", "User  agree1");
         mGoogleApiClient = new GoogleApiClient.Builder(this)

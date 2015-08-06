@@ -93,8 +93,8 @@ public class SensorListenerService extends Service implements SensorEventListene
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
 
-    public double ACCsamplingrate=100;
-    public double GROsamplingrate=50;
+    public double ACCsamplingrate=10;  //100Hz will slow the system down
+    public double GROsamplingrate=10;
     public double Lightsamplingrate=0.5;
   //  public int ACCsamplingrate=100;
 

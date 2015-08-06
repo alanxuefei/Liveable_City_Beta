@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -245,7 +246,9 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
 
 
             JsonGenerator_basicrating.put("UserID", this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
-            JsonGenerator_basicrating.put("Nickname",  "Alan");
+
+
+            JsonGenerator_basicrating.put("Nickname",  PreferenceManager.getDefaultSharedPreferences(this).getString("display_name", ""));
             if (mLastLocation==null){JsonGenerator_basicrating_location=null;}
             else {
                 JsonGenerator_basicrating_location.put("longitude", mLastLocation.getLongitude());
