@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.visitedplace;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,6 +8,8 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.alan.rate_this_place.utility.Constants;
+import com.example.alan.rate_this_place.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;

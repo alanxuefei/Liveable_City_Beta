@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.myrewards;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.alan.rate_this_place.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

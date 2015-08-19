@@ -3,15 +3,15 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.example.alan.rate_this_place.UserProfileActivity$GeneralPreferenceFragment"
+        android:fragment="com.example.alan.rate_this_place.usersetting.UserProfileActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="com.example.alan.rate_this_place.UserProfileActivity$NotificationPreferenceFragment"
+        android:fragment="com.example.alan.rate_this_place.usersetting.UserProfileActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
 
     <header
-        android:fragment="com.example.alan.rate_this_place.UserProfileActivity$DataSyncPreferenceFragment"
+        android:fragment="com.example.alan.rate_this_place.usersetting.UserProfileActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
 </preference-headers>

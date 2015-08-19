@@ -5,6 +5,8 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.alan.rate_this_place.ratethisplace.RateThisPlaceBasicActivity;
+
 
 /**
  * Created by Xue Fei on 27/7/2015.

@@ -6,6 +6,8 @@ import android.test.ApplicationTestCase;
 import android.util.Log;
 import android.widget.Spinner;
 
+import com.example.alan.rate_this_place.ratethisplace.RateThisPlaceBasicActivity;
+
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */

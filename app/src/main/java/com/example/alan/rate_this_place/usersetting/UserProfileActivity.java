@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.usersetting;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+
+import com.example.alan.rate_this_place.R;
 
 import java.util.List;
 

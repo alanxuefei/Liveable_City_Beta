@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.visitedplace;
 
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.example.alan.rate_this_place.R;
 import com.google.android.gms.location.GeofenceStatusCodes;
 
 /**

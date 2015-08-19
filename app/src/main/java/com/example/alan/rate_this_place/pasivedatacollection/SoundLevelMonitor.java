@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.pasivedatacollection;
 
 import android.media.MediaRecorder;
 

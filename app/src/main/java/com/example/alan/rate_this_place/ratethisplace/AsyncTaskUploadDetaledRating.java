@@ -1,9 +1,11 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.ratethisplace;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.alan.rate_this_place.utility.DataLogger;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;

@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.ratethisplace;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.example.alan.rate_this_place.R;
+import com.example.alan.rate_this_place.utility.Constants;
 
 import java.io.IOException;
 import java.util.ArrayList;

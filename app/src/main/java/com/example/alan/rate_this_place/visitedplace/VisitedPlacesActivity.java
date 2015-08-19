@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.visitedplace;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.alan.rate_this_place.R;
+import com.example.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.ratethisplace;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -25,6 +25,9 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.alan.rate_this_place.utility.Constants;
+import com.example.alan.rate_this_place.utility.DataLogger;
+import com.example.alan.rate_this_place.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;

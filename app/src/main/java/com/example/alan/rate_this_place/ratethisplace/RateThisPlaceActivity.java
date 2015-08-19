@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.ratethisplace;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
+
+import com.example.alan.rate_this_place.R;
 
 public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTabChangeListener {
 

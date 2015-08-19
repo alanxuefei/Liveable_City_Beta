@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.usersetting;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+
+import com.example.alan.rate_this_place.R;
+import com.example.alan.rate_this_place.pasivedatacollection.SensorListenerService;
 
 /**
  * Created by Xue Fei on 3/6/2015.

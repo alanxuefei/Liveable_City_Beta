@@ -50,41 +50,41 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".SensorListenerService" />
+        <service android:name=".pasivedatacollection.SensorListenerService" />
         <service
-            android:name=".DetectedActivitiesIntentService"
+            android:name=".pasivedatacollection.DetectedActivitiesIntentService"
             android:exported="false" />
 
         <activity
-            android:name=".VisitedPlacesActivity"
+            android:name=".visitedplace.VisitedPlacesActivity"
             android:label="@string/title_activity_human_activity_diary" >
         </activity>
 
-        <receiver android:name=".StartUpBootReceiver" >
+        <receiver android:name=".pasivedatacollection.StartUpBootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".RateThisPlaceActivity"
+            android:name=".ratethisplace.RateThisPlaceActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
         <activity
-            android:name=".RateThisPlaceBasicActivity"
+            android:name=".ratethisplace.RateThisPlaceBasicActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
         <activity
-            android:name=".RateThisPlaceDetailActivity"
+            android:name=".ratethisplace.RateThisPlaceDetailActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
 
         <service
-            android:name=".FetchAddressIntentService"
+            android:name=".ratethisplace.FetchAddressIntentService"
             android:exported="false" >
         </service>
         <service
-            android:name=".IntentServiceFTP"
+            android:name=".ratethisplace.IntentServiceFTP"
             android:exported="false" >
         </service>
 
@@ -93,25 +93,25 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".mapview.MapsActivity"
             android:label="@string/title_activity_maps" >
         </activity>
         <activity
-            android:name=".MyRewardActivity"
+            android:name=".myrewards.MyRewardActivity"
             android:label="@string/title_activity_my_reward" >
         </activity>
         <activity
-            android:name=".UserProfileActivity"
+            android:name=".usersetting.UserProfileActivity"
             android:label="@string/title_activity_user_profile" >
         </activity>
 
         <service
-            android:name=".GeofenceTransitionsIntentService"
+            android:name=".visitedplace.GeofenceTransitionsIntentService"
             android:enabled="true"
             android:exported="true" >
         </service>
         <service
-            android:name=".GeofencingService"
+            android:name=".visitedplace.GeofencingService"
             android:enabled="true"
             android:exported="true" >
         </service>

@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.pasivedatacollection;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -20,6 +20,9 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.alan.rate_this_place.utility.Constants;
+import com.example.alan.rate_this_place.utility.DataLogger;
+import com.example.alan.rate_this_place.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -72,7 +75,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             double i= soundlevel.Soundlevel_getAmplitude();
             Log.i(Audio_TAG, " mic "+String.valueOf(i));
 
-            DataLogger.writeTolog( "S " + String.valueOf(i) + "\n",logswich);
+            DataLogger.writeTolog("S " + String.valueOf(i) + "\n", logswich);
             Soundlevel_handler.postDelayed(this, 1000);
         }
     };
@@ -93,10 +96,10 @@ public class SensorListenerService extends Service implements SensorEventListene
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
 
-    public double ACCsamplingrate=10;  //100Hz will slow the system down
-    public double GROsamplingrate=10;
+    public double ACCsamplingrate=1;  //100Hz will slow the system down
+    public double GROsamplingrate=1;
     public double Lightsamplingrate=0.5;
-  //  public int ACCsamplingrate=100;
+
 
     private SoundLevelMonitor soundlevel= new SoundLevelMonitor();
 
@@ -133,8 +136,8 @@ public class SensorListenerService extends Service implements SensorEventListene
             sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
         }*/
 
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
+         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
+       // sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), (int)(1/(float)Lightsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);

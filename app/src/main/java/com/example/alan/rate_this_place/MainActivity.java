@@ -18,6 +18,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alan.rate_this_place.mapview.MapsActivity;
+import com.example.alan.rate_this_place.myrewards.MyRewardActivity;
+import com.example.alan.rate_this_place.pasivedatacollection.SensorListenerService;
+import com.example.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
+import com.example.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
+import com.example.alan.rate_this_place.usersetting.UserProfileActivity;
+import com.example.alan.rate_this_place.utility.DataLogger;
+import com.example.alan.rate_this_place.visitedplace.GeofencingService;
+import com.example.alan.rate_this_place.visitedplace.VisitedPlacesActivity;
+
 import java.util.regex.Pattern;
 
 /**
@@ -67,7 +77,7 @@ public class MainActivity extends AppCompatActivity   {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         checkNetworkandGPS();
-       // checkFirstRun();
+        checkFirstRun();
         ReadGoogleAccount();
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"+"/"+"PassiveData"));
@@ -198,8 +208,6 @@ public class MainActivity extends AppCompatActivity   {
             // Place your dialog code here to display the dialog
 
             Log.i(FirstRun_TAG, "User  agree");
-
-            ReadGoogleAccount();
             Intent intent = new Intent(this, SensorListenerService.class);
             startService(intent);
         }
@@ -234,8 +242,6 @@ public class MainActivity extends AppCompatActivity   {
 
     public void checkNetworkandGPS()
     {
-
-
 
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
 

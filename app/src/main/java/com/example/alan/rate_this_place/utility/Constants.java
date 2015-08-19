@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.utility;
 
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.example.alan.rate_this_place.R;
 import com.google.android.gms.location.DetectedActivity;
 import com.google.android.gms.maps.model.LatLng;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.visitedplace;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -28,6 +28,9 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.alan.rate_this_place.utility.DataLogger;
+import com.example.alan.rate_this_place.MainActivity;
+import com.example.alan.rate_this_place.R;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
@@ -93,7 +96,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
             // Send notification and log the transition details.
             sendNotification(geofenceTransitionDetails);
-            DataLogger.AddtoVisitedPlacesList(geofenceTransitionDetails.replace("Entered: ",""));
+            DataLogger.AddtoVisitedPlacesList(geofenceTransitionDetails.replace("Entered: ", ""));
             Log.i(TAG, geofenceTransitionDetails);
         } else {
             // Log the error.
