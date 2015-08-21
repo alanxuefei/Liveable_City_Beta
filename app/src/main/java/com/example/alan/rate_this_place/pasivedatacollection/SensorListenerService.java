@@ -2,6 +2,7 @@ package com.example.alan.rate_this_place.pasivedatacollection;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,6 +13,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,14 +22,18 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.alan.rate_this_place.R;
+import com.example.alan.rate_this_place.ratethisplace.PassiveDataUPloadToFTP;
 import com.example.alan.rate_this_place.utility.Constants;
 import com.example.alan.rate_this_place.utility.DataLogger;
-import com.example.alan.rate_this_place.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.ActivityRecognition;
+import com.google.android.gms.location.DetectedActivity;
+
+import java.util.ArrayList;
 
 
 /**
@@ -38,7 +44,7 @@ public class SensorListenerService extends Service implements SensorEventListene
     int mStartMode;       // indicates how to behave if the service is killed
     IBinder mBinder;      // interface for clients that bind
     boolean mAllowRebind; // indicates whether onRebind should be used
-
+    protected static final String GoogleApiTAG = "GoogleApi";
     /*location*/
     LocationManager mlocationManager;
     /*sensor*/
@@ -73,7 +79,9 @@ public class SensorListenerService extends Service implements SensorEventListene
     private Runnable Soundlevel_runable = new Runnable() {
         public void run() {
             double i= soundlevel.Soundlevel_getAmplitude();
-            Log.i(Audio_TAG, " mic "+String.valueOf(i));
+            if (i>100){
+                Log.i(Audio_TAG, " mic "+String.valueOf(i));
+            }
 
             DataLogger.writeTolog("S " + String.valueOf(i) + "\n", logswich);
             Soundlevel_handler.postDelayed(this, 1000);
@@ -109,6 +117,18 @@ public class SensorListenerService extends Service implements SensorEventListene
     @Override
     public void onCreate() {
 
+        // get an instance of the receiver in your service
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.BROADCAST_ACTION);
+        ActivityDetectionBroadcastReceiver mReceiver = new ActivityDetectionBroadcastReceiver(this);
+        registerReceiver(mReceiver, filter);
+
+        //listen to wifi connection availability
+        IntentFilter wififilter = new IntentFilter();
+        wififilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        WifiBroadcastReceiver mwifiReceiver = new WifiBroadcastReceiver(this);
+        registerReceiver(mwifiReceiver, wififilter);
+
         boolean DoesUserAgree = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("DoesUserAgree", true);
         if (DoesUserAgree==false){stopSelf();};
 
@@ -136,8 +156,8 @@ public class SensorListenerService extends Service implements SensorEventListene
             sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
         }*/
 
-         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
-       // sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), (int)(1/(float)Lightsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
@@ -454,6 +474,76 @@ public class SensorListenerService extends Service implements SensorEventListene
         Log.i("changeACC", "changeACC " + ACCsamplingrate + "" + logswich + "delayxue" + delay);
    // }
     }
+
+
+    /**
+     * Receiver for intents sent by DetectedActivitiesIntentService via a sendBroadcast().
+     * Receives a list of one or more DetectedActivity objects associated with the current state of
+     * the device.
+     */
+    public class ActivityDetectionBroadcastReceiver extends BroadcastReceiver {
+        protected static final String TAG = "activity-detection-response-receiver";
+        Context from;
+
+        ActivityDetectionBroadcastReceiver(Context context){
+            from=context;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<DetectedActivity> updatedActivities =
+                    intent.getParcelableArrayListExtra(Constants.ACTIVITY_EXTRA);
+
+            // Log each activity.
+            for (DetectedActivity da: updatedActivities) {
+                String Activity_value = Constants.getActivityString(
+                        getApplicationContext(),
+                        da.getType()) + " " + da.getConfidence() + "%";
+                DataLogger.writeTolog("GA " + Activity_value + "\n", SensorListenerService.logswich);
+                Log.i(GoogleApiTAG, Activity_value);
+                if (Activity_value.equals("Still 100%")){
+                    sensorManager.unregisterListener((SensorEventListener) from,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
+                    sensorManager.unregisterListener((SensorEventListener) from, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
+                }
+                else{
+                    sensorManager.registerListener((SensorEventListener) from,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
+                    sensorManager.registerListener((SensorEventListener) from,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Receiver for intents sent by DetectedActivitiesIntentService via a sendBroadcast().
+     * Receives a list of one or more DetectedActivity objects associated with the current state of
+     * the device.
+     */
+    public class WifiBroadcastReceiver extends BroadcastReceiver {
+        protected static final String TAG = "activity-detection-response-receiver";
+        Context from;
+
+        WifiBroadcastReceiver(Context context){
+            from=context;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            final String action = intent.getAction();
+            if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
+                if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)){
+                    //do stuff
+                    Intent mServiceIntent = new Intent(getBaseContext(), PassiveDataUPloadToFTP.class);
+                    startService(mServiceIntent);
+                } else {
+                    // wifi connection was lost
+                }
+            }
+        }
+    }
+
+
 
 
 }

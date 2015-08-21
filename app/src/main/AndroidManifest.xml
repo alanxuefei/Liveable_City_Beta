@@ -42,7 +42,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,34 +51,18 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".pasivedatacollection.SensorListenerService" />
-        <service
-            android:name=".pasivedatacollection.DetectedActivitiesIntentService"
-            android:exported="false" />
 
-        <activity
-            android:name=".visitedplace.VisitedPlacesActivity"
-            android:label="@string/title_activity_human_activity_diary" >
-        </activity>
+        <service android:name=".pasivedatacollection.DetectedActivitiesIntentService" android:exported="false" />
 
         <receiver android:name=".pasivedatacollection.StartUpBootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.REBOOT" />
             </intent-filter>
         </receiver>
+        <service android:name=".pasivedatacollection.SensorListenerService" />
 
-        <activity
-            android:name=".ratethisplace.RateThisPlaceActivity"
-            android:label="@string/title_activity_rate_this_place" >
-        </activity>
-        <activity
-            android:name=".ratethisplace.RateThisPlaceBasicActivity"
-            android:label="@string/title_activity_rate_this_place" >
-        </activity>
-        <activity
-            android:name=".ratethisplace.RateThisPlaceDetailActivity"
-            android:label="@string/title_activity_rate_this_place" >
-        </activity>
 
         <service
             android:name=".ratethisplace.FetchAddressIntentService"
@@ -92,23 +77,47 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
+
+        <activity
+            android:name=".ratethisplace.RateThisPlaceActivity"
+            android:label="@string/title_activity_rate_this_place"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ratethisplace.RateThisPlaceBasicActivity"
+            android:label="@string/title_activity_rate_this_place" >
+        </activity>
+        <activity
+            android:name=".ratethisplace.RateThisPlaceDetailActivity"
+            android:label="@string/title_activity_rate_this_place" >
+        </activity>
+
         <activity
             android:name=".mapview.MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".myrewards.MyRewardActivity"
-            android:label="@string/title_activity_my_reward" >
+            android:label="@string/title_activity_my_reward"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".visitedplace.VisitedPlacesActivity"
+            android:label="VisitedPlacesActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".usersetting.UserProfileActivity"
-            android:label="@string/title_activity_user_profile" >
+            android:label="@string/title_activity_user_profile"
+            android:screenOrientation="portrait">
         </activity>
 
         <service
             android:name=".visitedplace.GeofenceTransitionsIntentService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </service>
         <service
             android:name=".visitedplace.GeofencingService"

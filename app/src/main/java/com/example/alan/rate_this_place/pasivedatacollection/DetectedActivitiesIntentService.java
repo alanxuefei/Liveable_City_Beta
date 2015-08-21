@@ -18,10 +18,8 @@ package com.example.alan.rate_this_place.pasivedatacollection;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
 
 import com.example.alan.rate_this_place.utility.Constants;
-import com.example.alan.rate_this_place.utility.DataLogger;
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
 
@@ -59,34 +57,15 @@ public class DetectedActivitiesIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
-       Intent localIntent = new Intent(Constants.BROADCAST_ACTION);
-
+       Intent localIntent = new Intent();
+        localIntent.setAction(Constants.BROADCAST_ACTION);
         // Get the list of the probable activities associated with the current state of the
         // device. Each activity is associated with a confidence level, which is an int between
         // 0 and 100.
         ArrayList<DetectedActivity> detectedActivities = (ArrayList) result.getProbableActivities();
-
-
-
-        // Log each activity.
-        for (DetectedActivity da: detectedActivities) {
-            String Activity_value=Constants.getActivityString(
-                    getApplicationContext(),
-                    da.getType()) + " " + da.getConfidence() + "%";
-            DataLogger.writeTolog("GA " + Activity_value + "\n", SensorListenerService.logswich);
-
-            Log.i(TAG, Activity_value);
-
-         //   Toast.makeText(this,  Activity_value, Toast.LENGTH_SHORT).show();
-        }
-
-
-
-
-        //Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "MAGNETIC_FIELD x=" + x+" y="+y+" z="+z);
-
         // Broadcast the list of detected activities.
-       // localIntent.putExtra(Constants.ACTIVITY_EXTRA, detectedActivities);
+        localIntent.putExtra(Constants.ACTIVITY_EXTRA, detectedActivities);
         //LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
+        sendBroadcast(localIntent);
     }
 }

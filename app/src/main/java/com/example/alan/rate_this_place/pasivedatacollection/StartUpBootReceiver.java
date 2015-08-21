@@ -10,11 +10,14 @@ import android.content.Intent;
 public class StartUpBootReceiver  extends BroadcastReceiver {
 
     @Override
+
     public void onReceive(Context context, Intent intent) {
 
-         Intent startServiceIntent = new Intent(context, SensorListenerService.class);
-                context.startService(startServiceIntent);
+        if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
 
+            Intent startServiceIntent = new Intent(context, SensorListenerService.class);
+            context.startService(startServiceIntent);
+        }
     }
 
 }

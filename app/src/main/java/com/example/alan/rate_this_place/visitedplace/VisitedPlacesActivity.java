@@ -29,11 +29,6 @@ public class VisitedPlacesActivity extends AppCompatActivity {
 
     protected static final String HumanActivityTAG = "HumanActivity";
 
-
-
-
-
-
    // JSONArray mJsonArray = new JSONArray(o.toString().replace("[],",""));
 
     List<String> VisitedPlaceList = new ArrayList<>();
@@ -45,8 +40,6 @@ public class VisitedPlacesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visited_places);
-
-
 
         String content = null;
         try {

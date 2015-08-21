@@ -19,8 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alan.rate_this_place.mapview.MapsActivity;
-import com.example.alan.rate_this_place.myrewards.MyRewardActivity;
 import com.example.alan.rate_this_place.pasivedatacollection.SensorListenerService;
+import com.example.alan.rate_this_place.ratethisplace.IntentServiceFTP;
 import com.example.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
 import com.example.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
 import com.example.alan.rate_this_place.usersetting.UserProfileActivity;
@@ -178,14 +178,14 @@ public class MainActivity extends AppCompatActivity   {
     public void clickImage_myreward(View view) {
 
 
-      /*  Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
-        startService(mServiceIntent);*/
+         Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
+        startService(mServiceIntent);
        /* Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
         AsyncTaskUploadFilesToFTP myfileuploader = new AsyncTaskUploadFilesToFTP(this);
         myfileuploader.execute();*/
 
-        Intent intent = new Intent(this, MyRewardActivity.class);
-        startActivity(intent);
+       /* Intent intent = new Intent(this, MyRewardActivity.class);
+        startActivity(intent);*/
 
     }
 
