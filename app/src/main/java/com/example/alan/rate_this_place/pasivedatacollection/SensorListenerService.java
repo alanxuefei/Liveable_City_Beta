@@ -23,7 +23,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.alan.rate_this_place.R;
-import com.example.alan.rate_this_place.ratethisplace.PassiveDataUPloadToFTP;
 import com.example.alan.rate_this_place.utility.Constants;
 import com.example.alan.rate_this_place.utility.DataLogger;
 import com.google.android.gms.common.ConnectionResult;
@@ -534,7 +533,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
                 if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)){
                     //do stuff
-                    Intent mServiceIntent = new Intent(getBaseContext(), PassiveDataUPloadToFTP.class);
+                    Intent mServiceIntent = new Intent(getBaseContext(), PassiveDataToFTPIntentService.class);
                     startService(mServiceIntent);
                 } else {
                     // wifi connection was lost

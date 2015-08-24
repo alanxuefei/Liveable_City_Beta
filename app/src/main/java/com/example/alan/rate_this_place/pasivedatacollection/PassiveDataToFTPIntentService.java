@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place.ratethisplace;
+package com.example.alan.rate_this_place.pasivedatacollection;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -32,11 +32,11 @@ import java.util.zip.ZipOutputStream;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class IntentServiceFTP extends IntentService {
+public class PassiveDataToFTPIntentService extends IntentService {
     // TODO: Rename actions, choose action names that describe tasks that this
 
 
-    public IntentServiceFTP() {
+    public PassiveDataToFTPIntentService() {
         super("IntentServiceFTP");
     }
 
@@ -61,8 +61,8 @@ public class IntentServiceFTP extends IntentService {
     public void connnectingwithFTP() {
 
         String ip="ftp.ratethisplace.co";
-        String userName=       "FTP@ratethisplace.co";
-        String pass=       "uMu6Uv+HRqY";
+        String userName="FTP@ratethisplace.co";
+        String pass="uMu6Uv+HRqY";
         boolean status = false;
         FTPClient mFtpClient = new FTPClient();
         try {
@@ -110,8 +110,7 @@ public class IntentServiceFTP extends IntentService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //File thefile = new File(Environment.getExternalStorageDirectory(),  "/" + "RateThisPlace" + "/" + "PassiveData/" + "2015-08-19.txt");
+        
         File thefile = new File(ZIPPED_FOLDER);
 
         if (uploadFile(mFtpClient, thefile, "")){

@@ -270,7 +270,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
             e.printStackTrace();
         }
        // clickbuttonRecieve();
-        Intent mServiceIntent = new Intent(this, IntentServiceFTP.class);
+        Intent mServiceIntent = new Intent(this, SimpleRatingToServerIntentService.class);
         mServiceIntent.putExtra("this",JsonGenerator_basicrating.toString());
         startService(mServiceIntent);
         Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();

@@ -63,6 +63,11 @@
         </receiver>
         <service android:name=".pasivedatacollection.SensorListenerService" />
 
+        <service
+            android:name=".ratethisplace.SimpleRatingToServerIntentService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
 
         <service
             android:name=".ratethisplace.FetchAddressIntentService"
@@ -124,6 +129,7 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
 
 
     </application>
