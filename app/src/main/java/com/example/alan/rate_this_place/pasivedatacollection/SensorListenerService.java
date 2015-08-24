@@ -13,9 +13,11 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.wifi.WifiManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -32,6 +34,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.DetectedActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -124,7 +127,8 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         //listen to wifi connection availability
         IntentFilter wififilter = new IntentFilter();
-        wififilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        wififilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        //wififilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         WifiBroadcastReceiver mwifiReceiver = new WifiBroadcastReceiver(this);
         registerReceiver(mwifiReceiver, wififilter);
 
@@ -183,11 +187,6 @@ public class SensorListenerService extends Service implements SensorEventListene
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
-
-
-
 
     /*    final Handler handler001 = new Handler();
         final Runnable r001 = new Runnable() {
@@ -528,18 +527,39 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         @Override
         public void onReceive(Context context, Intent intent) {
+           Log.i("wifi","wifistart");
 
-            final String action = intent.getAction();
-            if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
-                if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)){
-                    //do stuff
-                    Intent mServiceIntent = new Intent(getBaseContext(), PassiveDataToFTPIntentService.class);
-                    startService(mServiceIntent);
-                } else {
-                    // wifi connection was lost
+            ConnectivityManager cm =
+                    (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            boolean isConnected = activeNetwork != null &&
+                    activeNetwork.isConnectedOrConnecting();
+
+            if (isConnected) {
+                boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+                if (isWiFi){
+                    Log.i("wifi", "wifi-upload-start");
+                    File filepath= new File(Environment.getExternalStorageDirectory()+"/"+ "RateThisPlace"+"/PassiveData");
+                    if (folderSize(filepath)>10000){
+                        Intent mServiceIntent = new Intent(getBaseContext(), PassiveDataToFTPIntentService.class);
+                        startService(mServiceIntent);
+                    }
+
                 }
             }
         }
+    }
+
+    public static long folderSize(File directory) {
+        long length = 0;
+        for (File file : directory.listFiles()) {
+            if (file.isFile())
+                length += file.length();
+            else
+                length += folderSize(file);
+        }
+        return length;
     }
 
 

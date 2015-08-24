@@ -1,7 +1,10 @@
 package com.example.alan.rate_this_place.pasivedatacollection;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.Log;
 
@@ -41,6 +44,7 @@ public class PassiveDataToFTPIntentService extends IntentService {
     }
 
     String userid;
+    int count;
 
 
     @Override
@@ -48,7 +52,8 @@ public class PassiveDataToFTPIntentService extends IntentService {
 
 
         userid=this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID","unknown");
-
+        count=0;
+        Log.e("FTP", "start");
         connnectingwithFTP();
         Log.e("FTP", "done");
     }
@@ -60,26 +65,34 @@ public class PassiveDataToFTPIntentService extends IntentService {
      */
     public void connnectingwithFTP() {
 
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected) {
+            boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+            if (isWiFi){
+            }
+            else{
+                stopSelf();
+            }
+        }
+        else{
+            stopSelf();
+        }
+
         String ip="ftp.ratethisplace.co";
         String userName="FTP@ratethisplace.co";
         String pass="uMu6Uv+HRqY";
         boolean status = false;
         FTPClient mFtpClient = new FTPClient();
         try {
-
-
             Log.e("isFTPConnected", String.valueOf(status));
             mFtpClient.connect(InetAddress.getByName(ip));
             status = mFtpClient.login(userName, pass);
-            Log.e("isFTPConnected", String.valueOf(status));
-            if (FTPReply.isPositiveCompletion(mFtpClient.getReplyCode())) {
-                mFtpClient.setFileType(FTP.ASCII_FILE_TYPE);
-                mFtpClient.enterLocalPassiveMode();
-                FTPFile[] mFileArray = mFtpClient.listFiles();
-                Log.e("Size",  mFileArray.toString());
-            }
-
-
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (UnknownHostException e) {
@@ -87,7 +100,49 @@ public class PassiveDataToFTPIntentService extends IntentService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.e("isFTPConnected", "connecting");
+        if (status==true){
+            Log.e("isFTPConnected", String.valueOf(status));
+            if (FTPReply.isPositiveCompletion(mFtpClient.getReplyCode())) {
+                try {
+                    mFtpClient.setFileType(FTP.BINARY_FILE_TYPE);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mFtpClient.enterLocalPassiveMode();
+                FTPFile[] mFileArray = new FTPFile[0];
+                try {
+                    mFileArray = mFtpClient.listFiles();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.e("Size", mFileArray.toString());
+            }
+            startupload(mFtpClient);
+        }
+        else {
+            try {
+                Thread.sleep(20000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.e("isFTPConnected", String.valueOf(status) + "count " + count);
+            count++;
 
+            if (count<2){
+                connnectingwithFTP();
+            }
+            else{
+                stopSelf();
+            }
+
+        }
+
+
+    }
+
+
+    public  void startupload(FTPClient mFtpClient){
         //zip
         SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String datetime  = datetimeformat.format(new Date());
@@ -110,7 +165,7 @@ public class PassiveDataToFTPIntentService extends IntentService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         File thefile = new File(ZIPPED_FOLDER);
 
         if (uploadFile(mFtpClient, thefile, "")){
@@ -129,7 +184,7 @@ public class PassiveDataToFTPIntentService extends IntentService {
         try {
 
             FileInputStream srcFileStream = new FileInputStream(downloadFile);
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+
             Log.e("FTP", "uploading ");
             boolean status = ftpClient.storeFile(serverfilePath+downloadFile.getName(),
                     srcFileStream);
