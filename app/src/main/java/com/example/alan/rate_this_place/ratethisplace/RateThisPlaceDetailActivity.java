@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -25,9 +26,9 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.alan.rate_this_place.R;
 import com.example.alan.rate_this_place.utility.Constants;
 import com.example.alan.rate_this_place.utility.DataLogger;
-import com.example.alan.rate_this_place.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -102,6 +103,15 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
                 .build();
 /*googleApi*/
         mGoogleApiClient.connect();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ((ImageView) findViewById(R.id.imageView_picture)).setImageBitmap(null);
+        //  Intent intent = new Intent(this, SensorListenerService.class);
+        // stopService(intent);
     }
 
     @Override
@@ -262,8 +272,7 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(photoFile));
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
@@ -291,7 +300,10 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             File file = new File(photoFile.toString());
-            ((ImageView) findViewById(R.id.imageView_picture)).setImageURI(Uri.fromFile(file));
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            //((ImageView) findViewById(R.id.imageView_picture)).setImageURI(Uri.fromFile(file));
+            ((ImageView) findViewById(R.id.imageView_picture)).setImageBitmap(imageBitmap);
         }
     }
 

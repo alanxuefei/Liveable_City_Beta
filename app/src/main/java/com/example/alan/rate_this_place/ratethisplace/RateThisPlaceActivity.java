@@ -42,9 +42,19 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+        //  Intent intent = new Intent(this, SensorListenerService.class);
+        // stopService(intent);
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
 
-
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,7 +86,7 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
 
     public void ReturnButton(View v) {
         Log.i("test", "returen");
-        super.onBackPressed();
+        finish();
 
     }
 

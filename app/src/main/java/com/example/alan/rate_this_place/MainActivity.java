@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity   {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        finish();
       //  Intent intent = new Intent(this, SensorListenerService.class);
        // stopService(intent);
     }
