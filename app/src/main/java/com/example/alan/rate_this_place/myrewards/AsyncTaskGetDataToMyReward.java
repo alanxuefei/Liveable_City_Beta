@@ -3,6 +3,8 @@ package com.example.alan.rate_this_place.myrewards;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,16 +29,19 @@ public class AsyncTaskGetDataToMyReward extends AsyncTask {
     private String UserID;
     protected static final String AsyncTaskGetDataToMyReward_TAG = "AsyncTaskGetData_MYREWARDS";
     JSONObject obj;
-    TextView TextViewReward;
+    TextView TextViewReward, TextViewConnection;
+    ProgressBar mprogressBar_locationname,progressBar_points;
 
 
 
 
-    public AsyncTaskGetDataToMyReward(JSONObject JsonGenerator_basicrating0,TextView TextViewReward0 ) {
+    public AsyncTaskGetDataToMyReward(JSONObject JsonGenerator_basicrating0, TextView TextViewReward0, TextView textView10,ProgressBar mprogressBar_locationname0) {
         super();
         this.obj=JsonGenerator_basicrating0;
         this.TextViewReward=TextViewReward0;
-
+        this.TextViewConnection=textView10;
+        this.mprogressBar_locationname=mprogressBar_locationname0;
+       // this.progressBar_points=progressBar_points0;
     }
 
 
@@ -66,46 +71,60 @@ public class AsyncTaskGetDataToMyReward extends AsyncTask {
 
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        if (urlConnection!=null) {
 
-
-        InputStream in = null;
-        try {
-            in = new BufferedInputStream(urlConnection.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        BufferedReader r = new BufferedReader(new InputStreamReader(in));
-        StringBuilder total = new StringBuilder();
-        String line;
-        try {
-            while ((line = r.readLine()) != null) {
-                total.append(line);
+            InputStream in = null;
+            try {
+                in = new BufferedInputStream(urlConnection.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            if (in!=null) {
+                BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                StringBuilder total = new StringBuilder();
+                String line;
+                try {
+                    while ((line = r.readLine()) != null) {
+                        total.append(line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-        return total.toString();
+                return total.toString();
+            }
+        }
+        return null;
     }
 
 
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        Log.i(AsyncTaskGetDataToMyReward_TAG, o.toString());
-        try {
-            JSONObject mJsonResponse = new JSONObject(o.toString().replace("[],",""));
-            mJsonResponse.getString("Reward");
-            TextViewReward.setText(mJsonResponse.getString("Reward")+" points");
+       // Log.i(AsyncTaskGetDataToMyReward_TAG, o.toString());
+        if (o!=null){
 
-            Log.i(AsyncTaskGetDataToMyReward_TAG, mJsonResponse.getString("Reward"));
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+            try {
+                JSONObject mJsonResponse = new JSONObject(o.toString().replace("[],",""));
+                mJsonResponse.getString("Reward");
+                TextViewReward.setText(mJsonResponse.getString("Reward") + " points");
+                TextViewConnection.setText("");
+                mprogressBar_locationname.setVisibility(View.GONE);
+              //  progressBar_points.setProgress(Integer.parseInt(mJsonResponse.getString("Reward")));
+              //  Log.i(AsyncTaskGetDataToMyReward_TAG, mJsonResponse.getString("Reward"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            TextViewConnection.setText("Internet is not available");
+
         }
 
 
@@ -118,6 +137,7 @@ public class AsyncTaskGetDataToMyReward extends AsyncTask {
     protected void onProgressUpdate(Object[] values) {
         super.onProgressUpdate(values);
         Toast.makeText(this.context, "Connecting to The Server", Toast.LENGTH_SHORT).show();
+
     }
 
 

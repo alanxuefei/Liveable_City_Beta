@@ -10,7 +10,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:id="@+id/linearLayout">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -29,6 +30,8 @@
                 android:background="#2E8DEF"
 
                 android:textColor="#FFFFFF" />
+
+
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -50,39 +53,60 @@
             android:textSize="40dp"
             android:layout_marginTop="10dp" />
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="76dp"
+                android:layout_height="60dp"
+                android:id="@+id/progressBar_locationname"
+                android:layout_marginBottom="0dp" />
+
+            <TextView
+                android:layout_width="98dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/textView_Rewards"
+                android:textSize="40dp"
+                android:layout_weight="0.79" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="*1 Points = 1 SGD"
+            android:lines="4"
+            android:id="@+id/textView6"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="• Calculate reward points based on contributed day. One Day = One Point = One SGD  "
+            android:id="@+id/textView7" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/textView_Rewards"
-            android:textSize="40dp" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="• One day means that users contribute one or more comments on that day.    "
+            android:id="@+id/textView9" />
 
-        <ProgressBar
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="334dp"
-            android:layout_height="30dp"
-            android:max="1000"
-            android:progress="750"
-            android:id="@+id/progressBar"
-            android:progressDrawable="@layout/greenprogress"
-            android:layout_marginTop="10dp" />
-
-        <TextView
-            android:layout_width="222dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Distance to Redeem Points is 100"
-            android:id="@+id/textView7"
-            android:layout_gravity="right"
-            android:layout_weight="0.04" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView3"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.80"
-            android:src="@drawable/pointtable"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Connecting to Internet"
+        android:id="@+id/textView10"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

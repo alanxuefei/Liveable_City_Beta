@@ -1,4 +1,4 @@
-package com.example.alan.rate_this_place;
+package com.example.alan.rate_this_place.feedback;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -22,6 +22,7 @@ public class FeedbackDialogFragment extends DialogFragment {
                 .setPositiveButton("submit", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // FIRE ZE MISSILES!
+                (new AsyncTaskUploadFeedback(getActivity(), input.getText().toString())).execute();
             }
         })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -34,4 +35,8 @@ public class FeedbackDialogFragment extends DialogFragment {
     }
 
 
+
+
+
 }
+

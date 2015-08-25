@@ -119,7 +119,7 @@ public final class Constants {
      */
     public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS =
             GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
-    public static final float GEOFENCE_RADIUS_IN_METERS = 1609; // 1 mile, 1.6 km
+    public static final float GEOFENCE_RADIUS_IN_METERS = 1609/2; // 1 mile, 1.6 km
 
     /**
      * Map for storing information about airports in the San Francisco bay area.
@@ -128,8 +128,13 @@ public final class Constants {
     static {
         // San Francisco International Airport.
         BAY_AREA_LANDMARKS.put("I2ROffice", new LatLng(1.2993538, 103.787726));
+        BAY_AREA_LANDMARKS.put("Pioneer", new LatLng(1.337399,103.697090));
+        BAY_AREA_LANDMARKS.put("Buona Vista", new LatLng(1.307739, 103.789675));
+        BAY_AREA_LANDMARKS.put("Jurong East", new LatLng( 1.334625, 103.741915));
+        BAY_AREA_LANDMARKS.put("Dover", new LatLng( 1.311652, 103.778638));
+        BAY_AREA_LANDMARKS.put("653C", new LatLng(  1.335703, 103.696774));
 
-        // Googleplex.
-        BAY_AREA_LANDMARKS.put("GOOGLE", new LatLng(37.422611,-122.0840577));
+
+
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.alan.rate_this_place.R;
@@ -27,7 +28,9 @@ public class MyRewardActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        new AsyncTaskGetDataToMyReward( JsonGenerator_basicrating, (TextView)findViewById(R.id.textView_Rewards)).execute();
+        new AsyncTaskGetDataToMyReward(JsonGenerator_basicrating, (TextView)findViewById(R.id.textView_Rewards),(TextView)findViewById(R.id.textView10),
+                (ProgressBar) findViewById(R.id.progressBar_locationname)).execute();
+
 
     }
 

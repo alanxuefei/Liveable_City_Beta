@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alan.rate_this_place.feedback.FeedbackDialogFragment;
 import com.example.alan.rate_this_place.mapview.MapsActivity;
 import com.example.alan.rate_this_place.myrewards.MyRewardActivity;
 import com.example.alan.rate_this_place.pasivedatacollection.SensorListenerService;
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity   {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
+
       //  Intent intent = new Intent(this, SensorListenerService.class);
        // stopService(intent);
     }
@@ -189,14 +190,9 @@ public class MainActivity extends AppCompatActivity   {
        /* Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
         AsyncTaskUploadFilesToFTP myfileuploader = new AsyncTaskUploadFilesToFTP(this);
         myfileuploader.execute();*/
+        Intent intent = new Intent(this, MyRewardActivity.class);
+        startActivity(intent);
 
-        if (isConnectingToInternet()){
-            Intent intent = new Intent(this, MyRewardActivity.class);
-            startActivity(intent);
-        }
-        else{
-            Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
-        }
 
 
     }

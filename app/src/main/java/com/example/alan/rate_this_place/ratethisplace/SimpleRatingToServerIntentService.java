@@ -4,6 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.alan.rate_this_place.utility.DataLogger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -70,6 +72,8 @@ public class SimpleRatingToServerIntentService extends IntentService {
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
         } catch (IOException e) {
+            Log.i("php",  "network is not available");
+            DataLogger.writeSimpleRatingTolog(url.toString());
             e.printStackTrace();
         }
 

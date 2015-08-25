@@ -20,9 +20,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.alan.rate_this_place.utility.Constants;
-import com.example.alan.rate_this_place.utility.DataLogger;
 import com.example.alan.rate_this_place.R;
+import com.example.alan.rate_this_place.utility.Constants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -265,7 +264,6 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
             JsonGenerator_basicrating.put("Green", ((CheckBox) findViewById(R.id.checkBox3)).isChecked());
             JsonGenerator_basicrating.put("Commentary", ((AutoCompleteTextView)findViewById(R.id.AutoCompleteTextView_Commentary)).getText().toString());
             Log.i("JSON", JsonGenerator_basicrating.toString());
-            DataLogger.writeSimpleRatingTolog(JsonGenerator_basicrating.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
