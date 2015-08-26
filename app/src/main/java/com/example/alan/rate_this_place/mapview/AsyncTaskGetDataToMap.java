@@ -103,7 +103,7 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
         Log.i(GetDataToMap_TAG, o.toString());
 
         try {
-            JSONArray mJsonArray = new JSONArray(o.toString().replace("[],",""));
+            JSONArray mJsonArray = new JSONArray(o.toString().replace("[],", "").replace("][",","));
             for(int i = 0 ; i < mJsonArray.length(); i++) {
                 Log.i(GetDataToMap_TAG, mJsonArray.getJSONObject(i).toString());
                 mMap.addMarker(new MarkerOptions()

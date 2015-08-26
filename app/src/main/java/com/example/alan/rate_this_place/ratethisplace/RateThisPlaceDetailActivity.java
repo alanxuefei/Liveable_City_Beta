@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -300,10 +299,10 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             File file = new File(photoFile.toString());
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //((ImageView) findViewById(R.id.imageView_picture)).setImageURI(Uri.fromFile(file));
-            ((ImageView) findViewById(R.id.imageView_picture)).setImageBitmap(imageBitmap);
+          //  Bundle extras = data.getExtras();
+          //  Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ((ImageView) findViewById(R.id.imageView_picture)).setImageURI(Uri.fromFile(file));
+           // ((ImageView) findViewById(R.id.imageView_picture)).setImageBitmap(imageBitmap);
         }
     }
 

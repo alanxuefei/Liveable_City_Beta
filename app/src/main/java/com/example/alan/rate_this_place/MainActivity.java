@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.alan.rate_this_place.feedback.FeedbackDialogFragment;
 import com.example.alan.rate_this_place.mapview.MapsActivity;
 import com.example.alan.rate_this_place.myrewards.MyRewardActivity;
+import com.example.alan.rate_this_place.pasivedatacollection.PassiveDataToFTPIntentService;
 import com.example.alan.rate_this_place.pasivedatacollection.SensorListenerService;
 import com.example.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
 import com.example.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
@@ -149,6 +150,15 @@ public class MainActivity extends AppCompatActivity   {
             case R.id.action_mapview:
                 if (isConnectingToInternet()){
                     startActivity(new Intent(this, MapsActivity.class));
+                }
+                else{
+                    Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case R.id.action_manualupload:
+                if (isConnectingToInternet()){
+                    startService(new Intent(getBaseContext(), PassiveDataToFTPIntentService.class));
                 }
                 else{
                     Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
