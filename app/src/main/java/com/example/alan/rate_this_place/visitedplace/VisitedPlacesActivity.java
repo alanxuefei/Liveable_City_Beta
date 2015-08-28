@@ -72,7 +72,7 @@ public class VisitedPlacesActivity extends AppCompatActivity {
         // this-The current activity context.
         // Second param is the resource Id for list layout row item
         // Third param is input array
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, VisitedPlaceList.toArray());
+        arrayAdapter = new ArrayAdapter(this, R.layout.visitedplaces_list_eachrow, R.id.thetheTextView, VisitedPlaceList.toArray());
         HumanActivityListView.setAdapter(arrayAdapter);
 
         HumanActivityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
