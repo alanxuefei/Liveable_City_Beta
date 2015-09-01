@@ -1,5 +1,74 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:id="@+id/map"
-    tools:context="com.example.alan.rate_this_place.mapview.MapsActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:background="#2E8DEF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Rate This Place"
+            android:textSize="20sp"
+            android:background="#2E8DEF"
+
+            android:textColor="#FFFFFF" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/imageView4"
+            android:src="@drawable/dropdownmenubutton"
+            android:cropToPadding="false"
+            android:background="#2E8DEF"
+            android:adjustViewBounds="false"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
+            android:onClick="showPopup"/>
+
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:id="@+id/map"
+        tools:context="com.example.alan.rate_this_place.mapview.MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView_status"
+            android:layout_gravity="left|top" />
+
+        <Button
+            android:layout_width="281dp"
+            android:layout_height="68dp"
+            android:text="Rate This Place"
+            android:id="@+id/button2"
+            android:layout_gravity="center_horizontal|bottom"
+            style="@style/AlertDialog.AppCompat.Light"
+            android:layout_marginBottom="10dp"
+            android:onClick="clickImage_rate_this_place" />
+
+    </FrameLayout>
+
+
+</LinearLayout>
+
+
+

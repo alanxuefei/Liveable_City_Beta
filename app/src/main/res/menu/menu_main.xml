@@ -4,11 +4,7 @@
     <item android:id="@+id/action_home" android:title="@string/action_home"
         android:orderInCategory="100" app:showAsAction="never"
         />
-    <item android:id="@+id/action_mapview" android:title="@string/action_mapview"
-        android:orderInCategory="100" app:showAsAction="never"
-        />
-
-    <item android:id="@+id/action_userprofile" android:title="@string/action_userprofile"
+    <item android:id="@+id/action_Menu" android:title="@string/action_Menu"
         android:orderInCategory="100" app:showAsAction="never"
         />
 
@@ -16,14 +12,27 @@
         android:orderInCategory="100" app:showAsAction="never"
         />
 
+    <item android:id="@+id/action_userprofile" android:title="@string/action_userprofile"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_visitedplace" android:title="@string/action_visitedplace"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_myreward" android:title="@string/action_myreward"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_feedback" android:title="@string/action_feedback"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
     <item android:id="@+id/action_aboutus" android:title="@string/action_aboutus"
         android:orderInCategory="100" app:showAsAction="never"
         />
 
-    <item android:id="@+id/action_feedback"
-          android:icon="@drawable/ic_action_feedback_button"
-          android:orderInCategory="100"   app:showAsAction="ifRoom"
-          android:title="1" />
+
 
 
 </menu>

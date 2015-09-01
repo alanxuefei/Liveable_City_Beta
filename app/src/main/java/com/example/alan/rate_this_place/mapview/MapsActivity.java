@@ -1,11 +1,35 @@
 package com.example.alan.rate_this_place.mapview;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.util.Patterns;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.alan.rate_this_place.MainActivity;
 import com.example.alan.rate_this_place.R;
+import com.example.alan.rate_this_place.feedback.FeedbackDialogFragment;
+import com.example.alan.rate_this_place.myrewards.MyRewardActivity;
+import com.example.alan.rate_this_place.pasivedatacollection.PassiveDataToFTPIntentService;
+import com.example.alan.rate_this_place.pasivedatacollection.SensorListenerService;
+import com.example.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
+import com.example.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
+import com.example.alan.rate_this_place.usersetting.UserProfileActivity;
+import com.example.alan.rate_this_place.visitedplace.VisitedPlacesActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -14,19 +38,26 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
+import java.util.regex.Pattern;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, PopupMenu.OnMenuItemClickListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     protected static final String Googlemap_TAG = "Googlemap";
+    protected static final String GPS_Internet_Check_TAG = "GPS_Internet_Check";
+    protected static final String FirstRun_TAG = "FirstRun";
     protected GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_maps);
+        checkNetworkandGPS();
+        checkFirstRun();
+        ReadGoogleAccount();
         buildGoogleApiClient();
 
     }
@@ -77,13 +108,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         mMap.setIndoorEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 15));
-        (new AsyncTaskGetDataToMap(mMap,mLastLocation)).execute();
+        (new AsyncTaskGetDataToMap(this,mMap,mLastLocation)).execute();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-        Log.i(Googlemap_TAG, "ready");
+       // mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+       // Log.i(Googlemap_TAG, "ready");
+
+
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -128,6 +161,188 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void setList(String value){
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_main, popup.getMenu());
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
+    }
+
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_Menu:
+                Toast.makeText(this, "Menu Clicked", Toast.LENGTH_SHORT).show();
+
+
+                if (isConnectingToInternet()){
+                    startActivity(new Intent(this, MainActivity.class));
+                }
+                else{
+                    Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
+            case R.id.action_manualupload:
+                Toast.makeText(this, "manualupload", Toast.LENGTH_SHORT).show();
+                if (isConnectingToInternet()){
+                    startService(new Intent(getBaseContext(), PassiveDataToFTPIntentService.class));
+                }
+                else{
+                    Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.action_visitedplace:
+                Toast.makeText(this, "Music Clicked", Toast.LENGTH_SHORT).show();
+                clickImage_activity_log();
+                return true;
+            case R.id.action_myreward:
+                Toast.makeText(this, "My Reward", Toast.LENGTH_SHORT).show();
+                clickImage_myreward();
+                return true;
+
+            case R.id.action_userprofile:
+                Toast.makeText(this, "userprofile", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, UserProfileActivity.class));
+                return true;
+
+            case R.id.action_feedback:
+                Toast.makeText(this, "Feedback Clicked", Toast.LENGTH_SHORT).show();
+                new FeedbackDialogFragment().show(getSupportFragmentManager(), "FeedbackDialog");
+                return true;
+            case R.id.action_aboutus:
+                Toast.makeText(this, "Music Clicked", Toast.LENGTH_SHORT).show();
+                return true;
+
+        }
+        return true;
+    }
+
+    public void clickImage_rate_this_place(View view) {
+        // Toast.makeText(this, "Image_rate_this_place", Toast.LENGTH_SHORT).show();
+        //DataLogger.writeTolog("_________________________________start_a_new_test____________________________"+"\n");
+        Intent intent = new Intent(this, RateThisPlaceActivity.class);
+        intent.putExtra("From", "MainActivity");
+        startActivity(intent);
+
+    }
+
+    public boolean isConnectingToInternet(){
+        ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null)
+        {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                    {
+                        return true;
+                    }
+
+        }
+        return false;
+    }
+
+    public void clickImage_myreward( ) {
+
+        Intent intent = new Intent(this, MyRewardActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void clickImage_activity_log() {
+
+        Intent intent = new Intent(this, VisitedPlacesActivity.class);
+        startActivity(intent);
+
+    }
+
+
+    public void checkFirstRun() {
+        boolean DoesUserAgree = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("DoesUserAgree", false);
+
+        if (DoesUserAgree){
+            // Place your dialog code here to display the dialog
+
+            Log.i(FirstRun_TAG, "User  agree");
+            Intent intent = new Intent(this, SensorListenerService.class);
+            startService(intent);
+        }
+        else{
+            Log.i(FirstRun_TAG, "User have not agree yet");
+            UserAgreementDialogFragment UserAgreement = new UserAgreementDialogFragment();;
+            UserAgreement.show(getSupportFragmentManager(), "NoticeDialogFragment");
+        }
+    }
+    public void checkNetworkandGPS()
+    {
+
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
+        if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            Log.i(GPS_Internet_Check_TAG, "GPS Yes");
+            if (isConnectingToInternet())
+            {
+                ((TextView)findViewById(R.id.textView_status)).setVisibility(View.GONE);
+                Log.i(GPS_Internet_Check_TAG, "internet Yes");
+
+            }
+            else{
+                ((TextView)findViewById(R.id.textView_status)).setText("Internet is not available");
+
+                Log.i(GPS_Internet_Check_TAG, "internet No");
+            }
+        }
+        else{
+
+            Log.i(GPS_Internet_Check_TAG, "GPS No");
+            if (isConnectingToInternet())
+            {
+                ((TextView)findViewById(R.id.textView_status)).setText("GPS is off");
+                Log.i(GPS_Internet_Check_TAG, "internet Yes");
+            }
+            else{
+                ((TextView)findViewById(R.id.textView_status)).setText("Internet is not available and GPS is off");
+
+                Log.i(GPS_Internet_Check_TAG, "internet No");
+            }
+
+        }
+
+
+    }
+
+    public String ReadGoogleAccount() {
+        Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+        String possibleEmail = null;
+        Account[] accounts = AccountManager.get(this).getAccounts();
+        for (Account account : accounts) {
+            if (emailPattern.matcher(account.name).matches()) {
+                possibleEmail = account.name;
+                Log.i("GoogleAccount", possibleEmail);
+            }
+        }
+
+        this.getSharedPreferences("UserInfo", this.MODE_PRIVATE)
+                .edit()
+                .putString("UserID",possibleEmail)
+                .apply();
+
+        //((TextView)findViewById(R.id.textView_UserID)).setText("UserID: "+possibleEmail);
+        return possibleEmail;
+
+    }
+
+
 
 
 }

@@ -83,6 +83,10 @@
 
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
     <string name="action_manualupload">Upload</string>
+    <string name="action_feedback">Feedback</string>
+    <string name="action_Menu">Menu</string>
+    <string name="action_myreward">My Reward</string>
+    <string name="action_visitedplace">Visted Place</string>
 
 
 </resources>

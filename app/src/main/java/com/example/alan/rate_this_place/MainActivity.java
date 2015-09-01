@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity   {
     protected static final String GPS_Internet_Check_TAG = "GPS_Internet_Check";
 
 
+
     private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity   {
         switch (item.getItemId()) {
             case R.id.action_home:
                 break;
-            case R.id.action_mapview:
+            case R.id.action_Menu:
                 if (isConnectingToInternet()){
                     startActivity(new Intent(this, MapsActivity.class));
                 }
@@ -194,23 +195,14 @@ public class MainActivity extends AppCompatActivity   {
 
     public void clickImage_myreward(View view) {
 
-
-       // Intent mServiceIntent = new Intent(this, PassiveDataToFTPIntentService.class);
-       // startService(mServiceIntent);
-       /* Toast.makeText(this, "uploading", Toast.LENGTH_SHORT).show();
-        AsyncTaskUploadFilesToFTP myfileuploader = new AsyncTaskUploadFilesToFTP(this);
-        myfileuploader.execute();*/
         Intent intent = new Intent(this, MyRewardActivity.class);
         startActivity(intent);
-
-
 
     }
 
 
     public void clickImage_rate_this_place(View view) {
-       // Toast.makeText(this, "Image_rate_this_place", Toast.LENGTH_SHORT).show();
-        //DataLogger.writeTolog("_________________________________start_a_new_test____________________________"+"\n");
+
         Intent intent = new Intent(this, RateThisPlaceActivity.class);
         intent.putExtra("From","MainActivity");
         startActivity(intent);

@@ -1,14 +1,16 @@
 package com.example.alan.rate_this_place.mapview;
 
-import android.app.Activity;
+import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +29,7 @@ import java.net.URL;
  */
 
 public class AsyncTaskGetDataToMap extends AsyncTask {
-    private Activity context;
+    private Context context;
     private String UserID;
     protected static final String GetDataToMap_TAG = "GetDataToMap";
     GoogleMap mMap;
@@ -36,11 +38,11 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
 
 
 
-    public AsyncTaskGetDataToMap(GoogleMap mmMap,Location mmLastLocation) {
+    public AsyncTaskGetDataToMap(Context context,GoogleMap mmMap,Location mmLastLocation) {
         super();
         this.mMap=mmMap;
         this.mLastLocation= mmLastLocation;
-
+        this.context=context;
 
 
     }
@@ -101,15 +103,23 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         Log.i(GetDataToMap_TAG, o.toString());
+        IconGenerator iconFactory = new IconGenerator(this.context);
+        iconFactory.setStyle(IconGenerator.STYLE_BLUE);
 
         try {
             JSONArray mJsonArray = new JSONArray(o.toString().replace("[],", "").replace("][",","));
+
             for(int i = 0 ; i < mJsonArray.length(); i++) {
                 Log.i(GetDataToMap_TAG, mJsonArray.getJSONObject(i).toString());
-                mMap.addMarker(new MarkerOptions()
+                /*mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble( mJsonArray.getJSONObject(i).getString("LocationLatitude")), Double.parseDouble(mJsonArray.getJSONObject(i).getString("LocationLongitude"))))
                                 .title(mJsonArray.getJSONObject(i).getString("Date")+" "+mJsonArray.getJSONObject(i).getString("Time")).snippet(mJsonArray.getJSONObject(i).getString("Comment")).flat(true)).showInfoWindow();
+                */
 
+
+                addIcon(iconFactory, mJsonArray.getJSONObject(i).getString("Date")+" "+mJsonArray.getJSONObject(i).getString("Time")+":\r\n"+mJsonArray.getJSONObject(i).getString("Comment"), new LatLng(Double.parseDouble( mJsonArray.getJSONObject(i).getString("LocationLatitude")), Double.parseDouble(mJsonArray.getJSONObject(i).getString("LocationLongitude"))));
+
+               // startDemo();
             }
 
         } catch (JSONException e) {
@@ -126,6 +136,16 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
         super.onProgressUpdate(values);
         Toast.makeText(this.context, "uploading", Toast.LENGTH_SHORT).show();
     }
+
+    private void addIcon(IconGenerator iconFactory, String text, LatLng position) {
+        MarkerOptions markerOptions = new MarkerOptions().
+                icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(text))).
+                position(position).
+                anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
+
+        mMap.addMarker(markerOptions);
+    }
+
 
 
 
