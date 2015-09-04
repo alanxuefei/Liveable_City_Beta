@@ -122,6 +122,5 @@ public class VisitedPlacesActivity extends AppCompatActivity {
     public void ReturnButton(View v) {
         Log.i("test", "returen");
         super.onBackPressed();
-
     }
 }

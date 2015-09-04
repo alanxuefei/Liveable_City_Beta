@@ -2,11 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item android:id="@+id/action_Menu" android:title="MapView"
+    <item android:id="@+id/action_Menu" android:title="Menu"
         android:orderInCategory="100" app:showAsAction="never"
         />
 
-    <item android:id="@+id/action_manualupload" android:title="Upload"
+    <item android:id="@+id/action_manualupload" android:title="@string/action_manualupload"
         android:orderInCategory="100" app:showAsAction="never"
         />
 
@@ -14,14 +14,17 @@
         android:orderInCategory="100" app:showAsAction="never"
         />
 
-    <item android:id="@+id/action_visitedplace" android:title="Visited Places"
+    <item android:id="@+id/action_visitedplace" android:title="@string/action_visitedplace"
         android:orderInCategory="100" app:showAsAction="never"
         />
 
-    <item android:id="@+id/action_myreward" android:title="My Rewards"
+    <item android:id="@+id/action_myreward" android:title="M"
         android:orderInCategory="100" app:showAsAction="never"
         />
 
+    <item android:id="@+id/action_feedback" android:title="@string/action_feedback"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
 
     <item android:id="@+id/action_aboutus" android:title="@string/action_aboutus"
         android:orderInCategory="100" app:showAsAction="never"

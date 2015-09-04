@@ -146,8 +146,7 @@ public class MainActivity extends AppCompatActivity   {
 
 
         switch (item.getItemId()) {
-            case R.id.action_home:
-                break;
+
             case R.id.action_Menu:
                 if (isConnectingToInternet()){
                     startActivity(new Intent(this, MapsActivity.class));
@@ -176,9 +175,6 @@ public class MainActivity extends AppCompatActivity   {
                 new FeedbackDialogFragment().show(getSupportFragmentManager(), "FeedbackDialog");
                 break;
         }
-
-
-
 
         return super.onOptionsItemSelected(item);
     }

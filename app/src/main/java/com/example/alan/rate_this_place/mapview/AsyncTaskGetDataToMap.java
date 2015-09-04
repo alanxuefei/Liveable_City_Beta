@@ -144,6 +144,7 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
                 anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
 
         mMap.addMarker(markerOptions);
+
     }
 
 

@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.alan.rate_this_place.MainActivity;
 import com.example.alan.rate_this_place.R;
@@ -30,9 +30,6 @@ import com.example.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
 import com.example.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
 import com.example.alan.rate_this_place.usersetting.UserProfileActivity;
 import com.example.alan.rate_this_place.visitedplace.VisitedPlacesActivity;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,32 +38,45 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.regex.Pattern;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, PopupMenu.OnMenuItemClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener,LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     protected static final String Googlemap_TAG = "Googlemap";
     protected static final String GPS_Internet_Check_TAG = "GPS_Internet_Check";
     protected static final String FirstRun_TAG = "FirstRun";
-    protected GoogleApiClient mGoogleApiClient;
+    private LocationManager mlocationManager;
+
     private Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_maps);
         checkNetworkandGPS();
         checkFirstRun();
         ReadGoogleAccount();
-        buildGoogleApiClient();
-
+             /*location */
+        // Acquire a reference to the system Location Manager
+        mlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        // Register the listener with the Location Manager to receive location updates
+        mlocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this); //long minTime, float minDistance
+        mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        setUpMapIfNeeded();
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-      //  setUpMapIfNeeded();
-        mGoogleApiClient.reconnect();
+
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //mMap.clear();
     }
 
     /**
@@ -107,7 +117,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMyLocationEnabled(true);
         mMap.setIndoorEnabled(true);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 15));
         (new AsyncTaskGetDataToMap(this,mMap,mLastLocation)).execute();
     }
 
@@ -119,61 +128,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    protected synchronized void buildGoogleApiClient() {
-        Log.i("LoactionName", "User  agree1");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-       /*googleApi*/
-        mGoogleApiClient.connect();
-    }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        if(mLastLocation!=null){
-            setUpMapIfNeeded();
-        }
-        else{
-            Log.i("LoactionName","can not obtain the location name");
-            try {
-                Thread.sleep(1000);                 //1000 milliseconds is one second.
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-            mGoogleApiClient.reconnect();
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-    public void setList(String value){
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_main, popup.getMenu());
+        inflater.inflate(R.menu.menu_mapview, popup.getMenu());
         popup.setOnMenuItemClickListener(this);
         popup.show();
     }
@@ -181,46 +141,46 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_Menu:
-                Toast.makeText(this, "Menu Clicked", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Menu Clicked", Toast.LENGTH_SHORT).show();
 
 
                 if (isConnectingToInternet()){
                     startActivity(new Intent(this, MainActivity.class));
                 }
                 else{
-                    Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
             case R.id.action_manualupload:
-                Toast.makeText(this, "manualupload", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "manualupload", Toast.LENGTH_SHORT).show();
                 if (isConnectingToInternet()){
                     startService(new Intent(getBaseContext(), PassiveDataToFTPIntentService.class));
                 }
                 else{
-                    Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.action_visitedplace:
-                Toast.makeText(this, "Music Clicked", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Music Clicked", Toast.LENGTH_SHORT).show();
                 clickImage_activity_log();
                 return true;
             case R.id.action_myreward:
-                Toast.makeText(this, "My Reward", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "My Reward", Toast.LENGTH_SHORT).show();
                 clickImage_myreward();
                 return true;
 
             case R.id.action_userprofile:
-                Toast.makeText(this, "userprofile", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "userprofile", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, UserProfileActivity.class));
                 return true;
 
             case R.id.action_feedback:
-                Toast.makeText(this, "Feedback Clicked", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Feedback Clicked", Toast.LENGTH_SHORT).show();
                 new FeedbackDialogFragment().show(getSupportFragmentManager(), "FeedbackDialog");
                 return true;
             case R.id.action_aboutus:
-                Toast.makeText(this, "Music Clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Music Clicked", Toast.LENGTH_SHORT).show();
                 return true;
 
         }
@@ -343,6 +303,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+
+     /*location*/
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+
+        double longitude = location.getLongitude();
+        double latitude =  location.getLatitude();
+        String Location_information= "L " + longitude + " " + latitude+" "+location.getProvider();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 4));
+        Log.i("location", Location_information);
+
+
+        //Toast.makeText(this, Location_information, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 
 
 }

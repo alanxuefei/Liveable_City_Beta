@@ -500,8 +500,8 @@ public class SensorListenerService extends Service implements SensorEventListene
                 DataLogger.writeTolog("GA " + Activity_value + "\n", SensorListenerService.logswich);
                 Log.i(GoogleApiTAG, Activity_value);
                 if (Activity_value.equals("Still 100%")){
-                    sensorManager.unregisterListener((SensorEventListener) from,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
-                    sensorManager.unregisterListener((SensorEventListener) from, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
+                   // sensorManager.unregisterListener((SensorEventListener) from,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
+                   // sensorManager.unregisterListener((SensorEventListener) from, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
                 }
                 else{
                     sensorManager.registerListener((SensorEventListener) from,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);

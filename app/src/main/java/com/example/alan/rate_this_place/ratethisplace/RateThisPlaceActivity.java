@@ -86,7 +86,7 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
 
     public void ReturnButton(View v) {
         Log.i("test", "returen");
-        finish();
+        super.onBackPressed();
 
     }
 
