@@ -13,8 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -210,7 +210,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
 
 
         ((RadioButton)findViewById(R.id.radioButton2)).setChecked(true);
-        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Unappy");
+        ((TextView)findViewById(R.id.textView)).setText("This place makes me feel: Unhappy");
         usermood =Mood.UNHAPPY;
     }
 
@@ -262,7 +262,7 @@ public class RateThisPlaceBasicActivity extends AppCompatActivity implements  Go
             JsonGenerator_basicrating.put("Clean", ((CheckBox) findViewById(R.id.checkBox1)).isChecked());
             JsonGenerator_basicrating.put("Safe", ((CheckBox) findViewById(R.id.checkBox2)).isChecked());
             JsonGenerator_basicrating.put("Green", ((CheckBox) findViewById(R.id.checkBox3)).isChecked());
-            JsonGenerator_basicrating.put("Commentary", ((AutoCompleteTextView)findViewById(R.id.AutoCompleteTextView_Commentary)).getText().toString());
+            JsonGenerator_basicrating.put("Commentary", ((EditText)findViewById(R.id.AutoCompleteTextView_Commentary)).getText().toString());
             Log.i("JSON", JsonGenerator_basicrating.toString());
         } catch (JSONException e) {
             e.printStackTrace();

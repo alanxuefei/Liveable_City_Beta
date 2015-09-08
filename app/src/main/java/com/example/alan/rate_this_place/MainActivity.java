@@ -2,19 +2,23 @@ package com.example.alan.rate_this_place;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +40,7 @@ import java.util.regex.Pattern;
  * Created by Xue Fei on 19/5/2015.
  */
 
-public class MainActivity extends AppCompatActivity   {
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener   {
 
     protected static final String FirstRun_TAG = "FirstRun";
     protected static final String ActionBar_TAG = "ActionBar";
@@ -46,29 +50,7 @@ public class MainActivity extends AppCompatActivity   {
 
 
 
-    private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            String msg = "";
-            switch (menuItem.getItemId()) {
-              /*  case R.id.action_edit:
-                    msg += "Click edit";
-                    break;
-                case R.id.action_share:
-                    msg += "Click share";
-                    break;
-                case R.id.action_settings:
-                    msg += "Click setting";
-                    break;*/
-            }
 
-            if(!msg.equals("")) {
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-            Log.i(Toolbar_TAG, "toolbar_click");
-            return true;
-        }
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,16 +59,23 @@ public class MainActivity extends AppCompatActivity   {
         setContentView(R.layout.activity_main);
 
         startService(new Intent(this, GeofencingService.class));
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         checkNetworkandGPS();
         checkFirstRun();
         ReadGoogleAccount();
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"));
-        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"+"/"+"PassiveData"));
-        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"+"/"+"ActiveData"));
-        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"+"/"+"PendingToSend"));
+        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "PassiveData"));
+        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "ActiveData"));
+        DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "PendingToSend"));
 
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_main, popup.getMenu());
+        popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) this);
+        popup.show();
     }
 
     @Override
@@ -130,54 +119,9 @@ public class MainActivity extends AppCompatActivity   {
        // stopService(intent);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
 
 
 
-        switch (item.getItemId()) {
-
-            case R.id.action_Menu:
-                if (isConnectingToInternet()){
-                    startActivity(new Intent(this, MapsActivity.class));
-                }
-                else{
-                    Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
-                }
-
-                break;
-            case R.id.action_manualupload:
-                if (isConnectingToInternet()){
-                    startService(new Intent(getBaseContext(), PassiveDataToFTPIntentService.class));
-                }
-                else{
-                    Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
-                }
-
-                break;
-            case R.id.action_userprofile:
-                startActivity(new Intent(this, UserProfileActivity.class));
-                break;
-            case R.id.action_aboutus:
-
-                break;
-            case R.id.action_feedback:
-                new FeedbackDialogFragment().show(getSupportFragmentManager(), "FeedbackDialog");
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
     public void clickImage_activity_log(View view) {
@@ -210,6 +154,7 @@ public class MainActivity extends AppCompatActivity   {
     public void checkFirstRun() {
         boolean DoesUserAgree = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("DoesUserAgree", false);
 
+
         if (DoesUserAgree){
             // Place your dialog code here to display the dialog
 
@@ -225,6 +170,7 @@ public class MainActivity extends AppCompatActivity   {
     }
 
     public String ReadGoogleAccount() {
+
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         String possibleEmail = null;
         Account[] accounts = AccountManager.get(this).getAccounts();
@@ -235,6 +181,8 @@ public class MainActivity extends AppCompatActivity   {
             }
         }
 
+        possibleEmail=possibleEmail+"_"+getUniqueHardwareID();
+
         this.getSharedPreferences("UserInfo", this.MODE_PRIVATE)
                 .edit()
                 .putString("UserID",possibleEmail)
@@ -243,6 +191,47 @@ public class MainActivity extends AppCompatActivity   {
         ((TextView)findViewById(R.id.textView_UserID)).setText("UserID: "+possibleEmail);
         return possibleEmail;
 
+    }
+
+    public String getUniqueHardwareID(){
+        WifiManager wifiMan = (WifiManager) this.getSystemService(
+                Context.WIFI_SERVICE);
+        WifiInfo wifiInf = wifiMan.getConnectionInfo();
+        String wifimacAddr = wifiInf.getMacAddress();
+        if (wifimacAddr != null){
+            return "wifi_"+wifimacAddr;
+        }
+        else {
+            BluetoothAdapter myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            if (myBluetoothAdapter!=null){
+                String bluetoothmacAddr = myBluetoothAdapter.getAddress();
+                if (bluetoothmacAddr!=null){
+                    return "Blue_"+bluetoothmacAddr;
+                }
+                else{
+                    String android_id = Secure.getString(this.getContentResolver(),
+                            Secure.ANDROID_ID);
+                    if (android_id!=null){
+                        return "Aid_"+android_id;
+                    }
+                    else{
+                        return "no_available_hardwareID";
+
+                    }
+                }
+            }
+            else{
+                String android_id = Secure.getString(this.getContentResolver(),
+                        Secure.ANDROID_ID);
+                if (android_id!=null){
+                    return "Aid_"+android_id;
+                }
+                else{
+                    return "no_available_hardwareID";
+
+                }
+            }
+        }
     }
 
 
@@ -299,4 +288,41 @@ public class MainActivity extends AppCompatActivity   {
         return false;
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_Menu:
+                if (isConnectingToInternet()){
+                    startActivity(new Intent(this, MapsActivity.class));
+                }
+                else{
+                    Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case R.id.action_manualupload:
+                if (isConnectingToInternet()){
+                    startService(new Intent(getBaseContext(), PassiveDataToFTPIntentService.class));
+                }
+                else{
+                    Toast.makeText(this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case R.id.action_userprofile:
+                startActivity(new Intent(this, UserProfileActivity.class));
+                break;
+            case R.id.action_aboutus:
+
+                break;
+            case R.id.action_feedback:
+                new FeedbackDialogFragment().show(getSupportFragmentManager(), "FeedbackDialog");
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
 }

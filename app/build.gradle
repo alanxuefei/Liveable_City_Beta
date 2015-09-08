@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.example.alan.liveable_city_beta"
+        applicationId "com.example.alan.rate_this_place"
         minSdkVersion 10
         targetSdkVersion 22
         versionCode 1

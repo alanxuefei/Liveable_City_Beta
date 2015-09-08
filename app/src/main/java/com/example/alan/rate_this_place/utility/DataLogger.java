@@ -26,7 +26,6 @@ public class DataLogger {
 
     public static String Myid="alan";
     public static String mystorefilename;
-    public static String SelfLabel_Human_Status ="Stop";
 
 
     public static void writeTolog(String content,String logswich)  {
@@ -39,7 +38,7 @@ public class DataLogger {
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         String timestamp = timeformat.format(new Date());
         String datestamp = dateformat.format(new Date());
-        content = timestamp+" "+ SelfLabel_Human_Status+" "+content;
+        content = timestamp+" "+" "+content;
         mystorefilename=   datestamp+logswich+".txt";
 
         try {

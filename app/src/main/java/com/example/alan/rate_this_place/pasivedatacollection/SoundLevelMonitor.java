@@ -23,10 +23,11 @@ public class SoundLevelMonitor   {
                     mRecorder.setOutputFile("/dev/null");
                 try {
                     mRecorder.prepare();
+                    mRecorder.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                mRecorder.start();
+
             }
 
 

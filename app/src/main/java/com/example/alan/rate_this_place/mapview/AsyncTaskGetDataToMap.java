@@ -104,7 +104,7 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
         super.onPostExecute(o);
         Log.i(GetDataToMap_TAG, o.toString());
         IconGenerator iconFactory = new IconGenerator(this.context);
-        iconFactory.setStyle(IconGenerator.STYLE_BLUE);
+        iconFactory.setStyle(IconGenerator.STYLE_WHITE);
 
         try {
             JSONArray mJsonArray = new JSONArray(o.toString().replace("[],", "").replace("][",","));

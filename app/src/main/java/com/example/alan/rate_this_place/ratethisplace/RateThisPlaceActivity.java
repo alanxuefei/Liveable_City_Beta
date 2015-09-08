@@ -31,7 +31,7 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
         spec1.setContent(startBasicIntent.setClass(this, RateThisPlaceBasicActivity.class));
 
         TabHost.TabSpec spec2=tabHost.newTabSpec("Tab 2");
-        spec2.setIndicator("Detail");
+        spec2.setIndicator("Detailed");
         Intent startDetailIntent = new Intent();
         startDetailIntent.putExtra("From",From);
         startDetailIntent.putExtra("TheLocation", TheLocation);

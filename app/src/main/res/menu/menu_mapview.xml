@@ -18,7 +18,7 @@
         android:orderInCategory="100" app:showAsAction="never"
         />
 
-    <item android:id="@+id/action_myreward" android:title="M"
+    <item android:id="@+id/action_myreward" android:title="My Rewards"
         android:orderInCategory="100" app:showAsAction="never"
         />
 

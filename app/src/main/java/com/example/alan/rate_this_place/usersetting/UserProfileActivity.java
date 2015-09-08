@@ -31,7 +31,7 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class UserProfileActivity extends PreferenceActivity {
+public class  UserProfileActivity extends PreferenceActivity {
     /**
      * Determines whether to always show the simplified settings UI, where
      * settings are presented in a single list. When false, settings are shown
@@ -87,7 +87,7 @@ public class UserProfileActivity extends PreferenceActivity {
        bindPreferenceSummaryToValue(findPreference("display_name"));
         bindPreferenceSummaryToValue(findPreference("display_usertitle"));
       // bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-      bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+    //  bindPreferenceSummaryToValue(findPreference("sync_frequency"));
     }
 
     /**

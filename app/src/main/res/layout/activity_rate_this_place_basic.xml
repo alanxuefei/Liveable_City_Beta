@@ -56,11 +56,6 @@
                 android:text="This place makes me feel:"
                 android:id="@+id/textView" />
 
-
-
-
-
-
                         <RadioGroup
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -71,7 +66,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="79dp"
                             android:tag="1"
-                            android:id="@+id/radioButton" />
+                            android:id="@+id/radioButton"
+                            android:onClick="clickImage_happyface"/>
 
                         <ImageView
                             android:layout_width="115dp"
@@ -80,15 +76,14 @@
                             android:id="@+id/imageView"
                             android:focusable="false"
                             android:clickable="true"
-                            android:onClick="clickImage_happyface"
-
-                            />
+                            android:onClick="clickImage_happyface"/>
 
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="74dp"
                             android:tag="2"
-                            android:id="@+id/radioButton2" />
+                            android:id="@+id/radioButton2"
+                            android:onClick="clickImage_unhappyface"/>
 
                         <ImageView
                             android:layout_width="120dp"
@@ -97,8 +92,7 @@
                             android:id="@+id/imageView2"
                             android:focusable="false"
                             android:clickable="true"
-                            android:onClick="clickImage_unhappyface"
-                             />
+                            android:onClick="clickImage_unhappyface"/>
                         </RadioGroup>
                     </LinearLayout>
 
@@ -123,51 +117,80 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="1"
-                >
+                android:layout_height="wrap_content">
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="59dp"
+                    android:layout_height="wrap_content"
                     android:text="Clean"
                     android:id="@+id/checkBox1"
                     android:layout_weight="0.08"
                     android:textSize="20dp"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#000000"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="59dp"
+                    android:layout_height="wrap_content"
                     android:text="Safe"
                     android:id="@+id/checkBox2"
                     android:layout_weight="0.08"
                     android:textSize="20dp"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:singleLine="false"
-                    android:textColorHighlight="#ffffff" />
+                    android:textColorHighlight="#000000" />
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="59dp"
+                    android:layout_height="wrap_content"
                     android:text="Green"
                     android:id="@+id/checkBox3"
                     android:layout_weight="0.08"
                     android:textSize="20dp"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#000000"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Friendly"
+                    android:id="@+id/checkBox4"
+                    android:layout_weight="0.08"
+                    android:textSize="20dp"
+                    android:textColor="#000000"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Convenient"
+                    android:id="@+id/checkBox5"
+                    android:layout_weight="0.08"
+                    android:textSize="20dp"
+                    android:textColor="#000000"
+                    android:singleLine="false"
+                    android:textColorHighlight="#000000" />
+
+
 
             </LinearLayout>
         </LinearLayout>
 
-        <AutoCompleteTextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/AutoCompleteTextView_Commentary"
             android:layout_weight="0.43"
+            android:lines="3"
             android:hint="Write a comment..."
-
+            android:background="@drawable/editboxborader"
+            android:imeOptions="actionDone"
             android:layout_marginTop="10dp" />
 
         <Button

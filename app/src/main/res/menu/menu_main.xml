@@ -14,20 +14,10 @@
         android:orderInCategory="100" app:showAsAction="never"
         />
 
-    <item android:id="@+id/action_visitedplace" android:title="Visited Places"
-        android:orderInCategory="100" app:showAsAction="never"
-        />
-
-    <item android:id="@+id/action_myreward" android:title="My Rewards"
-        android:orderInCategory="100" app:showAsAction="never"
-        />
 
 
     <item android:id="@+id/action_aboutus" android:title="@string/action_aboutus"
         android:orderInCategory="100" app:showAsAction="never"
         />
-
-
-
 
 </menu>

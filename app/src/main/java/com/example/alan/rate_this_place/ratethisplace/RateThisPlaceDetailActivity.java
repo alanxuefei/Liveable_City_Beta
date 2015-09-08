@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -459,7 +460,7 @@ public class RateThisPlaceDetailActivity extends AppCompatActivity implements  G
             JsonGenerator_basicrating.put("Greenness", ((RatingBar) findViewById(R.id.ratingBarGREENNESS)).getRating());
             JsonGenerator_basicrating.put("Friendliness", ((RatingBar) findViewById(R.id.ratingBarFRIENDLINESS)).getRating());
             JsonGenerator_basicrating.put("Convenience", ((RatingBar) findViewById(R.id.ratingBarCONVENIENCE)).getRating());
-            JsonGenerator_basicrating.put("Commentary", ((AutoCompleteTextView)findViewById(R.id.AutoCompleteTextView_Commentary)).getText().toString());
+            JsonGenerator_basicrating.put("Commentary", ((EditText) findViewById(R.id.AutoCompleteTextView_Commentary)).getText().toString());
             if (photoFile!= null) {JsonGenerator_basicrating.put("PhotoFileName",  photoFile.getName());}
             Log.i("JSON", JsonGenerator_basicrating.toString());
             DataLogger.writeSimpleRatingTolog(JsonGenerator_basicrating.toString());

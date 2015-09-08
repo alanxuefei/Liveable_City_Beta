@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +33,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.regex.Pattern;
 
@@ -44,7 +46,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected static final String Googlemap_TAG = "Googlemap";
     protected static final String GPS_Internet_Check_TAG = "GPS_Internet_Check";
     protected static final String FirstRun_TAG = "FirstRun";
-    private LocationManager mlocationManager;
+    private LocationManager mlocationManager=null;
+    private Marker mylocationmark;
 
     private Location mLastLocation;
 
@@ -312,8 +315,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         double longitude = location.getLongitude();
         double latitude =  location.getLatitude();
+        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
         String Location_information= "L " + longitude + " " + latitude+" "+location.getProvider();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 4));
+       // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 18));
+        if (mylocationmark!=null) mylocationmark.remove();
+        mylocationmark=mMap.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mylocation))
+                .position(loc));
+
+
+
+        if(mMap != null){
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 18.0f));
+        }
+
         Log.i("location", Location_information);
 
 

@@ -1,7 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:keepScreenOn="true"
     tools:context=".MainActivity">
 
 
@@ -14,12 +13,36 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:minHeight="?attr/actionBarSize"
-            android:background="#2E8DEF"
+            android:background="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true">
 
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="20sp"
+                android:background="#FFFFFF"
+
+                android:textColor="#FFFFFF" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/imageView4"
+                android:src="@drawable/dropdownmenubutton_black"
+                android:cropToPadding="false"
+                android:background="#FFFFFF"
+                android:adjustViewBounds="false"
+                android:layout_gravity="right"
+                android:paddingRight="10dp"
+                android:onClick="showPopup"/>
+
+
+
         </android.support.v7.widget.Toolbar>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -68,7 +91,7 @@
                 android:layout_column="0"
                 android:clickable="true"
                 android:onClick="clickImage_activity_log"
-                android:src="@drawable/visitedplaces"
+                android:src="@drawable/visited_places"
                 android:cropToPadding="false" />
 
             <ImageView
@@ -79,7 +102,7 @@
                 android:layout_column="0"
                 android:clickable="true"
                 android:onClick="clickImage_myreward"
-                android:src="@drawable/myreward"
+                android:src="@drawable/my_reward"
                 android:adjustViewBounds="true" />
 
         </LinearLayout>

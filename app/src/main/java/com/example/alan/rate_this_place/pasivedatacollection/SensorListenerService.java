@@ -106,8 +106,8 @@ public class SensorListenerService extends Service implements SensorEventListene
     /*google activity detection*/
     protected GoogleApiClient mGoogleApiClient;
 
-    public double ACCsamplingrate=1;  //100Hz will slow the system down
-    public double GROsamplingrate=1;
+    public double ACCsamplingrate=50;  //100Hz will slow the system down
+    public double GROsamplingrate=50;
     public double Lightsamplingrate=0.5;
 
 
@@ -175,7 +175,7 @@ public class SensorListenerService extends Service implements SensorEventListene
         mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         /*sound_level*/
-        soundlevel.Soundlevel_start();
+         soundlevel.Soundlevel_start();
         Soundlevel_handler.postDelayed(Soundlevel_runable, 1000);
 
 
@@ -304,7 +304,8 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         double longitude = location.getLongitude();
         double latitude =  location.getLatitude();
-        String Location_information= "L " + longitude + " " + latitude+" "+location.getProvider();
+        double Accuracy = location.getAccuracy();
+        String Location_information= "L " + longitude + " " + latitude+" "+location.getProvider()+" "+Accuracy;
 
         Log.i(Location_TAG,  Location_information);
         DataLogger.writeTolog(Location_information + "\n",logswich);
